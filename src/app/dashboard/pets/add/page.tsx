@@ -37,7 +37,13 @@ export default function AddPetPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+      if (files.length > 3) {
+        setError('Maximum 3 images allowed');
+        e.target.value = '';
+        return;
+      }
       setImageFiles(files);
+      setError('');
     }
   };
 
@@ -46,8 +52,13 @@ export default function AddPetPage() {
 
     for (const file of imageFiles) {
       try {
-        const fileId = ID.unique();
-        const response = await storage.createFile(STORAGE_BUCKET_ID, fileId, file);
+        // Generate unique filename using timestamp and unique ID
+        const timestamp = Date.now();
+        const uniqueId = ID.unique();
+        const fileExtension = file.name.split('.').pop();
+        const uniqueFileName = `${timestamp}_${uniqueId}.${fileExtension}`;
+
+        const response = await storage.createFile(STORAGE_BUCKET_ID, uniqueId, file);
         const fileUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${STORAGE_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
         imageUrls.push(fileUrl);
       } catch (err) {
@@ -296,7 +307,7 @@ export default function AddPetPage() {
 
                 <div>
                   <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                    Pet Images
+                    Pet Images (Max 3)
                   </label>
                   <input
                     type="file"
@@ -314,7 +325,7 @@ export default function AddPetPage() {
                   />
                   {imageFiles.length > 0 && (
                     <p className="mt-2 text-sm text-gray-500">
-                      {imageFiles.length} file(s) selected
+                      {imageFiles.length} file(s) selected (max 3)
                     </p>
                   )}
                 </div>

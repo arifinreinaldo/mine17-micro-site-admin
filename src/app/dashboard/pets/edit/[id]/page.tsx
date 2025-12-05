@@ -80,7 +80,16 @@ export default function EditPetPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+      const totalImages = existingImages.length + files.length;
+
+      if (totalImages > 3) {
+        setError(`Maximum 3 images allowed. You have ${existingImages.length} existing image(s). You can add ${3 - existingImages.length} more.`);
+        e.target.value = '';
+        return;
+      }
+
       setImageFiles(files);
+      setError('');
     }
   };
 
@@ -89,8 +98,13 @@ export default function EditPetPage() {
 
     for (const file of imageFiles) {
       try {
-        const fileId = ID.unique();
-        const response = await storage.createFile(STORAGE_BUCKET_ID, fileId, file);
+        // Generate unique filename using timestamp and unique ID
+        const timestamp = Date.now();
+        const uniqueId = ID.unique();
+        const fileExtension = file.name.split('.').pop();
+        const uniqueFileName = `${timestamp}_${uniqueId}.${fileExtension}`;
+
+        const response = await storage.createFile(STORAGE_BUCKET_ID, uniqueId, file);
         const fileUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${STORAGE_BUCKET_ID}/files/${response.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
         imageUrls.push(fileUrl);
       } catch (err) {
@@ -382,7 +396,7 @@ export default function EditPetPage() {
 
                 <div>
                   <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                    Add More Images
+                    Add More Images (Max 3 total)
                   </label>
                   <input
                     type="file"
@@ -398,6 +412,9 @@ export default function EditPetPage() {
                       file:bg-indigo-50 file:text-indigo-700
                       hover:file:bg-indigo-100"
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Current: {existingImages.length} image(s), Can add: {3 - existingImages.length} more
+                  </p>
                   {imageFiles.length > 0 && (
                     <p className="mt-2 text-sm text-gray-500">
                       {imageFiles.length} new file(s) selected
