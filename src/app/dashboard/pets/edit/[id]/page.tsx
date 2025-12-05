@@ -16,6 +16,7 @@ export default function EditPetPage() {
   const [error, setError] = useState('');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [formData, setFormData] = useState<PetFormData>({
     petName: '',
     breed: '',
@@ -49,7 +50,7 @@ export default function EditPetPage() {
       setFormData({
         petName: pet.petName,
         breed: pet.breed,
-        age: pet.age || '',
+        age: pet.age ? pet.age.toString() : '',
         gender: pet.gender || '',
         color: pet.color || '',
         weight: pet.weight || '',
@@ -132,11 +133,14 @@ export default function EditPetPage() {
         imageUrls = [...imageUrls, ...newImageUrls];
       }
 
+      // Convert age to number if provided
+      const ageValue = formData.age ? parseInt(formData.age, 10) : undefined;
+
       // Update pet document
       const petData = {
         petName: formData.petName,
         breed: formData.breed,
-        age: formData.age || undefined,
+        age: ageValue,
         gender: formData.gender || undefined,
         color: formData.color || undefined,
         weight: formData.weight || undefined,
@@ -163,7 +167,32 @@ export default function EditPetPage() {
     }
   };
 
-  const removeExistingImage = (index: number) => {
+  const extractFileIdFromUrl = (url: string): string | null => {
+    try {
+      // URL format: .../storage/buckets/{bucketId}/files/{fileId}/view?project=...
+      const match = url.match(/\/files\/([^\/]+)\/view/);
+      return match ? match[1] : null;
+    } catch (err) {
+      console.error('Error extracting file ID:', err);
+      return null;
+    }
+  };
+
+  const removeExistingImage = async (index: number) => {
+    const imageUrl = existingImages[index];
+    const fileId = extractFileIdFromUrl(imageUrl);
+
+    if (fileId) {
+      setDeletedImages([...deletedImages, imageUrl]);
+
+      // Delete from storage
+      try {
+        await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
+      } catch (err) {
+        console.error('Error deleting file from storage:', err);
+      }
+    }
+
     setExistingImages(existingImages.filter((_, i) => i !== index));
   };
 
@@ -248,15 +277,16 @@ export default function EditPetPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                      Age
+                      Age (years)
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       name="age"
                       id="age"
+                      min="0"
                       value={formData.age}
                       onChange={handleInputChange}
-                      placeholder="e.g., 2 years"
+                      placeholder="e.g., 2"
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
                     />
                   </div>

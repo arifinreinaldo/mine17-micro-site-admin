@@ -4,7 +4,7 @@ export interface Pet {
   $id?: string;
   petName: string;
   breed: string;
-  age?: string;
+  age?: number;
   gender?: string;
   color?: string;
   weight?: string;
