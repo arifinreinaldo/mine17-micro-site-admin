@@ -55,7 +55,7 @@ export default function EditPetPage() {
         color: pet.color || '',
         weight: pet.weight || '',
         description: pet.description || '',
-        personality: pet.personality || '',
+        personality: pet.personality ? pet.personality.join(', ') : '',
         medicalInfo: pet.medicalInfo || '',
         petType: pet.petType,
         microchip: pet.microchip || '',
@@ -134,7 +134,12 @@ export default function EditPetPage() {
       }
 
       // Convert age to number if provided
-      const ageValue = formData.age ? parseInt(formData.age, 10) : undefined;
+      const ageValue = formData.age && formData.age.trim() !== '' ? parseInt(formData.age, 10) : undefined;
+
+      // Convert personality string to array (comma-separated)
+      const personalityArray = formData.personality && formData.personality.trim() !== ''
+        ? formData.personality.split(',').map(p => p.trim()).filter(p => p !== '')
+        : undefined;
 
       // Update pet document
       const petData = {
@@ -145,7 +150,7 @@ export default function EditPetPage() {
         color: formData.color || undefined,
         weight: formData.weight || undefined,
         description: formData.description || undefined,
-        personality: formData.personality || undefined,
+        personality: personalityArray,
         medicalInfo: formData.medicalInfo || undefined,
         petType: formData.petType,
         imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
@@ -370,7 +375,7 @@ export default function EditPetPage() {
 
                 <div>
                   <label htmlFor="personality" className="block text-sm font-medium text-gray-700">
-                    Personality
+                    Personality (comma-separated)
                   </label>
                   <textarea
                     name="personality"
@@ -378,6 +383,7 @@ export default function EditPetPage() {
                     rows={2}
                     value={formData.personality}
                     onChange={handleInputChange}
+                    placeholder="e.g., Friendly, Playful, Energetic"
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
                   />
                 </div>

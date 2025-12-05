@@ -83,7 +83,12 @@ export default function AddPetPage() {
       const imageUrls = await uploadImages();
 
       // Convert age to number if provided
-      const ageValue = formData.age ? parseInt(formData.age, 10) : undefined;
+      const ageValue = formData.age && formData.age.trim() !== '' ? parseInt(formData.age, 10) : undefined;
+
+      // Convert personality string to array (comma-separated)
+      const personalityArray = formData.personality && formData.personality.trim() !== ''
+        ? formData.personality.split(',').map(p => p.trim()).filter(p => p !== '')
+        : undefined;
 
       // Create pet document
       const petData = {
@@ -94,7 +99,7 @@ export default function AddPetPage() {
         color: formData.color || undefined,
         weight: formData.weight || undefined,
         description: formData.description || undefined,
-        personality: formData.personality || undefined,
+        personality: personalityArray,
         medicalInfo: formData.medicalInfo || undefined,
         petType: formData.petType,
         userId: user.$id,
@@ -283,7 +288,7 @@ export default function AddPetPage() {
 
                 <div>
                   <label htmlFor="personality" className="block text-sm font-medium text-gray-700">
-                    Personality
+                    Personality (comma-separated)
                   </label>
                   <textarea
                     name="personality"
@@ -291,6 +296,7 @@ export default function AddPetPage() {
                     rows={2}
                     value={formData.personality}
                     onChange={handleInputChange}
+                    placeholder="e.g., Friendly, Playful, Energetic"
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
                   />
                 </div>

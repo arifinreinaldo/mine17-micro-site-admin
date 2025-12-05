@@ -9,7 +9,7 @@ export interface Pet {
   color?: string;
   weight?: string;
   description?: string;
-  personality?: string;
+  personality?: string[];
   medicalInfo?: string;
   petType: PetType;
   userId: string;

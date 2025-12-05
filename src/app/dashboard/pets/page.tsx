@@ -24,10 +24,18 @@ export default function PetsPage() {
   const fetchPets = async () => {
     try {
       setLoading(true);
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
       const response = await databases.listDocuments(
         DATABASE_ID,
         PETS_COLLECTION_ID,
-        [Query.orderDesc('$createdAt')]
+        [
+          Query.equal('userId', user.$id),
+          Query.orderDesc('$createdAt')
+        ]
       );
       setPets(response.documents as unknown as Pet[]);
     } catch (err: any) {
