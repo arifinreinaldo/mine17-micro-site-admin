@@ -1,17 +1,19 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { databases, storage, DATABASE_ID, PETS_COLLECTION_ID, STORAGE_BUCKET_ID } from '@/lib/appwrite';
 import { PetFormData, PetType } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
-import { ID } from 'appwrite';
+import { ID, Query } from 'appwrite';
 
 export default function AddPetPage() {
   const router = useRouter();
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [checkingLimit, setCheckingLimit] = useState(true);
   const [error, setError] = useState('');
+  const [petCount, setPetCount] = useState(0);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [personalityTraits, setPersonalityTraits] = useState<string[]>([]);
   const [formData, setFormData] = useState<PetFormData>({
@@ -27,6 +29,41 @@ export default function AddPetPage() {
     petType: 'dog',
     microchip: '',
   });
+
+  const MAX_PETS = 3;
+
+  useEffect(() => {
+    const checkPetLimit = async () => {
+      if (!user) {
+        setCheckingLimit(false);
+        return;
+      }
+
+      try {
+        const response = await databases.listDocuments(
+          DATABASE_ID,
+          PETS_COLLECTION_ID,
+          [Query.equal('userId', user.$id)]
+        );
+
+        setPetCount(response.total);
+
+        if (response.total >= MAX_PETS) {
+          setError(`You have reached the maximum limit of ${MAX_PETS} pets. Please delete a pet before adding a new one.`);
+          // Redirect after 3 seconds
+          setTimeout(() => {
+            router.push('/dashboard/pets');
+          }, 3000);
+        }
+      } catch (err) {
+        console.error('Error checking pet limit:', err);
+      } finally {
+        setCheckingLimit(false);
+      }
+    };
+
+    checkPetLimit();
+  }, [user, router]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -94,6 +131,11 @@ export default function AddPetPage() {
         throw new Error('User not authenticated');
       }
 
+      // Double-check pet limit before creating
+      if (petCount >= MAX_PETS) {
+        throw new Error(`You have reached the maximum limit of ${MAX_PETS} pets. Please delete a pet before adding a new one.`);
+      }
+
       // Upload images first
       const imageUrls = await uploadImages();
 
@@ -135,6 +177,16 @@ export default function AddPetPage() {
     }
   };
 
+  if (checkingLimit) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+  const canAddPet = petCount < MAX_PETS;
+
   return (
     <div className="max-w-3xl mx-auto">
       <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
@@ -146,12 +198,24 @@ export default function AddPetPage() {
             <p className="mt-1 text-sm text-gray-500">
               Fill in the details to add a new pet to your collection.
             </p>
+            <p className="mt-2 text-xs text-gray-400">
+              {petCount} of {MAX_PETS} pets added
+            </p>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
                 <div className="rounded-md bg-red-50 p-4">
-                  <p className="text-sm text-red-800">{error}</p>
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-red-800">{error}</p>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -382,8 +446,9 @@ export default function AddPetPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || !canAddPet}
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title={!canAddPet ? `Maximum ${MAX_PETS} pets allowed` : ''}
                 >
                   {isLoading ? 'Adding Pet...' : 'Add Pet'}
                 </button>

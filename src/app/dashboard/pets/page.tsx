@@ -147,17 +147,45 @@ export default function PetsPage() {
     );
   }
 
+  const MAX_PETS = 3;
+  const canAddMorePets = pets.length < MAX_PETS;
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Pets Management</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Pets Management</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {pets.length} of {MAX_PETS} pets added
+          </p>
+        </div>
         <button
           onClick={() => router.push('/dashboard/pets/add')}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={!canAddMorePets}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600"
+          title={!canAddMorePets ? 'Maximum 3 pets allowed' : 'Add a new pet'}
         >
           Add New Pet
         </button>
       </div>
+
+      {!canAddMorePets && (
+        <div className="rounded-md bg-yellow-50 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-yellow-800">Maximum pets reached</h3>
+              <p className="mt-1 text-sm text-yellow-700">
+                You have reached the maximum limit of {MAX_PETS} pets. Please delete a pet to add a new one.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="rounded-md bg-red-50 p-4">
@@ -170,7 +198,8 @@ export default function PetsPage() {
           <p className="text-gray-500 text-lg">No pets found. Add your first pet!</p>
           <button
             onClick={() => router.push('/dashboard/pets/add')}
-            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+            disabled={!canAddMorePets}
+            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Add New Pet
           </button>
