@@ -126,6 +126,11 @@ export default function EditPetPage() {
         throw new Error('User not authenticated');
       }
 
+      // Process image deletions first
+      if (deletedImages.length > 0) {
+        await processImageDeletions();
+      }
+
       // Upload new images if any
       let imageUrls = [...existingImages];
       if (imageFiles.length > 0) {
@@ -186,32 +191,45 @@ export default function EditPetPage() {
     }
   };
 
-  const removeExistingImage = async (index: number) => {
+  const removeExistingImage = (index: number) => {
     const imageUrl = existingImages[index];
-    const fileId = extractFileIdFromUrl(imageUrl);
 
-    if (!fileId) {
-      setError('Failed to extract file ID from URL');
-      return;
-    }
+    // Just mark for deletion, don't delete from storage yet
+    setDeletedImages([...deletedImages, imageUrl]);
+    setExistingImages(existingImages.filter((_, i) => i !== index));
 
-    // Delete from storage first
-    try {
-      await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
-      console.log('Successfully deleted file from storage:', fileId);
+    console.log('Marked image for deletion:', imageUrl);
+  };
 
-      // Only remove from display if deletion succeeded
-      setDeletedImages([...deletedImages, imageUrl]);
-      setExistingImages(existingImages.filter((_, i) => i !== index));
+  const processImageDeletions = async () => {
+    console.log('Processing deletions for', deletedImages.length, 'images');
 
-      // Clear any previous errors
-      if (error && error.includes('delete')) {
-        setError('');
+    for (const imageUrl of deletedImages) {
+      const fileId = extractFileIdFromUrl(imageUrl);
+
+      if (!fileId) {
+        console.log('Could not extract file ID from URL:', imageUrl);
+        continue;
       }
-    } catch (err: any) {
-      console.error('Error deleting file from storage:', err);
-      setError(`Failed to delete image: ${err.message}. Please check storage bucket permissions.`);
+
+      try {
+        // First check if file exists
+        await storage.getFile(STORAGE_BUCKET_ID, fileId);
+
+        // File exists, delete it
+        await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
+        console.log('✓ Deleted file from storage:', fileId);
+      } catch (err: any) {
+        // File doesn't exist or other error - just log and continue
+        if (err.code === 404 || err.message.includes('not found')) {
+          console.log('✓ File already deleted, skipping:', fileId);
+        } else {
+          console.log('⚠ Error deleting file (continuing anyway):', fileId, err.message);
+        }
+      }
     }
+
+    console.log('Deletion processing complete');
   };
 
   if (loading) {
