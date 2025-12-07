@@ -153,9 +153,12 @@ export default function EditPetPage() {
         personality: personalityArray,
         medicalInfo: formData.medicalInfo || undefined,
         petType: formData.petType,
-        imageUrls: imageUrls.length > 0 ? imageUrls : undefined,
+        imageUrls: imageUrls.length > 0 ? imageUrls : [],
         microchip: formData.microchip || undefined,
       };
+
+      console.log('Updating pet with data:', petData);
+      console.log('Image URLs being saved:', petData.imageUrls);
 
       await databases.updateDocument(
         DATABASE_ID,
@@ -187,18 +190,28 @@ export default function EditPetPage() {
     const imageUrl = existingImages[index];
     const fileId = extractFileIdFromUrl(imageUrl);
 
-    if (fileId) {
-      setDeletedImages([...deletedImages, imageUrl]);
-
-      // Delete from storage
-      try {
-        await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
-      } catch (err) {
-        console.error('Error deleting file from storage:', err);
-      }
+    if (!fileId) {
+      setError('Failed to extract file ID from URL');
+      return;
     }
 
-    setExistingImages(existingImages.filter((_, i) => i !== index));
+    // Delete from storage first
+    try {
+      await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
+      console.log('Successfully deleted file from storage:', fileId);
+
+      // Only remove from display if deletion succeeded
+      setDeletedImages([...deletedImages, imageUrl]);
+      setExistingImages(existingImages.filter((_, i) => i !== index));
+
+      // Clear any previous errors
+      if (error && error.includes('delete')) {
+        setError('');
+      }
+    } catch (err: any) {
+      console.error('Error deleting file from storage:', err);
+      setError(`Failed to delete image: ${err.message}. Please check storage bucket permissions.`);
+    }
   };
 
   if (loading) {
