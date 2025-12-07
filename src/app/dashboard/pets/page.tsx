@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { databases, DATABASE_ID, PETS_COLLECTION_ID } from '@/lib/appwrite';
+import { databases, DATABASE_ID, PETS_COLLECTION_ID, EXTERNAL_URL } from '@/lib/appwrite';
 import { Pet } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
@@ -228,16 +228,16 @@ export default function PetsPage() {
             <div className="flex flex-col items-center justify-center space-y-4">
               <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
                 <QRCode
-                  value={selectedPetId}
+                  value={`${EXTERNAL_URL}${selectedPetId}`}
                   size={256}
                   level="H"
                 />
               </div>
 
               <div className="w-full bg-gray-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600 mb-2 font-medium">Pet ID:</p>
+                <p className="text-sm text-gray-600 mb-2 font-medium">Share Link:</p>
                 <p className="text-sm text-gray-900 font-mono break-all bg-white p-2 rounded border border-gray-200">
-                  {selectedPetId}
+                  {`${EXTERNAL_URL}${selectedPetId}`}
                 </p>
               </div>
 

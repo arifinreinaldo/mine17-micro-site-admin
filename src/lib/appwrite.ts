@@ -16,3 +16,6 @@ export { client };
 export const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || 'default';
 export const PETS_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_PETS_COLLECTION_ID || 'pets';
 export const STORAGE_BUCKET_ID = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID || 'pet-images';
+
+// External URL for pet sharing
+export const EXTERNAL_URL = process.env.NEXT_PUBLIC_EXTERNAL_URL || 'https://aibo-pets.vercel.app/?param=';
