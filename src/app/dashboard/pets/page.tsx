@@ -6,12 +6,15 @@ import { databases, DATABASE_ID, PETS_COLLECTION_ID } from '@/lib/appwrite';
 import { Pet } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
+import QRCode from 'react-qr-code';
 
 export default function PetsPage() {
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -59,6 +62,16 @@ export default function PetsPage() {
     } finally {
       setDeleteLoading(null);
     }
+  };
+
+  const handleShareLink = (petId: string) => {
+    setSelectedPetId(petId);
+    setShowQRModal(true);
+  };
+
+  const closeQRModal = () => {
+    setShowQRModal(false);
+    setSelectedPetId(null);
   };
 
   const getPetTypeIcon = (petType: string) => {
@@ -169,12 +182,18 @@ export default function PetsPage() {
                   </p>
                 )}
 
-                <div className="mt-4 flex space-x-3">
+                <div className="mt-4 flex space-x-2">
                   <button
                     onClick={() => router.push(`/dashboard/pets/edit/${pet.$id}`)}
                     className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() => handleShareLink(pet.$id!)}
+                    className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-green-300 shadow-sm text-sm font-medium rounded-md text-green-700 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    Share Link
                   </button>
                   <button
                     onClick={() => handleDelete(pet.$id!)}
@@ -187,6 +206,49 @@ export default function PetsPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* QR Code Modal */}
+      {showQRModal && selectedPetId && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+          <div className="relative bg-white rounded-lg shadow-xl p-8 m-4 max-w-md w-full">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Share Pet QR Code</h3>
+              <button
+                onClick={closeQRModal}
+                className="text-gray-400 hover:text-gray-600 focus:outline-none"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
+                <QRCode
+                  value={selectedPetId}
+                  size={256}
+                  level="H"
+                />
+              </div>
+
+              <div className="w-full bg-gray-50 rounded-lg p-4">
+                <p className="text-sm text-gray-600 mb-2 font-medium">Pet ID:</p>
+                <p className="text-sm text-gray-900 font-mono break-all bg-white p-2 rounded border border-gray-200">
+                  {selectedPetId}
+                </p>
+              </div>
+
+              <button
+                onClick={closeQRModal}
+                className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
