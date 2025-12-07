@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { databases, DATABASE_ID, PETS_COLLECTION_ID, EXTERNAL_URL } from '@/lib/appwrite';
+import { databases, storage, DATABASE_ID, PETS_COLLECTION_ID, STORAGE_BUCKET_ID, EXTERNAL_URL } from '@/lib/appwrite';
 import { Pet } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
@@ -48,13 +48,65 @@ export default function PetsPage() {
     }
   };
 
+  const extractFileIdFromUrl = (url: string): string | null => {
+    try {
+      // URL format: .../storage/buckets/{bucketId}/files/{fileId}/view?project=...
+      const match = url.match(/\/files\/([^\/]+)\/view/);
+      return match ? match[1] : null;
+    } catch (err) {
+      console.error('Error extracting file ID:', err);
+      return null;
+    }
+  };
+
+  const deleteImagesFromStorage = async (imageUrls: string[]) => {
+    if (!imageUrls || imageUrls.length === 0) {
+      return;
+    }
+
+    console.log(`Deleting ${imageUrls.length} image(s) from storage...`);
+
+    for (const imageUrl of imageUrls) {
+      const fileId = extractFileIdFromUrl(imageUrl);
+
+      if (!fileId) {
+        console.log('Could not extract file ID from URL:', imageUrl);
+        continue;
+      }
+
+      try {
+        // Check if file exists before deleting
+        await storage.getFile(STORAGE_BUCKET_ID, fileId);
+        await storage.deleteFile(STORAGE_BUCKET_ID, fileId);
+        console.log('✓ Deleted image from storage:', fileId);
+      } catch (err: any) {
+        // File doesn't exist or other error - just log and continue
+        if (err.code === 404 || err.message.includes('not found')) {
+          console.log('✓ Image already deleted, skipping:', fileId);
+        } else {
+          console.log('⚠ Error deleting image (continuing anyway):', fileId, err.message);
+        }
+      }
+    }
+  };
+
   const handleDelete = async (petId: string) => {
-    if (!confirm('Are you sure you want to delete this pet?')) {
+    if (!confirm('Are you sure you want to delete this pet? This will also delete all associated images.')) {
       return;
     }
 
     try {
       setDeleteLoading(petId);
+
+      // Find the pet to get its imageUrls
+      const pet = pets.find((p) => p.$id === petId);
+
+      // Delete images from storage first
+      if (pet?.imageUrls && pet.imageUrls.length > 0) {
+        await deleteImagesFromStorage(pet.imageUrls);
+      }
+
+      // Then delete the pet document
       await databases.deleteDocument(DATABASE_ID, PETS_COLLECTION_ID, petId);
       setPets(pets.filter((pet) => pet.$id !== petId));
     } catch (err: any) {
