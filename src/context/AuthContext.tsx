@@ -58,13 +58,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const verifyOTP = async (userId: string, otp: string) => {
     try {
-      // Create session using the OTP (secret)
+      // Verify OTP and create session using createSession
       await account.createSession(userId, otp);
       await getUser();
       console.log('OTP verified successfully');
     } catch (error: any) {
       console.error('Error verifying OTP:', error);
-      throw new Error(error.message || 'Invalid OTP. Please try again.');
+      throw new Error(error.message || 'Invalid OTP. Please check the code and try again.');
     }
   };
 
