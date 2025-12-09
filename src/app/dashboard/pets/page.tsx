@@ -147,7 +147,7 @@ export default function PetsPage() {
     );
   }
 
-  const MAX_PETS = 3;
+  const MAX_PETS = 1;
   const canAddMorePets = pets.length < MAX_PETS;
 
   return (
@@ -163,7 +163,7 @@ export default function PetsPage() {
           onClick={() => router.push('/dashboard/pets/add')}
           disabled={!canAddMorePets}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600"
-          title={!canAddMorePets ? 'Maximum 3 pets allowed' : 'Add a new pet'}
+          title={!canAddMorePets ? 'Maximum 1 pet allowed' : 'Add a new pet'}
         >
           Add New Pet
         </button>
@@ -178,9 +178,9 @@ export default function PetsPage() {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-yellow-800">Maximum pets reached</h3>
+              <h3 className="text-sm font-medium text-yellow-800">Maximum pet limit reached</h3>
               <p className="mt-1 text-sm text-yellow-700">
-                You have reached the maximum limit of {MAX_PETS} pets. Please delete a pet to add a new one.
+                You have reached the maximum limit of {MAX_PETS} pet. Please delete your pet to add a new one.
               </p>
             </div>
           </div>
@@ -307,13 +307,19 @@ export default function PetsPage() {
             </div>
 
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
+              <a
+                href={`${EXTERNAL_URL}${selectedPetId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-500 transition-colors cursor-pointer"
+                title="Click to open pet page"
+              >
                 <QRCode
                   value={`${EXTERNAL_URL}${selectedPetId}`}
                   size={256}
                   level="H"
                 />
-              </div>
+              </a>
 
               <div className="w-full bg-gray-50 rounded-lg p-4">
                 <p className="text-sm text-gray-600 mb-2 font-medium">Share Link:</p>
