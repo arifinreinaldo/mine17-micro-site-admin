@@ -218,7 +218,7 @@ export default function LoginPage() {
                     }}
                     className="text-sm text-indigo-600 hover:text-indigo-500"
                   >
-                    Didn't receive OTP? Try again
+                    Didn&apos;t receive OTP? Try again
                   </button>
                 </div>
               )}
