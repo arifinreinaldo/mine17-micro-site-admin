@@ -4,12 +4,21 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { account } from '@/lib/appwrite';
 import { Models, ID } from 'appwrite';
 
+interface RegistrationData {
+  name: string;
+  password: string;
+  fingerprint: string;
+  tcAccepted: boolean;
+}
+
 interface AuthContextType {
   user: Models.User<Models.Preferences> | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   sendOTP: (email: string) => Promise<string>; // Returns userId
   verifyOTP: (userId: string, otp: string) => Promise<void>;
+  registerWithOTP: (email: string) => Promise<string>; // Returns userId for registration
+  completeRegistration: (userId: string, otp: string, data: RegistrationData) => Promise<void>;
   logout: () => Promise<void>;
   getUser: () => Promise<void>;
 }
@@ -67,6 +76,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const registerWithOTP = async (email: string): Promise<string> => {
+    try {
+      // Send OTP to email for registration
+      // This creates a pending user that will be verified with OTP
+      const token = await account.createEmailToken(ID.unique(), email);
+
+      console.log('Registration OTP sent to:', email);
+      return token.userId;
+    } catch (error: any) {
+      console.error('Error sending registration OTP:', error);
+      throw new Error(error.message || 'Failed to send registration OTP. Please try again.');
+    }
+  };
+
+  const completeRegistration = async (
+    userId: string,
+    otp: string,
+    data: RegistrationData
+  ) => {
+    try {
+      // Step 1: Verify OTP and create session
+      await account.createSession(userId, otp);
+      console.log('OTP verified, completing registration...');
+
+      // Step 2: Update user name
+      await account.updateName(data.name);
+
+      // Step 3: Set password for the account
+      await account.updatePassword(data.password);
+
+      // Step 4: Store metadata in user preferences
+      await account.updatePrefs({
+        fingerprint: data.fingerprint,
+        tcAcceptedAt: new Date().toISOString(),
+        registeredAt: new Date().toISOString(),
+      });
+
+      // Step 5: Get updated user data
+      await getUser();
+
+      console.log('Registration completed successfully');
+    } catch (error: any) {
+      console.error('Error completing registration:', error);
+      throw new Error(error.message || 'Failed to complete registration. Please try again.');
+    }
+  };
+
   const logout = async () => {
     try {
       await account.deleteSession('current');
@@ -81,7 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, sendOTP, verifyOTP, logout, getUser }}>
+    <AuthContext.Provider value={{ user, loading, login, sendOTP, verifyOTP, registerWithOTP, completeRegistration, logout, getUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -94,3 +150,5 @@ export function useAuth() {
   }
   return context;
 }
+
+export type { RegistrationData };
