@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^5.0.1",
     "appwrite": "^16.0.2",
     "browser-image-compression": "^2.0.2",
     "next": "^15.1.4",
