@@ -88,8 +88,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error('Error sending registration OTP:', error);
 
       // Check if email is already registered
-      if (error.code === 409 || error.message?.includes('user') && error.message?.includes('already exists')) {
-        throw new Error('This email is already registered. Please login instead.');
+      // Appwrite returns 409 conflict when user already exists
+      if (
+        error.code === 409 ||
+        error.type === 'user_already_exists' ||
+        (error.message && (
+          error.message.toLowerCase().includes('already exists') ||
+          error.message.toLowerCase().includes('already registered') ||
+          error.message.toLowerCase().includes('user with the requested email already exists')
+        ))
+      ) {
+        throw new Error('EMAIL_ALREADY_EXISTS');
       }
 
       throw new Error(error.message || 'Failed to send registration OTP. Please try again.');

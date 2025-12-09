@@ -47,6 +47,13 @@ export default function RegisterPage() {
       return;
     }
 
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
     if (password.length < 8) {
       setError('Password must be at least 8 characters long');
       return;
@@ -70,7 +77,12 @@ export default function RegisterPage() {
       setOtpSent(true);
       setError('');
     } catch (err: any) {
-      setError(err.message || 'Failed to send OTP');
+      // Handle specific error for existing email
+      if (err.message === 'EMAIL_ALREADY_EXISTS') {
+        setError('EMAIL_EXISTS');
+      } else {
+        setError(err.message || 'Failed to send OTP');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -99,25 +111,51 @@ export default function RegisterPage() {
   const handleSubmit = otpSent ? handleVerifyOTP : handleSendOTP;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+            </div>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Create Account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-              sign in to your existing account
-            </Link>
+          <p className="mt-2 text-sm text-gray-600">
+            Join us to manage your pets and access all features
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-8">
+        {/* Main Card */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="rounded-md bg-red-50 p-4">
-                <p className="text-sm text-red-800">{error}</p>
+              <div className={`rounded-md p-4 ${error === 'EMAIL_EXISTS' ? 'bg-yellow-50' : 'bg-red-50'}`}>
+                {error === 'EMAIL_EXISTS' ? (
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-yellow-800">Email already exists</h3>
+                      <p className="mt-1 text-sm text-yellow-700">
+                        This email is already registered. Please{' '}
+                        <Link href="/login" className="font-semibold underline hover:text-yellow-900">
+                          sign in to your account
+                        </Link>{' '}
+                        instead.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-red-800">{error}</p>
+                )}
               </div>
             )}
 
@@ -271,14 +309,50 @@ export default function RegisterPage() {
                     setOtp('');
                     setError('');
                   }}
-                  className="text-sm text-indigo-600 hover:text-indigo-500"
+                  className="text-sm text-indigo-600 hover:text-indigo-700 font-medium inline-flex items-center gap-1"
                 >
-                  Didn&apos;t receive OTP? Try again
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Resend code
                 </button>
               </div>
             )}
           </form>
         </div>
+
+        {/* Login CTA */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+          <div className="text-center">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+              </div>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+              Already have an account?
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Sign in to access your admin panel
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-indigo-600 text-sm font-semibold rounded-lg text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+            >
+              Sign In
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <p className="text-center text-xs text-gray-500">
+          By creating an account, you agree to our Terms of Service and Privacy Policy
+        </p>
       </div>
     </div>
   );
