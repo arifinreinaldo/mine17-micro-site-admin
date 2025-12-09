@@ -2,12 +2,14 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { account } from '@/lib/appwrite';
-import { Models } from 'appwrite';
+import { Models, ID } from 'appwrite';
 
 interface AuthContextType {
   user: Models.User<Models.Preferences> | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  sendOTP: (email: string) => Promise<string>; // Returns userId
+  verifyOTP: (userId: string, otp: string) => Promise<void>;
   logout: () => Promise<void>;
   getUser: () => Promise<void>;
 }
@@ -38,6 +40,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const sendOTP = async (email: string): Promise<string> => {
+    try {
+      // Create a unique user ID
+      const userId = ID.unique();
+
+      // Send OTP to email using Appwrite's email token
+      await account.createEmailToken(userId, email);
+
+      console.log('OTP sent to:', email);
+      return userId;
+    } catch (error: any) {
+      console.error('Error sending OTP:', error);
+      throw new Error(error.message || 'Failed to send OTP. Please try again.');
+    }
+  };
+
+  const verifyOTP = async (userId: string, otp: string) => {
+    try {
+      // Create session using the OTP (secret)
+      await account.createSession(userId, otp);
+      await getUser();
+      console.log('OTP verified successfully');
+    } catch (error: any) {
+      console.error('Error verifying OTP:', error);
+      throw new Error(error.message || 'Invalid OTP. Please try again.');
+    }
+  };
+
   const logout = async () => {
     try {
       await account.deleteSession('current');
@@ -52,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, getUser }}>
+    <AuthContext.Provider value={{ user, loading, login, sendOTP, verifyOTP, logout, getUser }}>
       {children}
     </AuthContext.Provider>
   );
