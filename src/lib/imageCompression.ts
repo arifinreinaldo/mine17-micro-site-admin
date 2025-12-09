@@ -62,12 +62,23 @@ export async function compressImage(file: File): Promise<File> {
     }
 
     // Compress the image
-    const compressedFile = await imageCompression(file, compressionOptions);
+    const compressedBlob = await imageCompression(file, compressionOptions);
 
-    const compressedSizeMB = compressedFile.size / 1024 / 1024;
+    const compressedSizeMB = compressedBlob.size / 1024 / 1024;
     console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
-    console.log(`Compression ratio: ${((1 - compressedFile.size / file.size) * 100).toFixed(1)}%`);
+    console.log(`Compression ratio: ${((1 - compressedBlob.size / file.size) * 100).toFixed(1)}%`);
 
+    // Convert Blob to File object (Appwrite requires File, not Blob)
+    const compressedFile = new File(
+      [compressedBlob],
+      file.name,
+      {
+        type: compressedBlob.type || 'image/jpeg',
+        lastModified: Date.now(),
+      }
+    );
+
+    console.log('Converted to File object for upload');
     return compressedFile;
   } catch (error) {
     console.error('Error compressing image:', error);
