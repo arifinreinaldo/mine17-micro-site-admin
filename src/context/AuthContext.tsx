@@ -42,14 +42,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const sendOTP = async (email: string): Promise<string> => {
     try {
-      // Create a unique user ID
-      const userId = ID.unique();
-
       // Send OTP to email using Appwrite's email token
-      await account.createEmailToken(userId, email);
+      // The response contains the userId that must be used for verification
+      const token = await account.createEmailToken(ID.unique(), email);
 
       console.log('OTP sent to:', email);
-      return userId;
+      // Return the userId from the response, not the generated one
+      return token.userId;
     } catch (error: any) {
       console.error('Error sending OTP:', error);
       throw new Error(error.message || 'Failed to send OTP. Please try again.');
