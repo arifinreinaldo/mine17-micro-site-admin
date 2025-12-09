@@ -86,6 +86,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return token.userId;
     } catch (error: any) {
       console.error('Error sending registration OTP:', error);
+
+      // Check if email is already registered
+      if (error.code === 409 || error.message?.includes('user') && error.message?.includes('already exists')) {
+        throw new Error('This email is already registered. Please login instead.');
+      }
+
       throw new Error(error.message || 'Failed to send registration OTP. Please try again.');
     }
   };
@@ -96,6 +102,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     data: RegistrationData
   ) => {
     try {
+      // Step 0: Delete any existing session before creating new one
+      // This ensures old session is kicked when registering a new account
+      try {
+        await account.deleteSession('current');
+        console.log('Existing session deleted before registration');
+      } catch (error) {
+        // No existing session to delete, continue
+        console.log('No existing session to delete');
+      }
+
       // Step 1: Verify OTP and create session
       await account.createSession(userId, otp);
       console.log('OTP verified, completing registration...');
