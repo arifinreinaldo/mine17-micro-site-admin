@@ -25,3 +25,34 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Custom animations for landing page */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset for sticky header when scrolling to anchors */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Backdrop filter fallback for older browsers */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-md {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+}

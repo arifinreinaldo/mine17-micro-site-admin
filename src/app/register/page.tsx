@@ -72,6 +72,30 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
+      // Check if email already exists before sending OTP
+      const checkResponse = await fetch('/api/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const checkData = await checkResponse.json();
+
+      if (checkData.exists) {
+        if (checkData.verified) {
+          // Account exists and is verified
+          setError('EMAIL_EXISTS');
+        } else {
+          // Account exists but not verified
+          setError('EMAIL_UNVERIFIED');
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      // Email is available, proceed with OTP
       const id = await registerWithOTP(email);
       setUserId(id);
       setOtpSent(true);
@@ -108,6 +132,22 @@ export default function RegisterPage() {
     }
   };
 
+  const handleResendOTP = async () => {
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const id = await registerWithOTP(email);
+      setUserId(id);
+      setOtpSent(true);
+      setError('');
+    } catch (err: any) {
+      setError(err.message || 'Failed to resend OTP');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = otpSent ? handleVerifyOTP : handleSendOTP;
 
   return (
@@ -134,7 +174,7 @@ export default function RegisterPage() {
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className={`rounded-md p-4 ${error === 'EMAIL_EXISTS' ? 'bg-yellow-50' : 'bg-red-50'}`}>
+              <div className={`rounded-md p-4 ${error === 'EMAIL_EXISTS' || error === 'EMAIL_UNVERIFIED' ? 'bg-yellow-50' : 'bg-red-50'}`}>
                 {error === 'EMAIL_EXISTS' ? (
                   <div className="flex">
                     <div className="flex-shrink-0">
@@ -150,6 +190,29 @@ export default function RegisterPage() {
                           sign in to your account
                         </Link>{' '}
                         instead.
+                      </p>
+                    </div>
+                  </div>
+                ) : error === 'EMAIL_UNVERIFIED' ? (
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-yellow-800">Account not verified</h3>
+                      <p className="mt-1 text-sm text-yellow-700">
+                        An account with this email exists but hasn&apos;t been verified yet.{' '}
+                        <button
+                          type="button"
+                          onClick={handleResendOTP}
+                          disabled={isLoading}
+                          className="font-semibold underline hover:text-yellow-900 disabled:opacity-50"
+                        >
+                          Resend verification code
+                        </button>{' '}
+                        to complete your registration.
                       </p>
                     </div>
                   </div>
