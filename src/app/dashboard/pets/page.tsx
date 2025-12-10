@@ -166,8 +166,11 @@ export default function PetsPage() {
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
+              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                <circle cx="5" cy="5" r="1.5" />
+                <circle cx="15" cy="5" r="1.5" />
+                <circle cx="10" cy="3" r="1.5" />
               </svg>
             </div>
           </div>

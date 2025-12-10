@@ -57,8 +57,11 @@ export default function DashboardLayout({
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
                 <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                    <circle cx="5" cy="5" r="1.5" />
+                    <circle cx="15" cy="5" r="1.5" />
+                    <circle cx="10" cy="3" r="1.5" />
                   </svg>
                 </div>
                 <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -76,8 +79,11 @@ export default function DashboardLayout({
                       : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
                   } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                    <circle cx="5" cy="5" r="1.5" />
+                    <circle cx="15" cy="5" r="1.5" />
+                    <circle cx="10" cy="3" r="1.5" />
                   </svg>
                   Pets
                 </Link>
@@ -173,8 +179,11 @@ export default function DashboardLayout({
                     : 'text-gray-700 hover:bg-white/50'
                 } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  <circle cx="5" cy="5" r="1.5" />
+                  <circle cx="15" cy="5" r="1.5" />
+                  <circle cx="10" cy="3" r="1.5" />
                 </svg>
                 Pets
               </Link>

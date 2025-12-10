@@ -385,24 +385,22 @@ export default function RegisterPage() {
         </div>
 
         {/* Login CTA */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-          <div className="text-center">
-            <div className="flex justify-center mb-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-xl shadow-md border border-gray-100 p-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                 </svg>
               </div>
+              <div className="text-left">
+                <p className="text-sm font-semibold text-gray-900">Already have an account?</p>
+                <p className="text-xs text-gray-600">Sign in to continue</p>
+              </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">
-              Already have an account?
-            </h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Sign in to access your admin panel
-            </p>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-indigo-600 text-sm font-semibold rounded-lg text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-4 py-2 border-2 border-indigo-600 text-sm font-semibold rounded-lg text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 whitespace-nowrap"
             >
               Sign In
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
