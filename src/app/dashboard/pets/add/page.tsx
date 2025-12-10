@@ -234,8 +234,11 @@ export default function AddPetPage() {
 
   if (checkingLimit) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Checking pet limit...</p>
+        </div>
       </div>
     );
   }
@@ -243,154 +246,205 @@ export default function AddPetPage() {
   const canAddPet = petCount < MAX_PETS;
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Add New Pet
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Fill in the details to add a new pet to your collection.
-            </p>
-            <p className="mt-2 text-xs text-gray-400">
-              {petCount} of {MAX_PETS} pets added
-            </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl w-full space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
           </div>
-          <div className="mt-5 md:mt-0 md:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900">
+            Add New Pet
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Fill in the details to add a new pet to your collection
+          </p>
+          <p className="mt-1 text-xs text-gray-500">
+            {petCount} of {MAX_PETS} pets added
+          </p>
+        </div>
+
+        {/* Main Card */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="px-8 pb-8 pt-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Error Message */}
               {error && (
-                <div className="rounded-md bg-red-50 p-4">
+                <div className="rounded-lg bg-red-50 border border-red-200 p-4">
                   <div className="flex">
-                    <div className="flex-shrink-0">
-                      <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                      </svg>
-                    </div>
+                    <svg className="h-5 w-5 text-red-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
                     <div className="ml-3">
-                      <p className="text-sm text-red-800">{error}</p>
+                      <p className="text-sm font-medium text-red-800">{error}</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 gap-6">
-                <div>
-                  <label htmlFor="petName" className="block text-sm font-medium text-gray-700">
-                    Pet Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="petName"
-                    id="petName"
-                    required
-                    value={formData.petName}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="petType" className="block text-sm font-medium text-gray-700">
-                    Pet Type <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="petType"
-                    id="petType"
-                    required
-                    value={formData.petType}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                  >
-                    <option value="dog">Dog</option>
-                    <option value="cat">Cat</option>
-                    <option value="bird">Bird</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="breed" className="block text-sm font-medium text-gray-700">
-                    Breed <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="breed"
-                    id="breed"
-                    required
-                    value={formData.breed}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+              {/* Basic Information Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+                <div className="space-y-5">
+                  {/* Pet Name */}
                   <div>
-                    <label htmlFor="age" className="block text-sm font-medium text-gray-700">
-                      Age (years)
-                    </label>
-                    <input
-                      type="number"
-                      name="age"
-                      id="age"
-                      min="0"
-                      value={formData.age}
-                      onChange={handleInputChange}
-                      placeholder="e.g., 2"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
-                      Gender
+                    <label htmlFor="petName" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Pet Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      name="gender"
-                      id="gender"
-                      value={formData.gender}
+                      name="petName"
+                      id="petName"
+                      required
+                      value={formData.petName}
                       onChange={handleInputChange}
-                      placeholder="e.g., Male"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
+                      disabled={isLoading}
+                      className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      placeholder="Enter pet name"
                     />
                   </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                  {/* Pet Type */}
                   <div>
-                    <label htmlFor="color" className="block text-sm font-medium text-gray-700">
-                      Color
+                    <label htmlFor="petType" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Pet Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="petType"
+                      id="petType"
+                      required
+                      value={formData.petType}
+                      onChange={handleInputChange}
+                      disabled={isLoading}
+                      className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
+                    >
+                      <option value="dog">Dog</option>
+                      <option value="cat">Cat</option>
+                      <option value="bird">Bird</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  {/* Breed */}
+                  <div>
+                    <label htmlFor="breed" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Breed <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      name="color"
-                      id="color"
-                      value={formData.color}
+                      name="breed"
+                      id="breed"
+                      required
+                      value={formData.breed}
                       onChange={handleInputChange}
-                      placeholder="e.g., Brown"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
+                      disabled={isLoading}
+                      className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      placeholder="Enter breed"
                     />
                   </div>
 
+                  {/* Age and Gender */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="age" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Age (years)
+                      </label>
+                      <input
+                        type="number"
+                        name="age"
+                        id="age"
+                        min="0"
+                        value={formData.age}
+                        onChange={handleInputChange}
+                        disabled={isLoading}
+                        placeholder="e.g., 2"
+                        className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Gender
+                      </label>
+                      <input
+                        type="text"
+                        name="gender"
+                        id="gender"
+                        value={formData.gender}
+                        onChange={handleInputChange}
+                        disabled={isLoading}
+                        placeholder="e.g., Male"
+                        className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Color and Weight */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="color" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Color
+                      </label>
+                      <input
+                        type="text"
+                        name="color"
+                        id="color"
+                        value={formData.color}
+                        onChange={handleInputChange}
+                        disabled={isLoading}
+                        placeholder="e.g., Brown"
+                        className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="weight" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Weight
+                      </label>
+                      <input
+                        type="text"
+                        name="weight"
+                        id="weight"
+                        value={formData.weight}
+                        onChange={handleInputChange}
+                        disabled={isLoading}
+                        placeholder="e.g., 10 kg"
+                        className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Description */}
                   <div>
-                    <label htmlFor="weight" className="block text-sm font-medium text-gray-700">
-                      Weight
+                    <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-2">
+                      Description
                     </label>
-                    <input
-                      type="text"
-                      name="weight"
-                      id="weight"
-                      value={formData.weight}
+                    <textarea
+                      name="description"
+                      id="description"
+                      rows={3}
+                      value={formData.description}
                       onChange={handleInputChange}
-                      placeholder="e.g., 10 kg"
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
+                      disabled={isLoading}
+                      placeholder="Tell us about your pet..."
+                      className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
                     />
                   </div>
                 </div>
+              </div>
 
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* Identification Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Identification</h3>
                 <div>
-                  <label htmlFor="microchip" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="microchip" className="block text-sm font-semibold text-gray-700 mb-2">
                     Microchip ID
                   </label>
                   <input
@@ -399,112 +453,57 @@ export default function AddPetPage() {
                     id="microchip"
                     value={formData.microchip}
                     onChange={handleInputChange}
+                    disabled={isLoading}
                     placeholder="e.g., 123456789"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
                   />
                 </div>
+              </div>
 
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                    Description
-                  </label>
-                  <textarea
-                    name="description"
-                    id="description"
-                    rows={3}
-                    value={formData.description}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                  />
-                </div>
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Personality Traits
-                  </label>
-                  <div className="space-y-2">
-                    {personalityTraits.map((trait, index) => (
-                      <div key={index} className="flex gap-2">
-                        <input
-                          type="text"
-                          value={trait}
-                          onChange={(e) => updatePersonalityTrait(index, e.target.value)}
-                          placeholder="e.g., Friendly"
-                          className="flex-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removePersonalityTrait(index)}
-                          className="px-3 py-2 border border-red-300 text-red-700 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={addPersonalityTrait}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      + Add Personality Trait
-                    </button>
-                  </div>
-                </div>
+              {/* Pet Photos Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Pet Photos</h3>
 
-                <div>
-                  <label htmlFor="medicalInfo" className="block text-sm font-medium text-gray-700">
-                    Medical Information
-                  </label>
-                  <textarea
-                    name="medicalInfo"
-                    id="medicalInfo"
-                    rows={2}
-                    value={formData.medicalInfo}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900"
-                  />
-                </div>
-
-                {/* Pet Images Section */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Pet Images (Max 3)
-                  </label>
-
-                  {/* Image Preview */}
-                  {imageFiles.length > 0 && (
-                    <div className="mb-4">
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        Images ({imageFiles.length}) - Ready to Upload
-                      </label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        {imageFiles.map((file, index) => (
-                          <div key={index} className="relative group">
-                            <img
-                              src={URL.createObjectURL(file)}
-                              alt={`Pet image ${index + 1}`}
-                              className="h-32 w-full object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
-                              className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg"
-                              title="Remove image"
-                            >
-                              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                            </button>
-                            <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded">
-                              New
-                            </div>
+                {/* Image Preview */}
+                {imageFiles.length > 0 && (
+                  <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                      Images ({imageFiles.length}) - Ready to Upload
+                    </label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {imageFiles.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`Pet image ${index + 1}`}
+                            className="h-32 w-full object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
+                            className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg"
+                            title="Remove image"
+                          >
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                          <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded">
+                            New
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {/* Drag and Drop Zone */}
+                <div>
+                  <label htmlFor="images" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Add Images
+                  </label>
                   <div
                     onDragEnter={handleDragEnter}
                     onDragOver={handleDragOver}
@@ -582,27 +581,110 @@ export default function AddPetPage() {
                       <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="font-medium">{imageFiles.length} image(s) compressed and ready to upload</span>
+                      <span className="font-medium">{imageFiles.length} file(s) selected and compressed</span>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3">
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* Personality Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Personality Traits</h3>
+                <div className="space-y-3">
+                  {personalityTraits.map((trait, index) => (
+                    <div key={index} className="flex gap-3">
+                      <input
+                        type="text"
+                        value={trait}
+                        onChange={(e) => updatePersonalityTrait(index, e.target.value)}
+                        disabled={isLoading}
+                        placeholder="e.g., Friendly"
+                        className="flex-1 px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removePersonalityTrait(index)}
+                        disabled={isLoading}
+                        className="px-4 py-3 border-2 border-red-300 text-red-700 font-medium rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all disabled:opacity-50"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addPersonalityTrait}
+                    disabled={isLoading}
+                    className="inline-flex items-center px-4 py-3 border-2 border-indigo-300 text-indigo-700 font-medium rounded-lg hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all disabled:opacity-50"
+                  >
+                    <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Add Personality Trait
+                  </button>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* Health Information Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Health Information</h3>
+                <div>
+                  <label htmlFor="medicalInfo" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Medical Information
+                  </label>
+                  <textarea
+                    name="medicalInfo"
+                    id="medicalInfo"
+                    rows={3}
+                    value={formData.medicalInfo}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
+                    placeholder="Enter any medical information, allergies, medications..."
+                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                  />
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                 <button
                   type="button"
                   onClick={() => router.push('/dashboard/pets')}
-                  className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full flex justify-center items-center gap-2 py-3 px-4 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
                 >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  disabled={isLoading || !canAddPet}
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isLoading || !canAddPet || compressingImages}
+                  className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                   title={!canAddPet ? `Maximum ${MAX_PETS} pets allowed` : ''}
                 >
-                  {isLoading ? 'Adding Pet...' : 'Add Pet'}
+                  {isLoading ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Adding Pet...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      Add Pet
+                    </>
+                  )}
                 </button>
               </div>
             </form>
