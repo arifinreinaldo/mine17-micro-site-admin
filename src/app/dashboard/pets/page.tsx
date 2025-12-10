@@ -7,6 +7,7 @@ import { Pet } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
 import QRCode from 'react-qr-code';
+import PawIcon from '@/public/paw.svg';
 
 export default function PetsPage() {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -178,12 +179,7 @@ export default function PetsPage() {
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-                <circle cx="5" cy="5" r="1.5" />
-                <circle cx="15" cy="5" r="1.5" />
-                <circle cx="10" cy="3" r="1.5" />
-              </svg>
+              <PawIcon className="w-10 h-10 text-white" />
             </div>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">

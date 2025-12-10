@@ -4,8 +4,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import RouteLoading from "./RouteLoading";
 
 export const metadata: Metadata = {
-  title: "Pet Manager - Mine17",
-  description: "Manage your pets with Mine17",
+  title: `${process.env.NEXT_PUBLIC_APP_NAME || "Pet Manager"} - Admin Panel`,
+  description: `Manage your pets with ${process.env.NEXT_PUBLIC_APP_NAME || "Mine17"}`,
 };
 
 export default function RootLayout({

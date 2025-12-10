@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+// Rename this file to /privacy-policy/page.tsx
+// For now exporting as default for direct access
 export default function PrivacyPolicyPage() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
