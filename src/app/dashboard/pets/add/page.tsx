@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { databases, storage, DATABASE_ID, PETS_COLLECTION_ID, STORAGE_BUCKET_ID } from '@/lib/appwrite';
 import { PetFormData, PetType } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
@@ -475,23 +476,25 @@ export default function AddPetPage() {
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {imageFiles.map((file, index) => (
-                        <div key={index} className="relative group">
-                          <img
+                        <div key={index} className="relative group h-32">
+                          <Image
                             src={URL.createObjectURL(file)}
                             alt={`Pet image ${index + 1}`}
-                            className="h-32 w-full object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
+                            fill
+                            unoptimized
+                            className="object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
                           />
                           <button
                             type="button"
                             onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
-                            className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg"
+                            className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg z-10"
                             title="Remove image"
                           >
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                           </button>
-                          <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded">
+                          <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded z-10">
                             New
                           </div>
                         </div>
