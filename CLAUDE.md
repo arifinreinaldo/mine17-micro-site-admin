@@ -27,30 +27,36 @@ npm run lint
 Required environment variables (see `.env.example`):
 
 ```env
+NEXT_PUBLIC_APP_NAME=Mine17 Pets
 NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=your-project-id
 NEXT_PUBLIC_APPWRITE_DATABASE_ID=your-database-id
 NEXT_PUBLIC_APPWRITE_PETS_COLLECTION_ID=pets
 NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID=pet-images
 NEXT_PUBLIC_EXTERNAL_URL=https://aibo-pets.vercel.app/?param=
+APPWRITE_API_KEY_READ_ONLY=your-api-key-here
 ```
 
 Copy `.env.example` to `.env.local` and configure with your Appwrite project details.
 
+**Note**: `APPWRITE_API_KEY_READ_ONLY` is used for server-side API routes (e.g., `/api/check-email`).
+
 ## Architecture
 
-### Authentication Flow (OTP-Based)
+### Authentication Flow
 
-The application uses a custom OTP-based authentication system instead of traditional password login:
+The application supports both OTP-based and traditional password authentication:
 
-1. **Login**: Users enter email → receive OTP → verify OTP → session created
-2. **Registration**: Email submission → OTP sent → verify OTP → complete profile (name, password, device fingerprint) → session created
-3. **Security**: Device fingerprinting (`@fingerprintjs/fingerprintjs`) tracks user devices in preferences
-4. **Session Management**: Appwrite handles sessions; existing sessions are cleared before new registration to prevent multi-account issues
+1. **OTP Login**: Users enter email → receive OTP → verify OTP → session created
+2. **Password Login**: Users enter email + password → session created
+3. **Registration**: Email submission → OTP sent → verify OTP → complete profile (name, password, device fingerprint) → session created
+4. **Security**: Device fingerprinting (`@fingerprintjs/fingerprintjs`) tracks user devices in preferences
+5. **Session Management**: Appwrite handles sessions; existing sessions are cleared before new registration to prevent multi-account issues
 
 **Key Implementation Details** (`src/context/AuthContext.tsx`):
-- `sendOTP()` / `verifyOTP()` for login flow
-- `registerWithOTP()` / `completeRegistration()` for registration flow
+- `sendOTP(email)` / `verifyOTP(userId, otp)` for OTP login flow
+- `login(email, password)` for password-based login
+- `registerWithOTP(email)` / `completeRegistration(userId, otp, data)` for registration flow
 - Registration stores: name, password, device fingerprint, T&C acceptance timestamp
 - **Critical**: Use `token.userId` from OTP response for verification, not the generated ID
 
@@ -104,9 +110,14 @@ interface Pet {
 ### Routing Structure
 
 ```
-/                           → Redirects to /dashboard/profile (authenticated) or /login
-/login                      → OTP-based login page
+/                           → Landing page with features/pricing (or redirects to /dashboard if authenticated)
+/login                      → OTP or password-based login page
 /register                   → OTP-based registration with device fingerprinting
+/legal                      → Legal pages directory
+  /privacy                  → Privacy policy
+  /terms                    → Terms of service
+  /cookies                  → Cookie policy
+/api/check-email            → Server-side email verification endpoint
 /dashboard                  → Protected layout with auth guard
   /profile                  → User profile management (email/phone updates)
   /pets                     → Pet list view with QR code generation
@@ -118,8 +129,13 @@ interface Pet {
 
 Dashboard layout (`src/app/dashboard/layout.tsx`) implements client-side auth guard:
 - Redirects unauthenticated users to `/login`
-- Shows loading state during auth check
-- Navigation bar with email display and logout button
+- Shows loading state during auth check (uses `RouteLoading` component from `src/app/RouteLoading.tsx`)
+- Responsive navigation bar with:
+  - Logo and app name
+  - Navigation links (Pets, Profile)
+  - User avatar with tooltip showing email
+  - Logout button
+  - Mobile menu support
 
 ## Key Components
 
@@ -157,10 +173,12 @@ Generates unique device identifiers for security tracking:
 ## Development Notes
 
 - **App Router**: Uses Next.js 15 App Router (not Pages Router)
+- **React Version**: Uses React 19 with latest features
 - **Client Components**: Most components use `'use client'` directive for interactivity
 - **TypeScript**: Strict typing throughout, especially for Appwrite models
-- **Tailwind CSS**: Utility-first styling with custom indigo theme
+- **Tailwind CSS**: Utility-first styling with custom color variables
 - **Error Handling**: User-facing errors with detailed console logging
+- **Server/Client Split**: Uses both client-side (`src/lib/appwrite.ts`) and server-side (`src/lib/appwrite-server.ts`) Appwrite configurations
 
 ## Common Tasks
 

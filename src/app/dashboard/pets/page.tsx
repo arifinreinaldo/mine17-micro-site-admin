@@ -7,7 +7,7 @@ import { Pet } from '@/types/pet';
 import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
 import QRCode from 'react-qr-code';
-import PawIcon from '@/public/paw.svg';
+import PawIcon from '@/assets/paw.svg';
 
 export default function PetsPage() {
   const [pets, setPets] = useState<Pet[]>([]);

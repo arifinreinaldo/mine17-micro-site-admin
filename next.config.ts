@@ -3,15 +3,21 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   // Enable React Strict Mode for better development experience
   reactStrictMode: true,
-  
-  // Use SWC minification for faster builds
-  swcMinify: true,
-  
+
   // Optimize for SPA behavior
   poweredByHeader: false,
-  
-  // Disable x-powered-by header
+
+  // Enable compression
   compress: true,
+
+  // Configure webpack to handle SVG imports as React components
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
+    return config
+  },
 }
 
 export default nextConfig
