@@ -55,7 +55,7 @@ export default function TermsOfServicePage() {
           <section id="introduction">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
             <p className="text-gray-700">
-              These Terms of Service ("Terms") govern your use of the Mine17 Pets platform, website, and services (collectively, the "Service"). By accessing or using our Service, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you may not use our Service.
+              These Terms of Service (&quot;Terms&quot;) govern your use of the Mine17 Pets platform, website, and services (collectively, the &quot;Service&quot;). By accessing or using our Service, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you may not use our Service.
             </p>
           </section>
 
@@ -159,7 +159,7 @@ export default function TermsOfServicePage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Disclaimers</h2>
             <div className="space-y-4">
               <p className="text-gray-700">
-                <strong>THE SERVICE IS PROVIDED ON AN "AS-IS" BASIS.</strong> We disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement.
+                <strong>THE SERVICE IS PROVIDED ON AN &quot;AS-IS&quot; BASIS.</strong> We disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement.
               </p>
               <p className="text-gray-700">
                 We do not guarantee:

@@ -105,17 +105,19 @@ export default function DashboardLayout({
 
             {/* Right Side - User Info and Logout (Desktop) */}
             <div className="hidden md:flex items-center gap-3">
-              {/* User Avatar with Tooltip */}
-              <div className="group relative">
+              {/* User Avatar with Tooltip - Link to Profile */}
+              <Link href="/dashboard/profile" className="group relative">
                 <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer hover:shadow-md transition-shadow">
                   {user.email?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 {/* Tooltip */}
-                <div className="absolute top-full right-0 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-10">
-                  {user.email}
+                <div className="absolute top-full right-0 mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <div className="whitespace-nowrap">{user.email}</div>
+                  {user.name && <div className="whitespace-nowrap">{user.name}</div>}
+                  {user.phone && <div className="whitespace-nowrap">{user.phone}</div>}
                   <div className="absolute -top-1 right-4 w-2 h-2 bg-gray-900 transform rotate-45"></div>
                 </div>
-              </div>
+              </Link>
 
               {/* Logout Button */}
               <button
