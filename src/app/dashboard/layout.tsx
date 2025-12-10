@@ -221,15 +221,15 @@ export default function DashboardLayout({
             </div>
           </div>
         )}
-      </nav>
 
-      {/* Close mobile menu when clicking outside */}
-      {mobileMenuOpen && (
-        <div 
-          className="fixed inset-0 z-40 md:hidden" 
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
+        {/* Close mobile menu when clicking outside */}
+        {mobileMenuOpen && (
+          <div 
+            className="fixed inset-0 z-40 md:hidden" 
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+      </nav>
 
       {/* Main Content */}
       <main>
