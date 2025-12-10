@@ -28,7 +28,7 @@ export default function LandingPage() {
   }
 
   // Conditional CTAs based on user state
-  const primaryCTA = user ? '/dashboard/profile' : '/register';
+  const primaryCTA = user ? '/dashboard/pets' : '/register';
   const primaryCTAText = user ? 'Go to Dashboard' : 'Get Started Free';
 
   // Features data
@@ -154,7 +154,7 @@ export default function LandingPage() {
             <div className="flex gap-3">
               {user ? (
                 <Link
-                  href="/dashboard/profile"
+                  href="/dashboard/pets"
                   className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg hover:from-indigo-700 hover:to-indigo-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                 >
                   Go to Dashboard

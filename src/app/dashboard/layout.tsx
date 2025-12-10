@@ -56,8 +56,8 @@ export default function DashboardLayout({
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
                 <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
                   </svg>
                 </div>
                 <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -75,8 +75,8 @@ export default function DashboardLayout({
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-transparent'
                   } inline-flex items-center gap-2 px-4 py-2 border-b-2 text-sm font-semibold transition-all duration-200 rounded-t-lg`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
                   </svg>
                   Pets
                 </Link>
@@ -163,8 +163,8 @@ export default function DashboardLayout({
                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-transparent'
                 } flex items-center gap-3 px-3 py-3 border-l-4 text-base font-semibold rounded-r-lg transition-all`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
                 </svg>
                 Pets
               </Link>

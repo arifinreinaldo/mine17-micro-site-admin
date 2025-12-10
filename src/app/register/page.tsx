@@ -24,7 +24,7 @@ export default function RegisterPage() {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      router.push('/dashboard/profile');
+      router.push('/dashboard/pets');
     }
   }, [user, router]);
 
@@ -124,7 +124,7 @@ export default function RegisterPage() {
         fingerprint,
         tcAccepted,
       });
-      router.push('/dashboard/profile');
+      router.push('/dashboard/pets');
     } catch (err: any) {
       setError(err.message || 'Failed to verify OTP and complete registration');
     } finally {

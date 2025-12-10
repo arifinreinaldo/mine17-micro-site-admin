@@ -14,7 +14,9 @@ export default function PetsPage() {
   const [error, setError] = useState('');
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+  const [petToDelete, setPetToDelete] = useState<Pet | null>(null);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -90,27 +92,34 @@ export default function PetsPage() {
     }
   };
 
-  const handleDelete = async (petId: string) => {
-    if (!confirm('Are you sure you want to delete this pet? This will also delete all associated images.')) {
-      return;
-    }
+  const openDeleteModal = (pet: Pet) => {
+    setPetToDelete(pet);
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setPetToDelete(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!petToDelete || !petToDelete.$id) return;
 
     try {
-      setDeleteLoading(petId);
-
-      // Find the pet to get its imageUrls
-      const pet = pets.find((p) => p.$id === petId);
+      setDeleteLoading(petToDelete.$id);
 
       // Delete images from storage first
-      if (pet?.imageUrls && pet.imageUrls.length > 0) {
-        await deleteImagesFromStorage(pet.imageUrls);
+      if (petToDelete.imageUrls && petToDelete.imageUrls.length > 0) {
+        await deleteImagesFromStorage(petToDelete.imageUrls);
       }
 
       // Then delete the pet document
-      await databases.deleteDocument(DATABASE_ID, PETS_COLLECTION_ID, petId);
-      setPets(pets.filter((pet) => pet.$id !== petId));
+      await databases.deleteDocument(DATABASE_ID, PETS_COLLECTION_ID, petToDelete.$id);
+      setPets(pets.filter((pet) => pet.$id !== petToDelete.$id));
+      
+      closeDeleteModal();
     } catch (err: any) {
-      alert(err.message || 'Failed to delete pet');
+      setError(err.message || 'Failed to delete pet');
     } finally {
       setDeleteLoading(null);
     }
@@ -157,8 +166,8 @@ export default function PetsPage() {
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4.5 12c0-.866.7-1.575 1.575-1.575a1.575 1.575 0 110 3.15A1.575 1.575 0 014.5 12zm13.425 0c0-.866.709-1.575 1.575-1.575a1.575 1.575 0 110 3.15 1.575 1.575 0 01-1.575-1.575zM12 5.25c-1.125 0-2.044.909-2.044 2.034 0 1.125.92 2.034 2.044 2.034 1.125 0 2.044-.909 2.044-2.034 0-1.125-.92-2.034-2.044-2.034zM8.294 13.5c-.9 0-1.669.506-2.063 1.237-.215.403-.356.856-.356 1.35 0 2.062 2.475 3.413 6.125 3.413s6.125-1.35 6.125-3.412c0-.495-.14-.948-.356-1.351-.394-.731-1.163-1.237-2.063-1.237H8.294z"/>
               </svg>
             </div>
           </div>
@@ -337,7 +346,7 @@ export default function PetsPage() {
                           Share QR
                         </button>
                         <button
-                          onClick={() => handleDelete(pet.$id!)}
+                          onClick={() => openDeleteModal(pet)}
                           disabled={deleteLoading === pet.$id}
                           className="flex justify-center items-center gap-2 px-4 py-2.5 border border-transparent text-white font-medium rounded-lg bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
@@ -367,6 +376,68 @@ export default function PetsPage() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && petToDelete && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+          <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-100 p-8 m-4 max-w-md w-full">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Delete Pet?</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Are you sure you want to delete <span className="font-semibold text-gray-900">{petToDelete.petName}</span>?
+              </p>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                <p className="text-xs text-red-800 font-medium">
+                  ⚠️ This action cannot be undone. All associated images will also be permanently deleted.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={closeDeleteModal}
+                disabled={deleteLoading === petToDelete.$id}
+                className="flex justify-center items-center gap-2 py-3 px-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all disabled:opacity-50"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleteLoading === petToDelete.$id}
+                className="flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-white font-semibold rounded-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+              >
+                {deleteLoading === petToDelete.$id ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Delete Pet
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* QR Code Modal */}
       {showQRModal && selectedPetId && (

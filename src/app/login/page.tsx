@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      router.push('/dashboard/profile');
+      router.push('/dashboard/pets');
     }
   }, [user, router]);
 
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
     try {
       await verifyOTP(userId, otp);
-      router.push('/dashboard/profile');
+      router.push('/dashboard/pets');
     } catch (err: any) {
       setError(err.message || 'Invalid OTP. Please check the code and try again.');
     } finally {
@@ -90,7 +90,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password);
-      router.push('/dashboard/profile');
+      router.push('/dashboard/pets');
     } catch (err: any) {
       setError(err.message || 'Invalid email or password. Please try again.');
     } finally {
