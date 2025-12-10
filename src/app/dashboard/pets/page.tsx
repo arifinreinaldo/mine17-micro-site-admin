@@ -17,6 +17,7 @@ export default function PetsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [petToDelete, setPetToDelete] = useState<Pet | null>(null);
+  const [copyNotification, setCopyNotification] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -133,6 +134,17 @@ export default function PetsPage() {
   const closeQRModal = () => {
     setShowQRModal(false);
     setSelectedPetId(null);
+  };
+
+  const copyToClipboard = async (petId: string) => {
+    const shareUrl = `${EXTERNAL_URL}${petId}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopyNotification(true);
+      setTimeout(() => setCopyNotification(false), 3000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   };
 
   const getPetTypeIcon = (petType: string) => {
@@ -442,6 +454,18 @@ export default function PetsPage() {
         </div>
       )}
 
+      {/* Copy Notification Toast */}
+      {copyNotification && (
+        <div className="fixed top-4 right-4 z-50 animate-slide-down">
+          <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-medium">Link copied to clipboard!</span>
+          </div>
+        </div>
+      )}
+
       {/* QR Code Modal */}
       {showQRModal && selectedPetId && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
@@ -475,9 +499,19 @@ export default function PetsPage() {
 
               <div className="w-full bg-gray-50 rounded-lg p-4 border border-gray-200">
                 <p className="text-sm font-semibold text-gray-700 mb-2">Share Link:</p>
-                <p className="text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200">
+                <button
+                  onClick={() => copyToClipboard(selectedPetId)}
+                  className="w-full text-left text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all cursor-pointer group relative"
+                  title="Click to copy"
+                >
                   {`${EXTERNAL_URL}${selectedPetId}`}
-                </p>
+                  <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded text-indigo-600 font-semibold text-sm">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Click to Copy
+                  </span>
+                </button>
               </div>
 
               <button

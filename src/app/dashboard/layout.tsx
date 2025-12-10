@@ -65,7 +65,7 @@ export default function DashboardLayout({
                   </svg>
                 </div>
                 <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Pet Manager
+                  {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}
                 </h1>
               </div>
 
@@ -148,6 +148,7 @@ export default function DashboardLayout({
                   </svg>
                 )}
               </button>
+            </div>
             </div>
           </div>
         </div>

@@ -125,7 +125,7 @@ export default function LoginPage() {
             Welcome Back
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to access your admin panel
+            Sign in to {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}
           </p>
         </div>
 
@@ -380,7 +380,7 @@ export default function LoginPage() {
                 </svg>
               </div>
               <div className="text-left">
-                <p className="text-sm font-semibold text-gray-900">New to Pet Manager?</p>
+                <p className="text-sm font-semibold text-gray-900">New to {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}?</p>
                 <p className="text-xs text-gray-600">Create your account</p>
               </div>
             </div>

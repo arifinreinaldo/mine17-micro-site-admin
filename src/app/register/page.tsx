@@ -166,7 +166,7 @@ export default function RegisterPage() {
             Create Account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Join us to manage your pets and access all features
+            Join {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}
           </p>
         </div>
 
