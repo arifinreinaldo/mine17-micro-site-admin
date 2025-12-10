@@ -21,6 +21,7 @@ export default function EditPetPage() {
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]);
   const [personalityTraits, setPersonalityTraits] = useState<string[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
   const [formData, setFormData] = useState<PetFormData>({
     petName: '',
     breed: '',
@@ -86,32 +87,68 @@ export default function EditPetPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const processFiles = async (files: File[]) => {
+    const totalImages = existingImages.length + imageFiles.length + files.length;
+
+    if (totalImages > 3) {
+      setError(`Maximum 3 images allowed. You have ${existingImages.length} existing image(s) and ${imageFiles.length} new image(s) ready to upload. You can add ${Math.max(0, 3 - existingImages.length - imageFiles.length)} more.`);
+      return;
+    }
+
+    try {
+      setCompressingImages(true);
+      setError('');
+
+      // Compress images before storing
+      const compressedFiles = await compressImages(files);
+      setImageFiles((prev) => [...prev, ...compressedFiles]);
+
+      console.log('Images compressed successfully');
+    } catch (err: any) {
+      setError(err.message || 'Failed to compress images');
+    } finally {
+      setCompressingImages(false);
+    }
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files);
-      const totalImages = existingImages.length + files.length;
+      await processFiles(files);
+      e.target.value = '';
+    }
+  };
 
-      if (totalImages > 3) {
-        setError(`Maximum 3 images allowed. You have ${existingImages.length} existing image(s). You can add ${3 - existingImages.length} more.`);
-        e.target.value = '';
-        return;
-      }
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
 
-      try {
-        setCompressingImages(true);
-        setError('');
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
 
-        // Compress images before storing
-        const compressedFiles = await compressImages(files);
-        setImageFiles(compressedFiles);
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
 
-        console.log('Images compressed successfully');
-      } catch (err: any) {
-        setError(err.message || 'Failed to compress images');
-        e.target.value = '';
-      } finally {
-        setCompressingImages(false);
-      }
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files).filter((file) =>
+      file.type.startsWith('image/')
+    );
+
+    if (files.length > 0) {
+      await processFiles(files);
+    } else {
+      setError('Please drop only image files');
     }
   };
 
@@ -525,12 +562,55 @@ export default function EditPetPage() {
                   </div>
                 )}
 
+                {/* New Images Preview */}
+                {imageFiles.length > 0 && (
+                  <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                      New Images ({imageFiles.length}) - Ready to Upload
+                    </label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {imageFiles.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`New image ${index + 1}`}
+                            className="h-32 w-full object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
+                            className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg"
+                            title="Remove image"
+                          >
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                          <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded">
+                            New
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Add More Images */}
                 <div>
                   <label htmlFor="images" className="block text-sm font-semibold text-gray-700 mb-2">
                     Add More Images
                   </label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-400 transition-colors">
+                  <div
+                    onDragEnter={handleDragEnter}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg transition-colors ${
+                      isDragging
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-gray-300 hover:border-indigo-400'
+                    }`}
+                  >
                     <div className="space-y-1 text-center">
                       <svg
                         className="mx-auto h-12 w-12 text-gray-400"
@@ -573,8 +653,14 @@ export default function EditPetPage() {
                   <div className="mt-3 bg-gray-50 rounded-lg p-3">
                     <p className="text-sm text-gray-600">
                       <span className="font-medium">Current: {existingImages.length} image(s)</span>
+                      {imageFiles.length > 0 && (
+                        <>
+                          {' • '}
+                          <span className="font-medium text-green-600">New: {imageFiles.length} ready to upload</span>
+                        </>
+                      )}
                       {' • '}
-                      <span className="font-medium">Can add: {3 - existingImages.length} more</span>
+                      <span className="font-medium">Can add: {Math.max(0, 3 - existingImages.length - imageFiles.length)} more</span>
                       {' • '}
                       <span className="text-gray-500">Max: 3 total</span>
                     </p>
