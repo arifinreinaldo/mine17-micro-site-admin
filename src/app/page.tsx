@@ -231,7 +231,7 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== FEATURES GRID ==================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Everything You Need for Pet Care
@@ -293,7 +293,7 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== PRICING SECTION ==================== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Choose Your Plan
@@ -382,10 +382,8 @@ export default function LandingPage() {
             <div>
               <h4 className="text-white font-semibold mb-4">Product</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Security</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Updates</a></li>
+                <li><a href="#features" className="text-sm hover:text-white transition-colors">Features</a></li>
+                <li><a href="#pricing" className="text-sm hover:text-white transition-colors">Pricing</a></li>
               </ul>
             </div>
 
@@ -395,8 +393,6 @@ export default function LandingPage() {
               <ul className="space-y-2">
                 <li><a href="#" className="text-sm hover:text-white transition-colors">About Us</a></li>
                 <li><a href="#" className="text-sm hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Press Kit</a></li>
               </ul>
             </div>
 
@@ -404,10 +400,9 @@ export default function LandingPage() {
             <div>
               <h4 className="text-white font-semibold mb-4">Legal</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">Cookie Policy</a></li>
-                <li><a href="#" className="text-sm hover:text-white transition-colors">GDPR Compliance</a></li>
+                <li><Link href="/legal/privacy-policy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/legal/terms-of-service" className="text-sm hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="/legal/cookie-policy" className="text-sm hover:text-white transition-colors">Cookie Policy</Link></li>
               </ul>
             </div>
           </div>
