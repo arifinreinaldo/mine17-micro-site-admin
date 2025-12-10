@@ -41,12 +41,12 @@ export default function LandingPage() {
     {
       icon: '🔗',
       title: 'QR Code Sharing',
-      description: 'Generate shareable QR codes for your pet\'s profile to quickly share information with vets or pet sitters'
+      description: 'Generate shareable QR codes for your pet&apos;s profile to quickly share information with vets or pet sitters'
     },
     {
       icon: '🔒',
       title: 'Secure & Private',
-      description: 'Your pet\'s data is protected with device fingerprinting and OTP-based authentication for maximum security'
+      description: 'Your pet&apos;s data is protected with device fingerprinting and OTP-based authentication for maximum security'
     },
     {
       icon: '📸',
@@ -82,7 +82,7 @@ export default function LandingPage() {
       ]
     },
     {
-      title: 'Build Your Pet\'s Profile',
+      title: 'Build Your Pet&apos;s Profile',
       icon: (
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -357,7 +357,7 @@ export default function LandingPage() {
             {/* Brand Column */}
             <div>
               <h3 className="text-white font-bold text-xl mb-4">{appName}</h3>
-              <p className="text-sm mb-4">Your pet's digital home</p>
+              <p className="text-sm mb-4">Your pet&apos;s digital home</p>
               <div className="flex gap-4">
                 {/* Social icons placeholders */}
                 <a href="#" className="text-gray-400 hover:text-white transition-colors">
