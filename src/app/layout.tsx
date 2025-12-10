@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import RouteLoading from "./RouteLoading";
 
 export const metadata: Metadata = {
-  title: "Admin Panel - Mine17",
-  description: "Admin panel for Mine17 micro site",
+  title: "Pet Manager - Mine17",
+  description: "Manage your pets with Mine17",
 };
 
 export default function RootLayout({
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <RouteLoading />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

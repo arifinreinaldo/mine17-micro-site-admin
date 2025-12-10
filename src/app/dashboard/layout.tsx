@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
 export default function DashboardLayout({
@@ -66,7 +67,7 @@ export default function DashboardLayout({
 
               {/* Desktop Navigation Links */}
               <div className="hidden md:ml-10 md:flex md:space-x-2">
-                <a
+                <Link
                   href="/dashboard/pets"
                   className={`${
                     pathname?.startsWith('/dashboard/pets')
@@ -78,8 +79,8 @@ export default function DashboardLayout({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Pets
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/dashboard/profile"
                   className={`${
                     pathname === '/dashboard/profile'
@@ -91,7 +92,7 @@ export default function DashboardLayout({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   Profile
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -153,7 +154,7 @@ export default function DashboardLayout({
               </div>
 
               {/* Navigation Links */}
-              <a
+              <Link
                 href="/dashboard/pets"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`${
@@ -166,8 +167,8 @@ export default function DashboardLayout({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Pets
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/dashboard/profile"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`${
@@ -180,7 +181,7 @@ export default function DashboardLayout({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 Profile
-              </a>
+              </Link>
 
               {/* Logout Button */}
               <button
