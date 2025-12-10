@@ -186,7 +186,7 @@ export default function LandingPage() {
           {/* Text Content */}
           <div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Manage Your Pet's Life with Confidence
+              Manage Your Pet&apos;s Life with Confidence
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8">
               Secure digital profiles, QR code sharing, and comprehensive pet management all in one place
@@ -237,7 +237,7 @@ export default function LandingPage() {
             Everything You Need for Pet Care
           </h2>
           <p className="text-lg text-gray-600">
-            Powerful features designed to keep your pet's information safe and accessible
+            Powerful features designed to keep your pet&apos;s information safe and accessible
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -264,7 +264,7 @@ export default function LandingPage() {
               How It Works
             </h2>
             <p className="text-lg text-gray-600">
-              Simple steps to get started with managing your pet's information
+              Simple steps to get started with managing your pet&apos;s information
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { databases, storage, DATABASE_ID, PETS_COLLECTION_ID, STORAGE_BUCKET_ID, EXTERNAL_URL } from '@/lib/appwrite';
 import { Pet } from '@/types/pet';
@@ -18,13 +18,7 @@ export default function PetsPage() {
   const router = useRouter();
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      fetchPets();
-    }
-  }, [user]);
-
-  const fetchPets = async () => {
+  const fetchPets = useCallback(async () => {
     try {
       setLoading(true);
       if (!user) {
@@ -46,7 +40,13 @@ export default function PetsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchPets();
+    }
+  }, [user, fetchPets]);
 
   const extractFileIdFromUrl = (url: string): string | null => {
     try {
