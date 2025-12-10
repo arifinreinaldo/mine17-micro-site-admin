@@ -203,7 +203,7 @@ export default function RegisterPage() {
                     <div className="ml-3">
                       <h3 className="text-sm font-medium text-yellow-800">Account not verified</h3>
                       <p className="mt-1 text-sm text-yellow-700">
-                        An account with this email exists but hasn&apos;t been verified yet.{' '}
+                        {`An account with this email exists but hasn't been verified yet.`}{' '}
                         <button
                           type="button"
                           onClick={handleResendOTP}

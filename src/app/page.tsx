@@ -41,12 +41,12 @@ export default function LandingPage() {
     {
       icon: '🔗',
       title: 'QR Code Sharing',
-      description: 'Generate shareable QR codes for your pet&apos;s profile to quickly share information with vets or pet sitters'
+      description: `Generate shareable QR codes for your pet's profile to quickly share information with vets or pet sitters`
     },
     {
       icon: '🔒',
       title: 'Secure & Private',
-      description: 'Your pet&apos;s data is protected with device fingerprinting and OTP-based authentication for maximum security'
+      description: `Your pet's data is protected with device fingerprinting and OTP-based authentication for maximum security`
     },
     {
       icon: '📸',
@@ -82,7 +82,7 @@ export default function LandingPage() {
       ]
     },
     {
-      title: 'Build Your Pet&apos;s Profile',
+      title: `Build Your Pet's Profile`,
       icon: (
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -186,7 +186,7 @@ export default function LandingPage() {
           {/* Text Content */}
           <div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Manage Your Pet&apos;s Life with Confidence
+              {`Manage Your Pet's Life with Confidence`}
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-8">
               Secure digital profiles, QR code sharing, and comprehensive pet management all in one place
@@ -237,7 +237,7 @@ export default function LandingPage() {
             Everything You Need for Pet Care
           </h2>
           <p className="text-lg text-gray-600">
-            Powerful features designed to keep your pet&apos;s information safe and accessible
+            {`Powerful features designed to keep your pet's information safe and accessible`}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -264,7 +264,7 @@ export default function LandingPage() {
               How It Works
             </h2>
             <p className="text-lg text-gray-600">
-              Simple steps to get started with managing your pet&apos;s information
+              {`Simple steps to get started with managing your pet's information`}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -357,7 +357,7 @@ export default function LandingPage() {
             {/* Brand Column */}
             <div>
               <h3 className="text-white font-bold text-xl mb-4">{appName}</h3>
-              <p className="text-sm mb-4">Your pet&apos;s digital home</p>
+              <p className="text-sm mb-4">{`Your pet's digital home`}</p>
               <div className="flex gap-4">
                 {/* Social icons placeholders */}
                 <a href="#" className="text-gray-400 hover:text-white transition-colors">

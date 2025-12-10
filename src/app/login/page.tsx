@@ -202,7 +202,7 @@ export default function LoginPage() {
               <div className="text-center py-2">
                 <p className="text-sm text-gray-500">
                   {loginMethod === 'otp'
-                    ? 'We&apos;ll send a one-time code to your email'
+                    ? `We'll send a one-time code to your email`
                     : 'Enter your email and password to sign in'}
                 </p>
               </div>
