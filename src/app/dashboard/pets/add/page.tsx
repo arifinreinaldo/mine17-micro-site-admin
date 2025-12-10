@@ -17,6 +17,7 @@ export default function AddPetPage() {
   const [error, setError] = useState('');
   const [petCount, setPetCount] = useState(0);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
   const [personalityTraits, setPersonalityTraits] = useState<string[]>([]);
   const [formData, setFormData] = useState<PetFormData>({
     petName: '',
@@ -74,30 +75,68 @@ export default function AddPetPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const processFiles = async (files: File[]) => {
+    const totalImages = imageFiles.length + files.length;
+
+    if (totalImages > 3) {
+      setError(`Maximum 3 images allowed. You have ${imageFiles.length} image(s) ready to upload. You can add ${Math.max(0, 3 - imageFiles.length)} more.`);
+      return;
+    }
+
+    try {
+      setCompressingImages(true);
+      setError('');
+
+      // Compress images before storing
+      const compressedFiles = await compressImages(files);
+      setImageFiles((prev) => [...prev, ...compressedFiles]);
+
+      console.log('Images compressed successfully');
+    } catch (err: any) {
+      setError(err.message || 'Failed to compress images');
+    } finally {
+      setCompressingImages(false);
+    }
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files);
-      if (files.length > 3) {
-        setError('Maximum 3 images allowed');
-        e.target.value = '';
-        return;
-      }
+      await processFiles(files);
+      e.target.value = '';
+    }
+  };
 
-      try {
-        setCompressingImages(true);
-        setError('');
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
 
-        // Compress images before storing
-        const compressedFiles = await compressImages(files);
-        setImageFiles(compressedFiles);
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
 
-        console.log('Images compressed successfully');
-      } catch (err: any) {
-        setError(err.message || 'Failed to compress images');
-        e.target.value = '';
-      } finally {
-        setCompressingImages(false);
-      }
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files).filter((file) =>
+      file.type.startsWith('image/')
+    );
+
+    if (files.length > 0) {
+      await processFiles(files);
+    } else {
+      setError('Please drop only image files');
     }
   };
 
@@ -426,39 +465,125 @@ export default function AddPetPage() {
                   />
                 </div>
 
+                {/* Pet Images Section */}
                 <div>
-                  <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Pet Images (Max 3)
                   </label>
-                  <input
-                    type="file"
-                    name="images"
-                    id="images"
-                    accept="image/*"
-                    multiple
-                    onChange={handleFileChange}
-                    disabled={compressingImages}
-                    className="mt-1 block w-full text-sm text-gray-500
-                      file:mr-4 file:py-2 file:px-4
-                      file:rounded-md file:border-0
-                      file:text-sm file:font-medium
-                      file:bg-indigo-50 file:text-indigo-700
-                      hover:file:bg-indigo-100
-                      disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
+
+                  {/* Image Preview */}
+                  {imageFiles.length > 0 && (
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        Images ({imageFiles.length}) - Ready to Upload
+                      </label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {imageFiles.map((file, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={`Pet image ${index + 1}`}
+                              className="h-32 w-full object-cover rounded-lg transition-all group-hover:shadow-lg border-2 border-green-200"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setImageFiles((prev) => prev.filter((_, i) => i !== index))}
+                              className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 hover:bg-red-700 transition-colors shadow-lg"
+                              title="Remove image"
+                            >
+                              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                            <div className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-medium px-2 py-1 rounded">
+                              New
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Drag and Drop Zone */}
+                  <div
+                    onDragEnter={handleDragEnter}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg transition-colors ${
+                      isDragging
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-gray-300 hover:border-indigo-400'
+                    }`}
+                  >
+                    <div className="space-y-1 text-center">
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label
+                          htmlFor="images"
+                          className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none"
+                        >
+                          <span>Upload images</span>
+                          <input
+                            type="file"
+                            name="images"
+                            id="images"
+                            accept="image/*"
+                            multiple
+                            onChange={handleFileChange}
+                            disabled={compressingImages || isLoading}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                  </div>
+
+                  {/* Image Count Info */}
+                  <div className="mt-3 bg-gray-50 rounded-lg p-3">
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Selected: {imageFiles.length} image(s)</span>
+                      {' • '}
+                      <span className="font-medium">Can add: {Math.max(0, 3 - imageFiles.length)} more</span>
+                      {' • '}
+                      <span className="text-gray-500">Max: 3 total</span>
+                    </p>
+                  </div>
+
+                  {/* Compression Loading */}
                   {compressingImages && (
-                    <p className="mt-2 text-sm text-indigo-600 flex items-center">
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24">
+                    <div className="mt-3 flex items-center text-indigo-600">
+                      <svg className="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Compressing images...
-                    </p>
+                      <span className="text-sm font-medium">Compressing images...</span>
+                    </div>
                   )}
+
+                  {/* Files Selected Success */}
                   {!compressingImages && imageFiles.length > 0 && (
-                    <p className="mt-2 text-sm text-gray-500">
-                      {imageFiles.length} file(s) selected and compressed (max 3)
-                    </p>
+                    <div className="mt-3 text-sm text-green-600 flex items-center">
+                      <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="font-medium">{imageFiles.length} image(s) compressed and ready to upload</span>
+                    </div>
                   )}
                 </div>
               </div>
