@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { account } from '@/lib/appwrite';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import '../../../app/register/phone-input.css';
+import './phone-input.css';
 
 export default function ProfilePage() {
   const { user, getUser } = useAuth();
@@ -487,16 +487,23 @@ export default function ProfilePage() {
                   <label htmlFor="new-phone" className="block text-sm font-semibold text-gray-700 mb-2">
                     New Phone Number
                   </label>
-                  <PhoneInput
-                    id="new-phone"
-                    defaultCountry="SG"
-                    countries={['SG', 'MY']}
-                    value={newPhone}
-                    onChange={(value) => setNewPhone(value || '')}
-                    disabled={isPhoneLoading}
-                    className="phone-input-custom"
-                    placeholder="Enter phone number"
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                      <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <PhoneInput
+                      id="new-phone"
+                      defaultCountry="SG"
+                      countries={['SG', 'MY']}
+                      value={newPhone}
+                      onChange={(value) => setNewPhone(value || '')}
+                      disabled={isPhoneLoading}
+                      className="phone-input-profile"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
                 </div>
 
                 {/* Submit Button */}
