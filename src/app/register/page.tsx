@@ -146,7 +146,7 @@ export default function RegisterPage() {
 
     try {
       // Fetch location data before completing registration (from client-side for accurate IP)
-      let locationData = null;
+      let locationData: any = undefined;
       try {
         const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
