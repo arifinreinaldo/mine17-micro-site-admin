@@ -102,7 +102,7 @@ export default function DashboardLayout({
                 </Link>
 
                 {/* Admin Dashboard Link - Only visible to admins */}
-                {user?.prefs?.role === 'admin' && (
+                {user?.labels?.includes('admin') && (
                   <Link
                     href="/admin/analytics"
                     className={`${
@@ -223,7 +223,7 @@ export default function DashboardLayout({
               </Link>
 
               {/* Admin Dashboard Link - Only visible to admins (Mobile) */}
-              {user?.prefs?.role === 'admin' && (
+              {user?.labels?.includes('admin') && (
                 <Link
                   href="/admin/analytics"
                   onClick={() => setMobileMenuOpen(false)}

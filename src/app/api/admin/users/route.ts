@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       name: user.name || 'N/A',
       email: user.email,
       phone: user.phone || 'N/A',
-      isAdmin: user.prefs?.role === 'admin',
+      isAdmin: user.labels?.includes('admin'),
       membership: user.prefs?.membership || null,
       registrationLocation: user.prefs?.registrationLocation || null,
       lastLoginLocation: user.prefs?.lastLoginLocation || null,

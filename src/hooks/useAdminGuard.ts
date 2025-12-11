@@ -13,14 +13,14 @@ export function useAdminGuard() {
       if (!user) {
         // Not logged in, redirect to login
         router.push('/login');
-      } else if (user.prefs?.role !== 'admin') {
+      } else if (!user.labels?.includes('admin')) {
         // Logged in but not admin, redirect to dashboard
         router.push('/dashboard/pets');
       }
     }
   }, [user, loading, router]);
   
-  const isAdmin = user?.prefs?.role === 'admin';
+  const isAdmin = user?.labels?.includes('admin');
   const isLoading = loading || (!isAdmin && !!user);
   
   return { isAdmin, isLoading, user };
