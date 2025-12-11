@@ -54,7 +54,6 @@ export default function AdminAnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [countryFilter, setCountryFilter] = useState('all');
 
   useEffect(() => {
     fetchAnalytics();
@@ -88,16 +87,13 @@ export default function AdminAnalyticsPage() {
     }
   };
 
-  // Filter users based on search and country
+  // Filter users based on search only
   const filteredUsers = data?.allUsers.filter(user => {
     const matchesSearch = searchTerm === '' || 
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesCountry = countryFilter === 'all' ||
-      user.registrationLocation?.country === countryFilter;
-    
-    return matchesSearch && matchesCountry;
+    return matchesSearch;
   }) || [];
 
   if (loading) {
@@ -268,30 +264,14 @@ export default function AdminAnalyticsPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <h3 className="text-lg font-bold text-gray-900">All Users</h3>
             
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              {/* Search */}
-              <input
-                type="text"
-                placeholder="Search by name or email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-              
-              {/* Country Filter */}
-              <select
-                value={countryFilter}
-                onChange={(e) => setCountryFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="all">All Countries</option>
-                {data?.countries.map(country => (
-                  <option key={country.country} value={country.country}>
-                    {country.country}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="Search by name or email..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-80"
+            />
           </div>
 
           <div className="overflow-x-auto">
