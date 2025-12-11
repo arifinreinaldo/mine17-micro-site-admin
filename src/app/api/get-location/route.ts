@@ -19,6 +19,8 @@ export async function GET(request: NextRequest) {
     const realIp = request.headers.get('x-real-ip');
     const clientIp = forwardedFor?.split(',')[0] || realIp || 'unknown';
 
+    console.log('Detected client IP:', clientIp);
+
     // For local development, use ipapi.co's automatic IP detection
     const ipToCheck = clientIp === '::1' || clientIp === '127.0.0.1' || clientIp === 'unknown' || clientIp.includes('::')
       ? '' // Empty string makes ipapi.co detect the server's public IP automatically
@@ -30,6 +32,8 @@ export async function GET(request: NextRequest) {
       ? `https://ipapi.co/${ipToCheck}/json/`
       : `https://ipapi.co/json/`;
     
+    console.log('Fetching location from:', apiUrl);
+    
     const response = await fetch(apiUrl, {
       headers: {
         'User-Agent': 'Mine17-Pet-Manager/1.0'
@@ -37,10 +41,12 @@ export async function GET(request: NextRequest) {
     });
 
     if (!response.ok) {
+      console.error('ipapi.co response not OK:', response.status, response.statusText);
       throw new Error('Failed to fetch location data');
     }
 
     const data = await response.json();
+    console.log('Location data received:', data);
 
     // Return formatted location data
     return NextResponse.json({

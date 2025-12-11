@@ -58,17 +58,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await account.createEmailPasswordSession(email, password);
       
-      // Update last login location
+      // Update last login location (fetch from client-side for accurate IP)
       try {
-        const locationResponse = await fetch('/api/get-location');
+        const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
-          const locationData = await locationResponse.json();
+          const data = await locationResponse.json();
+          const locationData = {
+            country: data.country_name || 'Unknown',
+            countryCode: data.country_code || '',
+            region: data.region || 'Unknown',
+            city: data.city || 'Unknown',
+            ip: data.ip || 'unknown',
+            timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
+            timestamp: new Date().toISOString(),
+          };
+          console.log('Login location data:', locationData);
           const currentPrefs = (await account.get()).prefs || {};
           
           await account.updatePrefs({
             ...currentPrefs,
             lastLoginLocation: locationData,
           });
+          console.log('Login location updated successfully');
+        } else {
+          console.error('Location API response not OK:', locationResponse.status);
         }
       } catch (locError) {
         console.error('Failed to update login location:', locError);
@@ -101,17 +116,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Verify OTP and create session using createSession
       await account.createSession(userId, otp);
       
-      // Update last login location after OTP login
+      // Update last login location after OTP login (fetch from client-side for accurate IP)
       try {
-        const locationResponse = await fetch('/api/get-location');
+        const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
-          const locationData = await locationResponse.json();
+          const data = await locationResponse.json();
+          const locationData = {
+            country: data.country_name || 'Unknown',
+            countryCode: data.country_code || '',
+            region: data.region || 'Unknown',
+            city: data.city || 'Unknown',
+            ip: data.ip || 'unknown',
+            timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
+            timestamp: new Date().toISOString(),
+          };
+          console.log('OTP login location data:', locationData);
           const currentPrefs = (await account.get()).prefs || {};
           
           await account.updatePrefs({
             ...currentPrefs,
             lastLoginLocation: locationData,
           });
+          console.log('OTP login location updated successfully');
+        } else {
+          console.error('Location API response not OK:', locationResponse.status);
         }
       } catch (locError) {
         console.error('Failed to update login location:', locError);

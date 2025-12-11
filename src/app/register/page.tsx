@@ -145,12 +145,24 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // Fetch location data before completing registration
+      // Fetch location data before completing registration (from client-side for accurate IP)
       let locationData = null;
       try {
-        const locationResponse = await fetch('/api/get-location');
+        const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
-          locationData = await locationResponse.json();
+          const data = await locationResponse.json();
+          locationData = {
+            country: data.country_name || 'Unknown',
+            countryCode: data.country_code || '',
+            region: data.region || 'Unknown',
+            city: data.city || 'Unknown',
+            ip: data.ip || 'unknown',
+            timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+            latitude: data.latitude || null,
+            longitude: data.longitude || null,
+            timestamp: new Date().toISOString(),
+          };
+          console.log('Registration location data:', locationData);
         }
       } catch (locError) {
         console.error('Failed to fetch location:', locError);

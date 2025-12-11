@@ -15,18 +15,38 @@ export interface LocationData {
 
 /**
  * Fetch user's location based on IP address
- * This function calls our API endpoint which uses ipapi.co for geolocation
+ * This function calls ipapi.co directly from the client to get accurate location
  */
 export async function getUserLocation(): Promise<LocationData | null> {
   try {
-    const response = await fetch('/api/get-location');
+    // Call ipapi.co directly from client browser to get accurate IP
+    const response = await fetch('https://ipapi.co/json/', {
+      headers: {
+        'User-Agent': 'Mine17-Pet-Manager/1.0'
+      }
+    });
     
     if (!response.ok) {
       throw new Error('Failed to fetch location');
     }
 
-    const data: LocationData = await response.json();
-    return data;
+    const data = await response.json();
+    
+    // Format the data to match our interface
+    const locationData: LocationData = {
+      country: data.country_name || 'Unknown',
+      countryCode: data.country_code || '',
+      region: data.region || 'Unknown',
+      city: data.city || 'Unknown',
+      ip: data.ip || 'unknown',
+      timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+      latitude: data.latitude || null,
+      longitude: data.longitude || null,
+      timestamp: new Date().toISOString(),
+    };
+    
+    console.log('Client location detected:', locationData);
+    return locationData;
   } catch (error) {
     console.error('Error getting user location:', error);
     

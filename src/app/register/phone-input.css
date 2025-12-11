@@ -31,18 +31,18 @@
 }
 
 .phone-input-custom .PhoneInputCountrySelect {
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  background-color: #ffffff;
-  color: #111827;
+  border: none;
+  background: transparent;
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 .phone-input-custom .PhoneInputCountrySelect:focus {
   outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 1px #6366f1;
+  border: none;
+  box-shadow: none;
 }
 
 .phone-input-custom .PhoneInputCountrySelectArrow {
