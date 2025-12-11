@@ -4,11 +4,25 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { account } from '@/lib/appwrite';
 import { Models, ID } from 'appwrite';
 
+interface LocationData {
+  country: string;
+  countryCode: string;
+  region: string;
+  city: string;
+  ip: string;
+  timezone: string;
+  latitude: number | null;
+  longitude: number | null;
+  timestamp: string;
+}
+
 interface RegistrationData {
   name: string;
   password: string;
+  phone: string;
   fingerprint: string;
   tcAccepted: boolean;
+  registrationLocation?: LocationData;
 }
 
 interface AuthContextType {
@@ -43,6 +57,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       await account.createEmailPasswordSession(email, password);
+      
+      // Update last login location
+      try {
+        const locationResponse = await fetch('/api/get-location');
+        if (locationResponse.ok) {
+          const locationData = await locationResponse.json();
+          const currentPrefs = (await account.get()).prefs || {};
+          
+          await account.updatePrefs({
+            ...currentPrefs,
+            lastLoginLocation: locationData,
+          });
+        }
+      } catch (locError) {
+        console.error('Failed to update login location:', locError);
+        // Don't fail login if location update fails
+      }
+      
       await getUser();
     } catch (error) {
       throw error;
@@ -68,6 +100,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Verify OTP and create session using createSession
       await account.createSession(userId, otp);
+      
+      // Update last login location after OTP login
+      try {
+        const locationResponse = await fetch('/api/get-location');
+        if (locationResponse.ok) {
+          const locationData = await locationResponse.json();
+          const currentPrefs = (await account.get()).prefs || {};
+          
+          await account.updatePrefs({
+            ...currentPrefs,
+            lastLoginLocation: locationData,
+          });
+        }
+      } catch (locError) {
+        console.error('Failed to update login location:', locError);
+        // Don't fail login if location update fails
+      }
+      
       await getUser();
       console.log('OTP verified successfully');
     } catch (error: any) {
@@ -131,11 +181,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Step 3: Set password for the account
       await account.updatePassword(data.password);
 
-      // Step 4: Store metadata in user preferences
+      // Step 4: Store metadata in user preferences (including registration location)
       await account.updatePrefs({
         fingerprint: data.fingerprint,
+        phone: data.phone,
         tcAcceptedAt: new Date().toISOString(),
         registeredAt: new Date().toISOString(),
+        registrationLocation: data.registrationLocation || null,
+        lastLoginLocation: data.registrationLocation || null, // First login is at registration
       });
 
       // Step 5: Get updated user data

@@ -5,10 +5,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { generateFingerprint } from '@/lib/fingerprint';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import './phone-input.css';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tcAccepted, setTcAccepted] = useState(false);
@@ -42,7 +46,7 @@ export default function RegisterPage() {
     setError('');
 
     // Validation
-    if (!email || !name || !password || !confirmPassword) {
+    if (!email || !name || !phone || !password || !confirmPassword) {
       setError('All fields are required');
       return;
     }
@@ -51,6 +55,12 @@ export default function RegisterPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
+      return;
+    }
+
+    // Phone number validation
+    if (!isValidPhoneNumber(phone)) {
+      setError('Please enter a valid phone number');
       return;
     }
 
@@ -73,7 +83,7 @@ export default function RegisterPage() {
 
     try {
       // Check if email already exists before sending OTP
-      const checkResponse = await fetch('/api/check-email', {
+      const checkEmailResponse = await fetch('/api/check-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,10 +91,10 @@ export default function RegisterPage() {
         body: JSON.stringify({ email }),
       });
 
-      const checkData = await checkResponse.json();
+      const emailData = await checkEmailResponse.json();
 
-      if (checkData.exists) {
-        if (checkData.verified) {
+      if (emailData.exists) {
+        if (emailData.verified) {
           // Account exists and is verified
           setError('EMAIL_EXISTS');
         } else {
@@ -95,7 +105,24 @@ export default function RegisterPage() {
         return;
       }
 
-      // Email is available, proceed with OTP
+      // Check if phone number already exists
+      const checkPhoneResponse = await fetch('/api/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone }),
+      });
+
+      const phoneData = await checkPhoneResponse.json();
+
+      if (phoneData.exists) {
+        setError('PHONE_EXISTS');
+        setIsLoading(false);
+        return;
+      }
+
+      // Email and phone are available, proceed with OTP
       const id = await registerWithOTP(email);
       setUserId(id);
       setOtpSent(true);
@@ -118,11 +145,25 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
+      // Fetch location data before completing registration
+      let locationData = null;
+      try {
+        const locationResponse = await fetch('/api/get-location');
+        if (locationResponse.ok) {
+          locationData = await locationResponse.json();
+        }
+      } catch (locError) {
+        console.error('Failed to fetch location:', locError);
+        // Continue with registration even if location fetch fails
+      }
+
       await completeRegistration(userId, otp, {
         name,
         password,
+        phone,
         fingerprint,
         tcAccepted,
+        registrationLocation: locationData,
       });
       router.push('/dashboard/pets');
     } catch (err: any) {
@@ -174,7 +215,7 @@ export default function RegisterPage() {
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className={`rounded-md p-4 ${error === 'EMAIL_EXISTS' || error === 'EMAIL_UNVERIFIED' ? 'bg-yellow-50' : 'bg-red-50'}`}>
+              <div className={`rounded-md p-4 ${error === 'EMAIL_EXISTS' || error === 'EMAIL_UNVERIFIED' || error === 'PHONE_EXISTS' ? 'bg-yellow-50' : 'bg-red-50'}`}>
                 {error === 'EMAIL_EXISTS' ? (
                   <div className="flex">
                     <div className="flex-shrink-0">
@@ -213,6 +254,20 @@ export default function RegisterPage() {
                           Resend verification code
                         </button>{' '}
                         to complete your registration.
+                      </p>
+                    </div>
+                  </div>
+                ) : error === 'PHONE_EXISTS' ? (
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-yellow-800">Phone number already exists</h3>
+                      <p className="mt-1 text-sm text-yellow-700">
+                        This phone number is already registered to another account. Please use a different phone number.
                       </p>
                     </div>
                   </div>
@@ -257,6 +312,23 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <PhoneInput
+                    id="phone"
+                    international
+                    defaultCountry="SG"
+                    countries={['SG', 'MY']}
+                    value={phone}
+                    onChange={(value) => setPhone(value || '')}
+                    disabled={isLoading}
+                    className="phone-input-custom"
+                    placeholder="Enter phone number"
                   />
                 </div>
 

@@ -1,0 +1,69 @@
+/**
+ * API Route: /api/get-location
+ * 
+ * This file should be manually copied to:
+ * src/app/api/get-location/route.ts
+ * 
+ * To create the directory and file:
+ * 1. Create folder: src/app/api/get-location/
+ * 2. Create file: route.ts in that folder
+ * 3. Copy the content below into that file
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  try {
+    // Get client IP address
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const realIp = request.headers.get('x-real-ip');
+    const clientIp = forwardedFor?.split(',')[0] || realIp || 'unknown';
+
+    // For local development, use a fallback IP (Singapore IP for testing)
+    const ipToCheck = clientIp === '::1' || clientIp === '127.0.0.1' || clientIp === 'unknown'
+      ? '8.8.8.8' // Fallback for local development
+      : clientIp;
+
+    // Fetch location data from ipapi.co (free tier: 1000 requests/day)
+    const response = await fetch(`https://ipapi.co/${ipToCheck}/json/`, {
+      headers: {
+        'User-Agent': 'Mine17-Pet-Manager/1.0'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch location data');
+    }
+
+    const data = await response.json();
+
+    // Return formatted location data
+    return NextResponse.json({
+      country: data.country_name || 'Unknown',
+      countryCode: data.country_code || '',
+      region: data.region || 'Unknown',
+      city: data.city || 'Unknown',
+      ip: clientIp,
+      timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+      latitude: data.latitude || null,
+      longitude: data.longitude || null,
+      timestamp: new Date().toISOString(),
+    });
+
+  } catch (error: any) {
+    console.error('Error fetching location:', error);
+
+    // Return fallback data if API fails
+    return NextResponse.json({
+      country: 'Unknown',
+      countryCode: '',
+      region: 'Unknown',
+      city: 'Unknown',
+      ip: 'unknown',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      latitude: null,
+      longitude: null,
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
