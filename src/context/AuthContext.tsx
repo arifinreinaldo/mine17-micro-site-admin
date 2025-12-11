@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await account.createEmailPasswordSession(email, password);
       
-      // Update last login location (fetch from client-side for accurate IP)
+      // Update last login location (for admin analytics only, not shown in profile)
       try {
         const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
@@ -74,16 +74,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             longitude: data.longitude || null,
             timestamp: new Date().toISOString(),
           };
-          console.log('Login location data:', locationData);
           const currentPrefs = (await account.get()).prefs || {};
           
           await account.updatePrefs({
             ...currentPrefs,
             lastLoginLocation: locationData,
           });
-          console.log('Login location updated successfully');
-        } else {
-          console.error('Location API response not OK:', locationResponse.status);
         }
       } catch (locError) {
         console.error('Failed to update login location:', locError);
@@ -116,7 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Verify OTP and create session using createSession
       await account.createSession(userId, otp);
       
-      // Update last login location after OTP login (fetch from client-side for accurate IP)
+      // Update last login location (for admin analytics only, not shown in profile)
       try {
         const locationResponse = await fetch('https://ipapi.co/json/');
         if (locationResponse.ok) {
@@ -132,16 +128,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             longitude: data.longitude || null,
             timestamp: new Date().toISOString(),
           };
-          console.log('OTP login location data:', locationData);
           const currentPrefs = (await account.get()).prefs || {};
           
           await account.updatePrefs({
             ...currentPrefs,
             lastLoginLocation: locationData,
           });
-          console.log('OTP login location updated successfully');
-        } else {
-          console.error('Location API response not OK:', locationResponse.status);
         }
       } catch (locError) {
         console.error('Failed to update login location:', locError);
@@ -218,7 +210,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         tcAcceptedAt: new Date().toISOString(),
         registeredAt: new Date().toISOString(),
         registrationLocation: data.registrationLocation || null,
-        lastLoginLocation: data.registrationLocation || null, // First login is at registration
+        lastLoginLocation: data.registrationLocation || null, // First login = registration location
       });
 
       // Step 5: Get updated user data
