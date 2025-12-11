@@ -455,7 +455,6 @@ export default function ProfilePage() {
                   </label>
                   <PhoneInput
                     id="new-phone"
-                    international
                     defaultCountry="SG"
                     countries={['SG', 'MY']}
                     value={newPhone}

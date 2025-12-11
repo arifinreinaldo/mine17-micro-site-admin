@@ -19,13 +19,18 @@ export async function GET(request: NextRequest) {
     const realIp = request.headers.get('x-real-ip');
     const clientIp = forwardedFor?.split(',')[0] || realIp || 'unknown';
 
-    // For local development, use a fallback IP (Singapore IP for testing)
-    const ipToCheck = clientIp === '::1' || clientIp === '127.0.0.1' || clientIp === 'unknown'
-      ? '8.8.8.8' // Fallback for local development
+    // For local development, use ipapi.co's automatic IP detection
+    const ipToCheck = clientIp === '::1' || clientIp === '127.0.0.1' || clientIp === 'unknown' || clientIp.includes('::')
+      ? '' // Empty string makes ipapi.co detect the server's public IP automatically
       : clientIp;
 
     // Fetch location data from ipapi.co (free tier: 1000 requests/day)
-    const response = await fetch(`https://ipapi.co/${ipToCheck}/json/`, {
+    // If ipToCheck is empty, ipapi.co will detect the public IP automatically
+    const apiUrl = ipToCheck 
+      ? `https://ipapi.co/${ipToCheck}/json/`
+      : `https://ipapi.co/json/`;
+    
+    const response = await fetch(apiUrl, {
       headers: {
         'User-Agent': 'Mine17-Pet-Manager/1.0'
       }
@@ -43,7 +48,7 @@ export async function GET(request: NextRequest) {
       countryCode: data.country_code || '',
       region: data.region || 'Unknown',
       city: data.city || 'Unknown',
-      ip: clientIp,
+      ip: data.ip || clientIp, // Use IP from API response or fallback to detected IP
       timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
       latitude: data.latitude || null,
       longitude: data.longitude || null,

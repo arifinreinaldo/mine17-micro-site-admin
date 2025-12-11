@@ -321,7 +321,6 @@ export default function RegisterPage() {
                   </label>
                   <PhoneInput
                     id="phone"
-                    international
                     defaultCountry="SG"
                     countries={['SG', 'MY']}
                     value={phone}
