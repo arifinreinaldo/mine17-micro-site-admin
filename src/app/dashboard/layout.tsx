@@ -157,7 +157,7 @@ export default function DashboardLayout({
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-2 mx-4 mobile-menu-enter">
+          <div className="md:hidden mt-2 mx-4 mobile-menu-enter relative z-50">
             <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-md border border-white/20 px-4 py-3 space-y-1">
               {/* User Info */}
               <div className="flex items-center gap-3 px-3 py-3 bg-white/50 rounded-xl mb-3">
@@ -228,7 +228,7 @@ export default function DashboardLayout({
         {/* Close mobile menu when clicking outside */}
         {mobileMenuOpen && (
           <div 
-            className="fixed inset-0 z-40 md:hidden" 
+            className="fixed inset-0 z-40 md:hidden bg-black/20" 
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
