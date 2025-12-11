@@ -54,7 +54,6 @@ export default function AdminAnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchAnalytics();
@@ -85,48 +84,6 @@ export default function AdminAnalyticsPage() {
       router.push('/login');
     } catch (error) {
       console.error('Logout failed:', error);
-    }
-  };
-
-  const handleToggleMembership = async (userId: string, currentMembership: string | null) => {
-    if (updatingUserId) return; // Prevent multiple simultaneous updates
-    
-    const confirmMessage = currentMembership === 'pro'
-      ? 'Remove PRO membership from this user?'
-      : 'Upgrade this user to PRO membership?';
-    
-    if (!confirm(confirmMessage)) return;
-
-    try {
-      setUpdatingUserId(userId);
-      
-      const newMembership = currentMembership === 'pro' ? null : 'pro';
-      
-      const response = await fetch('/api/admin/users/update-membership', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          membership: newMembership,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to update membership');
-      }
-
-      // Refresh data
-      await fetchAnalytics();
-      
-      alert(newMembership === 'pro' ? 'User upgraded to PRO!' : 'PRO membership removed!');
-    } catch (err: any) {
-      console.error('Error updating membership:', err);
-      alert(err.message || 'Failed to update membership');
-    } finally {
-      setUpdatingUserId(null);
     }
   };
 
@@ -350,48 +307,14 @@ export default function AdminAnalyticsPage() {
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        {user.membership === 'pro' ? (
-                          <>
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-800">
-                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                              PRO
-                            </span>
-                            {!user.isAdmin && (
-                              <button
-                                onClick={() => handleToggleMembership(user.id, user.membership)}
-                                disabled={updatingUserId === user.id}
-                                className="text-xs text-red-600 hover:text-red-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                                title="Remove PRO membership"
-                              >
-                                {updatingUserId === user.id ? '...' : 'Remove'}
-                              </button>
-                            )}
-                          </>
-                        ) : (
-                          !user.isAdmin && (
-                            <button
-                              onClick={() => handleToggleMembership(user.id, user.membership)}
-                              disabled={updatingUserId === user.id}
-                              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                              title="Upgrade to PRO"
-                            >
-                              {updatingUserId === user.id ? (
-                                '...'
-                              ) : (
-                                <>
-                                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                  </svg>
-                                  Set PRO
-                                </>
-                              )}
-                            </button>
-                          )
-                        )}
-                      </div>
+                      {user.membership === 'pro' && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-800">
+                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          PRO
+                        </span>
+                      )}
                     </td>
                     <td className="py-3 px-4">
                       {user.registrationLocation ? (
