@@ -36,7 +36,9 @@ export async function GET(request: NextRequest) {
       id: user.$id,
       name: user.name || 'N/A',
       email: user.email,
-      phone: user.prefs?.phone || 'N/A',
+      phone: user.phone || 'N/A',
+      isAdmin: user.prefs?.role === 'admin',
+      membership: user.prefs?.membership || null,
       registrationLocation: user.prefs?.registrationLocation || null,
       lastLoginLocation: user.prefs?.lastLoginLocation || null,
       registeredAt: user.prefs?.registeredAt || user.$createdAt,
@@ -45,23 +47,39 @@ export async function GET(request: NextRequest) {
     // Calculate statistics
     const totalUsers = usersWithLocation.length;
     
-    // Count unique countries from registration
+    // Count unique countries and cities from LATEST location (lastLogin or registration)
     const countriesMap = new Map<string, number>();
     const citiesMap = new Map<string, { city: string; country: string; count: number }>();
     
     usersWithLocation.forEach(user => {
-      if (user.registrationLocation?.country) {
-        const country = user.registrationLocation.country;
+      // Use last login location if available and newer than registration, otherwise use registration
+      let locationToUse = user.registrationLocation;
+      
+      if (user.lastLoginLocation && user.registrationLocation) {
+        const lastLoginTime = new Date(user.lastLoginLocation.timestamp).getTime();
+        const registrationTime = new Date(user.registrationLocation.timestamp).getTime();
+        
+        if (lastLoginTime > registrationTime) {
+          locationToUse = user.lastLoginLocation;
+        }
+      } else if (user.lastLoginLocation) {
+        locationToUse = user.lastLoginLocation;
+      }
+      
+      // Count countries
+      if (locationToUse?.country) {
+        const country = locationToUse.country;
         countriesMap.set(country, (countriesMap.get(country) || 0) + 1);
         
-        if (user.registrationLocation.city) {
-          const cityKey = `${user.registrationLocation.city}, ${country}`;
+        // Count cities
+        if (locationToUse.city) {
+          const cityKey = `${locationToUse.city}, ${country}`;
           const existing = citiesMap.get(cityKey);
           if (existing) {
             existing.count++;
           } else {
             citiesMap.set(cityKey, {
-              city: user.registrationLocation.city,
+              city: locationToUse.city,
               country: country,
               count: 1
             });
