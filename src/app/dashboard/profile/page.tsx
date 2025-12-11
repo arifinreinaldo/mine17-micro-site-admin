@@ -186,61 +186,63 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              {/* Contact Visibility Toggle */}
-              <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0">
-                      <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
+              {/* Contact Visibility Toggle - Only for PRO members */}
+              {user?.prefs?.membership === 'pro' && (
+                <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex-shrink-0">
+                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">Show Contact Information</p>
+                        <p className="text-xs text-gray-600 mt-0.5">
+                          Make your email and phone visible to others
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">Show Contact Information</p>
-                      <p className="text-xs text-gray-600 mt-0.5">
-                        Make your email and phone visible to others
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (isUpdatingContactVisibility) return;
-                      
-                      setIsUpdatingContactVisibility(true);
-                      try {
-                        const newValue = showContact ? 0 : 1; // Toggle between 1 and 0
-                        const currentPrefs = user.prefs || {};
+                    
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (isUpdatingContactVisibility) return;
                         
-                        await account.updatePrefs({
-                          ...currentPrefs,
-                          showContact: newValue,
-                        });
-                        
-                        setShowContact(newValue === 1);
-                        await getUser();
-                      } catch (error) {
-                        console.error('Failed to update contact visibility:', error);
-                        alert('Failed to update settings');
-                      } finally {
-                        setIsUpdatingContactVisibility(false);
-                      }
-                    }}
-                    disabled={isUpdatingContactVisibility}
-                    className={`${
-                      showContact ? 'bg-indigo-600' : 'bg-gray-300'
-                    } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed`}
-                  >
-                    <span
+                        setIsUpdatingContactVisibility(true);
+                        try {
+                          const newValue = showContact ? 0 : 1; // Toggle between 1 and 0
+                          const currentPrefs = user.prefs || {};
+                          
+                          await account.updatePrefs({
+                            ...currentPrefs,
+                            showContact: newValue,
+                          });
+                          
+                          setShowContact(newValue === 1);
+                          await getUser();
+                        } catch (error) {
+                          console.error('Failed to update contact visibility:', error);
+                          alert('Failed to update settings');
+                        } finally {
+                          setIsUpdatingContactVisibility(false);
+                        }
+                      }}
+                      disabled={isUpdatingContactVisibility}
                       className={`${
-                        showContact ? 'translate-x-5' : 'translate-x-0'
-                      } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`}
-                    />
-                  </button>
+                        showContact ? 'bg-indigo-600' : 'bg-gray-300'
+                      } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      <span
+                        className={`${
+                          showContact ? 'translate-x-5' : 'translate-x-0'
+                        } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`}
+                      />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
 
