@@ -340,6 +340,8 @@ export default function RegisterPage() {
                     disabled={isLoading}
                     className="phone-input-custom"
                     placeholder="Enter phone number"
+                    international={false}
+                    addInternationalOption={false}
                   />
                 </div>
 
