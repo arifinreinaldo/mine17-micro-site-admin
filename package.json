@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.0.1",
-    "@stripe/react-stripe-js": "^3.1.0",
+    "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^4.1.0",
     "appwrite": "^16.0.2",
     "browser-image-compression": "^2.0.2",
