@@ -101,21 +101,36 @@ export default function DashboardLayout({
                   Profile
                 </Link>
 
-                {/* Admin Dashboard Link - Only visible to admins */}
+                {/* Admin Menu - Only visible to admins */}
                 {user?.labels?.includes('admin') && (
-                  <Link
-                    href="/admin/analytics"
-                    className={`${
-                      pathname?.startsWith('/admin')
-                        ? 'bg-white text-indigo-600 shadow-sm'
-                        : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
-                    } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Admin
-                  </Link>
+                  <div className="flex items-center gap-1">
+                    <Link
+                      href="/admin/analytics"
+                      className={`${
+                        pathname === '/admin/analytics'
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
+                      } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Analytics
+                    </Link>
+                    <Link
+                      href="/admin/missing-info"
+                      className={`${
+                        pathname === '/admin/missing-info'
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
+                      } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4v2m0 4v2M6.343 6.343l1.414 1.414m2.828 2.828l1.414 1.414m2.828 2.828l1.414 1.414M3.757 3.757l1.414 1.414m7.07 7.07l1.414 1.414" />
+                      </svg>
+                      Missing Info
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>
