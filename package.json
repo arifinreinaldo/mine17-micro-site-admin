@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.0.1",
-    "@stripe/react-stripe-js": "^2.7.0",
-    "@stripe/stripe-js": "^4.1.0",
     "appwrite": "^16.0.2",
     "browser-image-compression": "^2.0.2",
     "next": "^15.1.4",
@@ -19,8 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-phone-number-input": "^3.4.9",
-    "react-qr-code": "^2.0.18",
-    "stripe": "^15.0.0"
+    "react-qr-code": "^2.0.18"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
