@@ -21,6 +21,7 @@
 }
 
 .phone-input-profile .PhoneInputCountry {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -45,6 +46,7 @@
   border: 0;
   opacity: 0;
   cursor: pointer;
+  background: transparent;
 }
 
 .phone-input-profile .PhoneInputCountrySelectArrow {
@@ -82,4 +84,11 @@
   background-color: #f9fafb;
   border-color: #e5e7eb;
   cursor: not-allowed;
+}
+
+/* Style the native select dropdown options */
+.phone-input-profile .PhoneInputCountrySelect option {
+  background-color: white;
+  color: #111827;
+  padding: 0.5rem;
 }

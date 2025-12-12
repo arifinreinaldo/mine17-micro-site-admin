@@ -497,6 +497,7 @@ export default function ProfilePage() {
                     className="phone-input-profile"
                     placeholder="Enter phone number"
                     international={false}
+                    addInternationalOption={false}
                   />
                 </div>
 
