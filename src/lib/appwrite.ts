@@ -15,6 +15,7 @@ export { client };
 // Database and Collection IDs
 export const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || 'default';
 export const PETS_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_PETS_COLLECTION_ID || 'pets';
+export const MESSAGES_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_MESSAGES_COLLECTION_ID || 'messages';
 export const STORAGE_BUCKET_ID = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID || 'pet-images';
 
 // External URL for pet sharing

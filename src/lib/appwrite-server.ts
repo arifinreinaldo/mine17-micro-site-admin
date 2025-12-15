@@ -1,4 +1,4 @@
-import { Client, Users } from 'node-appwrite';
+import { Client, Users, Databases } from 'node-appwrite';
 
 // Server-side Appwrite client with API key authentication
 // This should only be used in API routes, never in client components
@@ -13,6 +13,9 @@ export function createAdminClient() {
   return {
     get users() {
       return new Users(client);
+    },
+    get databases() {
+      return new Databases(client);
     },
   };
 }
