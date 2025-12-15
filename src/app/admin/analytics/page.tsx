@@ -143,6 +143,18 @@ export default function AdminAnalyticsPage() {
               
               <div className="flex items-center gap-3">
                 <Link
+                  href="/admin/analytics"
+                  className="bg-white text-indigo-600 shadow-sm inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
+                >
+                  Analytics
+                </Link>
+                <Link
+                  href="/admin/missing"
+                  className="text-gray-700 hover:bg-white/50 hover:text-gray-900 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
+                >
+                  Missing Pet
+                </Link>
+                <Link
                   href="/dashboard/pets"
                   className="text-sm text-gray-600 hover:text-indigo-600 font-medium"
                 >

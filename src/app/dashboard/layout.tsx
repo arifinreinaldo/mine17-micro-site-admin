@@ -103,19 +103,35 @@ export default function DashboardLayout({
 
                 {/* Admin Dashboard Link - Only visible to admins */}
                 {user?.labels?.includes('admin') && (
-                  <Link
-                    href="/admin/analytics"
-                    className={`${
-                      pathname?.startsWith('/admin')
-                        ? 'bg-white text-indigo-600 shadow-sm'
-                        : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
-                    } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Admin
-                  </Link>
+                  <>
+                    <div className="w-px h-6 bg-gray-300 mx-2"></div>
+                    <Link
+                      href="/admin/analytics"
+                      className={`${
+                        pathname === '/admin/analytics'
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
+                      } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Analytics
+                    </Link>
+                    <Link
+                      href="/admin/missing"
+                      className={`${
+                        pathname === '/admin/missing'
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
+                      } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      Missing Pet
+                    </Link>
+                  </>
                 )}
               </div>
             </div>
@@ -224,20 +240,37 @@ export default function DashboardLayout({
 
               {/* Admin Dashboard Link - Only visible to admins (Mobile) */}
               {user?.labels?.includes('admin') && (
-                <Link
-                  href="/admin/analytics"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`${
-                    pathname?.startsWith('/admin')
-                      ? 'bg-white text-indigo-600 shadow-sm'
-                      : 'text-gray-700 hover:bg-white/50'
-                  } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  Admin Dashboard
-                </Link>
+                <>
+                  <div className="border-t border-gray-200 my-2"></div>
+                  <Link
+                    href="/admin/analytics"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`${
+                      pathname === '/admin/analytics'
+                        ? 'bg-white text-indigo-600 shadow-sm'
+                        : 'text-gray-700 hover:bg-white/50'
+                    } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Analytics
+                  </Link>
+                  <Link
+                    href="/admin/missing"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`${
+                      pathname === '/admin/missing'
+                        ? 'bg-white text-indigo-600 shadow-sm'
+                        : 'text-gray-700 hover:bg-white/50'
+                    } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Missing Pet
+                  </Link>
+                </>
               )}
 
               {/* Divider */}
