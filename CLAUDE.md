@@ -32,6 +32,7 @@ NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=your-project-id
 NEXT_PUBLIC_APPWRITE_DATABASE_ID=your-database-id
 NEXT_PUBLIC_APPWRITE_PETS_COLLECTION_ID=pets
+NEXT_PUBLIC_APPWRITE_MESSAGES_COLLECTION_ID=messages
 NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID=pet-images
 NEXT_PUBLIC_EXTERNAL_URL=https://aibo-pets.vercel.app/?param=
 APPWRITE_API_KEY_READ_ONLY=your-api-key-here
@@ -39,7 +40,7 @@ APPWRITE_API_KEY_READ_ONLY=your-api-key-here
 
 Copy `.env.example` to `.env.local` and configure with your Appwrite project details.
 
-**Note**: `APPWRITE_API_KEY_READ_ONLY` is used for server-side API routes (e.g., `/api/check-email`, `/api/admin/users`).
+**Note**: `APPWRITE_API_KEY_READ_ONLY` is used for server-side API routes (e.g., `/api/check-email`, `/api/admin/users`, `/api/admin/messages`). Required scopes: `users.read`, `documents.read`.
 
 ## Architecture
 
@@ -114,6 +115,33 @@ interface Pet {
 - Deletion: Pet document deletion triggers cascade deletion of associated images from storage
 - File ID extraction from Appwrite URLs: `/files/{fileId}/view` pattern
 
+### Missing Pet Messages System
+
+**Message Data Model** (`src/types/message.ts`):
+```typescript
+interface Message {
+  $id?: string;
+  petId: string;
+  petName: string;
+  finderName: string;
+  finderPhone: string;
+  message: string;
+  status: 'pending' | 'contacted' | 'resolved' | 'closed';
+  reportedAt: string;
+}
+```
+
+**Key Features** (`/admin/missing`):
+- Reports from people who find lost pets via QR code scan
+- Admin dashboard shows messages with pet owner contact info
+- Batch fetching strategy (5 queries total, regardless of message count)
+- Status management workflow: pending → contacted → resolved → closed
+- Search and filter functionality
+- Clickable phone/email links for quick contact
+
+**Messages API Routes**:
+- `/api/admin/messages` - GET: Fetch messages with pet/owner details, PATCH: Update message status
+
 ### Admin Panel System
 
 **Admin Access Control** (`src/hooks/useAdminGuard.ts`):
@@ -121,16 +149,14 @@ interface Pet {
 - Non-admin users are redirected to `/dashboard/pets`
 - Unauthenticated users are redirected to `/login`
 
-**Admin Features** (`/admin/analytics`):
-- View all registered users with location data
-- Analytics: total users, countries, cities
-- User table with search functionality
-- Display registration and last login locations
-- Membership status indicators (free vs pro)
+**Admin Features**:
+- `/admin/analytics` - View all registered users with location data, analytics (total users, countries, cities), search functionality, membership status indicators
+- `/admin/missing` - Manage missing pet reports from finders, view pet owner contact info, update report status
 
 **Admin API Routes**:
 - `/api/admin/users` - Fetch all users with analytics data
 - `/api/admin/users/update-membership` - Update user membership tier
+- `/api/admin/messages` - Fetch/update missing pet messages
 
 ### Routing Structure
 
@@ -145,6 +171,7 @@ interface Pet {
 /api/check-email            → Server-side email verification endpoint
 /api/admin/users            → Admin-only: fetch all users with analytics
 /api/admin/users/update-membership → Admin-only: update user membership
+/api/admin/messages         → Admin-only: fetch/update missing pet messages
 /dashboard                  → Protected layout with auth guard
   /profile                  → User profile management (email/phone updates)
   /pets                     → Pet list view with QR code generation
@@ -152,6 +179,7 @@ interface Pet {
   /pets/edit/[id]           → Edit existing pet
 /admin                      → Admin-only layout with admin guard
   /analytics                → Admin analytics dashboard
+  /missing                  → Missing pet messages dashboard
 ```
 
 ### Protected Routes
@@ -214,13 +242,14 @@ Generates unique device identifiers for security tracking:
 
 1. **Authentication**: Enable Email/Password provider
 2. **Database**: Create database with:
-   - Collection for pets with schema matching `Pet` interface
-   - User permissions: CRUD on own documents (userId-based)
+   - **Pets Collection** (`pets`): Schema matching `Pet` interface, user permissions: CRUD on own documents (userId-based)
+   - **Messages Collection** (`messages`): Schema matching `Message` interface, permissions: public create, admin-only read/update/delete
 3. **Storage**: Create bucket for pet images
    - Max file size: 500KB (enforced client-side)
    - Permissions: User can upload/delete own images
 4. **Platform Settings**: Add frontend domain to allowed platforms
 5. **Admin Users**: Add `admin` label to users who need admin access
+6. **API Key**: Generate API key with scopes: `users.read`, `documents.read` (for server-side admin operations)
 
 ## Development Notes
 

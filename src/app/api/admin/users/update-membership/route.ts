@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/appwrite-server';
+import { verifyAdminSession } from '@/lib/admin-auth';
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify user is authenticated and has admin privileges
+    const user = await verifyAdminSession(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
+    }
+
     // Check if API key is configured
     if (!process.env.APPWRITE_API_KEY_READ_ONLY) {
       console.error('APPWRITE_API_KEY_READ_ONLY is not configured');
@@ -32,10 +42,10 @@ export async function POST(request: NextRequest) {
     console.log(`Updating user ${userId} membership to:`, membership);
 
     const { users } = createAdminClient();
-    
+
     // Get current user preferences
-    const user = await users.get(userId);
-    const currentPrefs = user.prefs || {};
+    const targetUser = await users.get(userId);
+    const currentPrefs = targetUser.prefs || {};
 
     // Update preferences with new membership
     const updatedPrefs = {

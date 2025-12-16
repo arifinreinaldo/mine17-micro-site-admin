@@ -4,9 +4,19 @@ import { Query } from 'node-appwrite';
 import { DATABASE_ID, MESSAGES_COLLECTION_ID, PETS_COLLECTION_ID } from '@/lib/appwrite';
 import { MessageWithOwner } from '@/types/message';
 import { Pet } from '@/types/pet';
+import { verifyAdminSession } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest) {
   try {
+    // Verify user is authenticated and has admin privileges
+    const user = await verifyAdminSession(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
+    }
+
     // Check if API key is configured
     if (!process.env.APPWRITE_API_KEY_READ_ONLY) {
       console.error('APPWRITE_API_KEY_READ_ONLY is not configured');
@@ -101,6 +111,15 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    // Verify user is authenticated and has admin privileges
+    const user = await verifyAdminSession(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const { messageId, status } = body;
 

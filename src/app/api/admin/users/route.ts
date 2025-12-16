@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/appwrite-server';
 import { Query } from 'node-appwrite';
-import { cookies } from 'next/headers';
+import { verifyAdminSession } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest) {
   try {
-    // Simple security check - verify request comes from same origin
-    const origin = request.headers.get('origin') || request.headers.get('referer');
-    if (origin && !origin.includes(request.headers.get('host') || '')) {
-      console.warn('Request from different origin:', origin);
+    // Verify user is authenticated and has admin privileges
+    const user = await verifyAdminSession(request);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
     }
 
     // Check if API key is configured
@@ -20,9 +23,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Note: We use server-side admin client with API key
-    // Frontend route protection ensures only admins reach this point
-    // This API uses admin privileges to fetch all users
+    // Use server-side admin client with API key to fetch all users
     
     const { users } = createAdminClient();
     
