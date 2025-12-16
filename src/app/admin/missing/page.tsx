@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { MessageWithOwner, MessageStatus } from '@/types/message';
+import { account } from '@/lib/appwrite';
 
 export default function MissingPetPage() {
   const { user, logout } = useAuth();
@@ -22,23 +23,43 @@ export default function MissingPetPage() {
     fetchMessages();
   }, []);
 
+  const buildAuthHeaders = async (): Promise<HeadersInit> => {
+    const headers: HeadersInit = {};
+
+    const sessionCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('a_session_'));
+    const sessionToken = sessionCookie?.split('=')[1];
+
+    console.log('[fetchMessages] Session token:', sessionToken ? 'Found' : 'Not found');
+
+    if (sessionToken) {
+      headers['X-Appwrite-Session'] = sessionToken;
+      return headers;
+    }
+
+    try {
+      const jwt = await account.createJWT();
+      if (jwt?.jwt) {
+        headers['X-Appwrite-JWT'] = jwt.jwt;
+        console.log('[fetchMessages] Using JWT fallback for admin API');
+      }
+    } catch (jwtError) {
+      console.error('[fetchMessages] Failed to create JWT fallback', jwtError);
+    }
+
+    return headers;
+  };
+
   const fetchMessages = async () => {
     try {
       setLoading(true);
 
-      // Get session token from cookies to pass in header
-      const sessionCookie = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('a_session_'));
-      const sessionToken = sessionCookie?.split('=')[1];
-
-      console.log('[fetchMessages] Session token:', sessionToken ? 'Found' : 'Not found');
+      const headers = await buildAuthHeaders();
 
       const response = await fetch('/api/admin/messages', {
         credentials: 'include', // Explicitly include cookies
-        headers: sessionToken ? {
-          'X-Appwrite-Session': sessionToken
-        } : {}
+        headers
       });
 
       if (!response.ok) {
@@ -58,9 +79,11 @@ export default function MissingPetPage() {
 
   const handleStatusUpdate = async (messageId: string, newStatus: MessageStatus) => {
     try {
+      const headers = await buildAuthHeaders();
+
       const response = await fetch('/api/admin/messages', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...headers },
         body: JSON.stringify({ messageId, status: newStatus }),
         credentials: 'include' // Explicitly include cookies
       });

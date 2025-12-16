@@ -10,6 +10,7 @@ export async function verifyAdminSession(request?: NextRequest) {
   try {
     let sessionValue: string | null = null;
     let sessionName: string | null = null;
+    let jwtValue: string | null = null;
 
     // Try method 1: Read from cookies() helper
     const cookieStore = await cookies();
@@ -39,8 +40,19 @@ export async function verifyAdminSession(request?: NextRequest) {
       }
     }
 
-    // Try method 3: Read from cookie header (fallback)
+    // Try method 3: Read JWT header fallback (for browsers blocking cookies)
     if (!sessionValue && request) {
+      const jwtHeader = request.headers.get('X-Appwrite-JWT');
+      console.log('[Admin Auth] JWT header:', jwtHeader ? 'Found' : 'Not found');
+
+      if (jwtHeader) {
+        jwtValue = jwtHeader;
+        console.log('[Admin Auth] Using JWT header fallback');
+      }
+    }
+
+    // Try method 3: Read from cookie header (fallback)
+    if (!sessionValue && !jwtValue && request) {
       const cookieHeader = request.headers.get('cookie');
       console.log('[Admin Auth] Cookie header:', cookieHeader?.substring(0, 100) + '...');
 
@@ -57,20 +69,25 @@ export async function verifyAdminSession(request?: NextRequest) {
       }
     }
 
-    if (!sessionValue) {
-      console.warn('[Admin Auth] No session cookie found in either method');
+    if (!sessionValue && !jwtValue) {
+      console.warn('[Admin Auth] No session or JWT found in either method');
       return null;
     }
 
-    console.log('[Admin Auth] Using session:', sessionName);
+    if (sessionValue) {
+      console.log('[Admin Auth] Using session:', sessionName);
+    }
 
     // Create client with user's session
     const client = new Client()
       .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
       .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '');
 
-    // Set the session from cookie
-    client.setSession(sessionValue);
+    if (sessionValue) {
+      client.setSession(sessionValue);
+    } else if (jwtValue) {
+      client.setJWT(jwtValue);
+    }
 
     // Get user account
     const account = new Account(client);
