@@ -12,15 +12,19 @@ export async function verifyAdminSession(request?: NextRequest) {
     const cookieStore = await cookies();
     const allCookies = cookieStore.getAll();
 
+    console.log('[Admin Auth] All cookies:', allCookies.map(c => c.name));
+
     // Find the Appwrite session cookie
     const sessionCookie = allCookies.find(cookie =>
       cookie.name.startsWith('a_session_')
     );
 
     if (!sessionCookie) {
-      console.warn('Admin API: No session cookie found');
+      console.warn('[Admin Auth] No session cookie found');
       return null;
     }
+
+    console.log('[Admin Auth] Found session cookie:', sessionCookie.name);
 
     // Create client with user's session
     const client = new Client()
@@ -34,12 +38,15 @@ export async function verifyAdminSession(request?: NextRequest) {
     const account = new Account(client);
     const user = await account.get();
 
+    console.log('[Admin Auth] User fetched:', user.email, 'Labels:', user.labels);
+
     // Verify user has admin label
     if (!user.labels || !user.labels.includes('admin')) {
-      console.warn(`Admin API: User ${user.email} attempted access without admin label`);
+      console.warn(`[Admin Auth] User ${user.email} attempted access without admin label. Current labels:`, user.labels);
       return null;
     }
 
+    console.log('[Admin Auth] ✅ Admin verified:', user.email);
     return user;
   } catch (error: any) {
     console.error('Admin session verification failed:', error.message);

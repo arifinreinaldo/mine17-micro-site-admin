@@ -17,16 +17,21 @@ export default function MissingPetPage() {
   const [selectedMessage, setSelectedMessage] = useState<MessageWithOwner | null>(null);
 
   useEffect(() => {
+    console.log('[Missing Page] Current user:', user);
+    console.log('[Missing Page] User labels:', user?.labels);
     fetchMessages();
   }, []);
 
   const fetchMessages = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/messages');
-      
+      const response = await fetch('/api/admin/messages', {
+        credentials: 'include' // Explicitly include cookies
+      });
+
       if (!response.ok) {
-        throw new Error('Failed to fetch messages');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to fetch messages');
       }
       
       const data = await response.json();
@@ -44,7 +49,8 @@ export default function MissingPetPage() {
       const response = await fetch('/api/admin/messages', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messageId, status: newStatus })
+        body: JSON.stringify({ messageId, status: newStatus }),
+        credentials: 'include' // Explicitly include cookies
       });
 
       if (!response.ok) {
