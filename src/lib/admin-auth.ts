@@ -8,23 +8,49 @@ import { cookies } from 'next/headers';
  */
 export async function verifyAdminSession(request?: NextRequest) {
   try {
-    // Get session cookie - Appwrite uses pattern a_session_{PROJECT_ID}
+    let sessionValue: string | null = null;
+    let sessionName: string | null = null;
+
+    // Try method 1: Read from cookies() helper
     const cookieStore = await cookies();
     const allCookies = cookieStore.getAll();
 
-    console.log('[Admin Auth] All cookies:', allCookies.map(c => c.name));
+    console.log('[Admin Auth] All cookies from cookies():', allCookies.map(c => c.name));
 
-    // Find the Appwrite session cookie
-    const sessionCookie = allCookies.find(cookie =>
+    const cookieFromStore = allCookies.find(cookie =>
       cookie.name.startsWith('a_session_')
     );
 
-    if (!sessionCookie) {
-      console.warn('[Admin Auth] No session cookie found');
+    if (cookieFromStore) {
+      sessionValue = cookieFromStore.value;
+      sessionName = cookieFromStore.name;
+      console.log('[Admin Auth] Found via cookies():', sessionName);
+    }
+
+    // Try method 2: Read from request headers (fallback)
+    if (!sessionValue && request) {
+      const cookieHeader = request.headers.get('cookie');
+      console.log('[Admin Auth] Cookie header:', cookieHeader?.substring(0, 100) + '...');
+
+      if (cookieHeader) {
+        const cookies = cookieHeader.split(';').map(c => c.trim());
+        const sessionCookie = cookies.find(c => c.startsWith('a_session_'));
+
+        if (sessionCookie) {
+          const [name, value] = sessionCookie.split('=');
+          sessionValue = value;
+          sessionName = name;
+          console.log('[Admin Auth] Found via header:', name);
+        }
+      }
+    }
+
+    if (!sessionValue) {
+      console.warn('[Admin Auth] No session cookie found in either method');
       return null;
     }
 
-    console.log('[Admin Auth] Found session cookie:', sessionCookie.name);
+    console.log('[Admin Auth] Using session:', sessionName);
 
     // Create client with user's session
     const client = new Client()
@@ -32,7 +58,7 @@ export async function verifyAdminSession(request?: NextRequest) {
       .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '');
 
     // Set the session from cookie
-    client.setSession(sessionCookie.value);
+    client.setSession(sessionValue);
 
     // Get user account
     const account = new Account(client);
