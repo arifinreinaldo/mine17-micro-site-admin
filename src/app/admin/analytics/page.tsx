@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { account } from '@/lib/appwrite';
 
 interface LocationData {
   country: string;
@@ -59,15 +60,48 @@ export default function AdminAnalyticsPage() {
     fetchAnalytics();
   }, []);
 
+  const buildAuthHeaders = async (): Promise<HeadersInit> => {
+    const headers: HeadersInit = {};
+
+    const sessionCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('a_session_'));
+    const sessionToken = sessionCookie?.split('=')[1];
+
+    console.log('[Analytics] Session token:', sessionToken ? 'Found' : 'Not found');
+
+    if (sessionToken) {
+      headers['X-Appwrite-Session'] = sessionToken;
+      return headers;
+    }
+
+    try {
+      const jwt = await account.createJWT();
+      if (jwt?.jwt) {
+        headers['X-Appwrite-JWT'] = jwt.jwt;
+        console.log('[Analytics] Using JWT fallback for admin API');
+      }
+    } catch (jwtError) {
+      console.error('[Analytics] Failed to create JWT fallback', jwtError);
+    }
+
+    return headers;
+  };
+
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/users');
-      
+      const headers = await buildAuthHeaders();
+      const response = await fetch('/api/admin/users', {
+        credentials: 'include',
+        headers
+      });
+
       if (!response.ok) {
-        throw new Error('Failed to fetch analytics data');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to fetch analytics data');
       }
-      
+
       const result = await response.json();
       setData(result);
     } catch (err: any) {
