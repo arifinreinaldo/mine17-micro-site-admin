@@ -1,15 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
 import { MessageWithOwner, MessageStatus } from '@/types/message';
 import { account } from '@/lib/appwrite';
 
 export default function MissingPetPage() {
-  const { user, logout } = useAuth();
-  const router = useRouter();
   const [messages, setMessages] = useState<MessageWithOwner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -18,8 +13,6 @@ export default function MissingPetPage() {
   const [selectedMessage, setSelectedMessage] = useState<MessageWithOwner | null>(null);
 
   useEffect(() => {
-    console.log('[Missing Page] Current user:', user);
-    console.log('[Missing Page] User labels:', user?.labels);
     fetchMessages();
   }, []);
 
@@ -100,15 +93,6 @@ export default function MissingPetPage() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-
   const getStatusColor = (status: MessageStatus) => {
     switch (status) {
       case 'pending':
@@ -153,7 +137,7 @@ export default function MissingPetPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading messages...</p>
@@ -163,63 +147,7 @@ export default function MissingPetPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 px-4 pt-4">
-        <div className="max-w-7xl mx-auto bg-white/70 backdrop-blur-lg rounded-2xl shadow-md border border-white/20">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16 items-center">
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-                    <circle cx="5" cy="5" r="1.5" />
-                    <circle cx="15" cy="5" r="1.5" />
-                    <circle cx="10" cy="3" r="1.5" />
-                  </svg>
-                </div>
-                <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Admin Panel
-                </h1>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/admin/analytics"
-                  className="text-gray-700 hover:bg-white/50 hover:text-gray-900 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
-                >
-                  Analytics
-                </Link>
-                <Link
-                  href="/admin/missing"
-                  className="bg-white text-indigo-600 shadow-sm inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
-                >
-                  Missing Pet
-                </Link>
-
-                <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
-                  <div className="group relative">
-                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
-                      {user?.name?.charAt(0).toUpperCase() || 'A'}
-                    </div>
-                    <div className="absolute right-0 top-10 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                      {user?.email}
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="text-gray-700 hover:text-red-600 font-medium text-sm transition-colors"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
+    <>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-6">
@@ -468,6 +396,6 @@ export default function MissingPetPage() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

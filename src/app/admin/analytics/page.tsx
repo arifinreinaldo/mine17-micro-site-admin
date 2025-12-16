@@ -1,9 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
 import { account } from '@/lib/appwrite';
 
 interface LocationData {
@@ -49,8 +46,6 @@ interface AnalyticsData {
 }
 
 export default function AdminAnalyticsPage() {
-  const { user, logout } = useAuth();
-  const router = useRouter();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -114,15 +109,6 @@ export default function AdminAnalyticsPage() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-
   // Filter users based on search, role, and membership
   const filteredUsers = data?.allUsers.filter(user => {
     const matchesSearch = searchTerm === '' ||
@@ -142,7 +128,7 @@ export default function AdminAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading analytics...</p>
@@ -153,7 +139,7 @@ export default function AdminAnalyticsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="text-red-600 text-lg font-semibold mb-4">{error}</div>
           <button
@@ -168,59 +154,7 @@ export default function AdminAnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      {/* Header */}
-      <nav className="sticky top-0 z-50 px-4 pt-4">
-        <div className="max-w-7xl mx-auto bg-white/70 backdrop-blur-lg rounded-2xl shadow-md border border-white/20">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16 items-center">
-              <div className="flex items-center gap-4">
-                <Link href="/dashboard/pets" className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-                  <h1 className="text-xl font-bold text-gray-900">Admin Analytics</h1>
-                </Link>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <Link
-                  href="/admin/analytics"
-                  className="bg-white text-indigo-600 shadow-sm inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
-                >
-                  Analytics
-                </Link>
-                <Link
-                  href="/admin/missing"
-                  className="text-gray-700 hover:bg-white/50 hover:text-gray-900 inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full"
-                >
-                  Missing Pet
-                </Link>
-                <Link
-                  href="/dashboard/pets"
-                  className="text-sm text-gray-600 hover:text-indigo-600 font-medium"
-                >
-                  Back to Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full text-gray-700 hover:bg-white/50 hover:text-red-600 transition-all"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  Logout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
@@ -465,7 +399,6 @@ export default function AdminAnalyticsPage() {
             Showing {filteredUsers.length} of {data?.allUsers.length} users
           </div>
         </div>
-      </main>
-    </div>
+    </main>
   );
 }
