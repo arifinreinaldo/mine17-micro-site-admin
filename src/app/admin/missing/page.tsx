@@ -239,11 +239,11 @@ export default function MissingPetPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
               />
             </div>
-            <div className="sm:w-48">
+            <div className="sm:w-48 relative">
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent bg-white appearance-none cursor-pointer"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -251,6 +251,11 @@ export default function MissingPetPage() {
                 <option value="resolved">Resolved</option>
                 <option value="closed">Closed</option>
               </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
             <button
               onClick={fetchMessages}
@@ -352,16 +357,23 @@ export default function MissingPetPage() {
                     </div>
                     
                     <div className="space-y-2">
-                      <select
-                        value={msg.status}
-                        onChange={(e) => handleStatusUpdate(msg.$id!, e.target.value as MessageStatus)}
-                        className={`w-full px-3 py-1.5 text-sm font-semibold rounded-lg border ${getStatusColor(msg.status)}`}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="contacted">Contacted</option>
-                        <option value="resolved">Resolved</option>
-                        <option value="closed">Closed</option>
-                      </select>
+                      <div className="relative">
+                        <select
+                          value={msg.status}
+                          onChange={(e) => handleStatusUpdate(msg.$id!, e.target.value as MessageStatus)}
+                          className={`w-full px-3 py-1.5 pr-8 text-sm font-semibold rounded-lg border appearance-none cursor-pointer ${getStatusColor(msg.status)}`}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="contacted">Contacted</option>
+                          <option value="resolved">Resolved</option>
+                          <option value="closed">Closed</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                          <svg className="h-4 w-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
                       <p className="text-xs text-gray-500">
                         {formatRelativeTime(msg.reportedAt)}
                       </p>
