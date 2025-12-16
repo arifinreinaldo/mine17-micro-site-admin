@@ -25,8 +25,20 @@ export default function MissingPetPage() {
   const fetchMessages = async () => {
     try {
       setLoading(true);
+
+      // Get session token from cookies to pass in header
+      const sessionCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('a_session_'));
+      const sessionToken = sessionCookie?.split('=')[1];
+
+      console.log('[fetchMessages] Session token:', sessionToken ? 'Found' : 'Not found');
+
       const response = await fetch('/api/admin/messages', {
-        credentials: 'include' // Explicitly include cookies
+        credentials: 'include', // Explicitly include cookies
+        headers: sessionToken ? {
+          'X-Appwrite-Session': sessionToken
+        } : {}
       });
 
       if (!response.ok) {

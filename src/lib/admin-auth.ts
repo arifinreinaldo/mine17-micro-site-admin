@@ -27,7 +27,19 @@ export async function verifyAdminSession(request?: NextRequest) {
       console.log('[Admin Auth] Found via cookies():', sessionName);
     }
 
-    // Try method 2: Read from request headers (fallback)
+    // Try method 2: Read from custom header (passed from client)
+    if (!sessionValue && request) {
+      const customSessionHeader = request.headers.get('X-Appwrite-Session');
+      console.log('[Admin Auth] Custom session header:', customSessionHeader ? 'Found' : 'Not found');
+
+      if (customSessionHeader) {
+        sessionValue = customSessionHeader;
+        sessionName = 'a_session_custom';
+        console.log('[Admin Auth] Found via custom header');
+      }
+    }
+
+    // Try method 3: Read from cookie header (fallback)
     if (!sessionValue && request) {
       const cookieHeader = request.headers.get('cookie');
       console.log('[Admin Auth] Cookie header:', cookieHeader?.substring(0, 100) + '...');
@@ -40,7 +52,7 @@ export async function verifyAdminSession(request?: NextRequest) {
           const [name, value] = sessionCookie.split('=');
           sessionValue = value;
           sessionName = name;
-          console.log('[Admin Auth] Found via header:', name);
+          console.log('[Admin Auth] Found via cookie header:', name);
         }
       }
     }
