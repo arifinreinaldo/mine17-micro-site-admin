@@ -55,6 +55,8 @@ export default function AdminAnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<'all' | 'admin' | 'user'>('all');
+  const [membershipFilter, setMembershipFilter] = useState<'all' | 'free' | 'pro'>('all');
 
   useEffect(() => {
     fetchAnalytics();
@@ -121,13 +123,21 @@ export default function AdminAnalyticsPage() {
     }
   };
 
-  // Filter users based on search only
+  // Filter users based on search, role, and membership
   const filteredUsers = data?.allUsers.filter(user => {
-    const matchesSearch = searchTerm === '' || 
+    const matchesSearch = searchTerm === '' ||
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesSearch;
+
+    const matchesRole = roleFilter === 'all' ||
+      (roleFilter === 'admin' && user.isAdmin) ||
+      (roleFilter === 'user' && !user.isAdmin);
+
+    const matchesMembership = membershipFilter === 'all' ||
+      (membershipFilter === 'pro' && user.membership === 'pro') ||
+      (membershipFilter === 'free' && user.membership !== 'pro');
+
+    return matchesSearch && matchesRole && matchesMembership;
   }) || [];
 
   if (loading) {
@@ -307,17 +317,51 @@ export default function AdminAnalyticsPage() {
 
         {/* User Table */}
         <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <h3 className="text-lg font-bold text-gray-900">All Users</h3>
-            
-            {/* Search */}
-            <input
-              type="text"
-              placeholder="Search by name or email..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full sm:w-80"
-            />
+          <div className="flex flex-col gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h3 className="text-lg font-bold text-gray-900">All Users</h3>
+              <button
+                onClick={fetchAnalytics}
+                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                Refresh
+              </button>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                />
+              </div>
+              <div className="sm:w-40">
+                <select
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value as 'all' | 'admin' | 'user')}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                >
+                  <option value="all">All Roles</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+              <div className="sm:w-40">
+                <select
+                  value={membershipFilter}
+                  onChange={(e) => setMembershipFilter(e.target.value as 'all' | 'free' | 'pro')}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                >
+                  <option value="all">All Membership</option>
+                  <option value="free">Free</option>
+                  <option value="pro">Pro</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
