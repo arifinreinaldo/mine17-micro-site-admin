@@ -1,12 +1,18 @@
 import { NextRequest } from 'next/server';
-import { Client, Account } from 'node-appwrite';
+import { Client, Account, Models } from 'node-appwrite';
 import { cookies } from 'next/headers';
+
+export interface AdminVerificationResult {
+  user: Models.User<Models.Preferences>;
+  sessionValue?: string | null;
+  jwtValue?: string | null;
+}
 
 /**
  * Verifies that the request has a valid session and the user has admin privileges
  * @returns User object if authorized, null if unauthorized
  */
-export async function verifyAdminSession(request?: NextRequest) {
+export async function verifyAdminSession(request?: NextRequest): Promise<AdminVerificationResult | null> {
   try {
     let sessionValue: string | null = null;
     let sessionName: string | null = null;
@@ -77,6 +83,9 @@ export async function verifyAdminSession(request?: NextRequest) {
     if (sessionValue) {
       console.log('[Admin Auth] Using session:', sessionName);
     }
+    if (jwtValue) {
+      console.log('[Admin Auth] Using JWT fallback');
+    }
 
     // Create client with user's session
     const client = new Client()
@@ -102,7 +111,7 @@ export async function verifyAdminSession(request?: NextRequest) {
     }
 
     console.log('[Admin Auth] ✅ Admin verified:', user.email);
-    return user;
+    return { user, sessionValue, jwtValue };
   } catch (error: any) {
     console.error('Admin session verification failed:', error.message);
     return null;

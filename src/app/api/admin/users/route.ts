@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/appwrite-server';
+import { createAdminClient, getAdminApiKey } from '@/lib/appwrite-server';
 import { Query } from 'node-appwrite';
 import { verifyAdminSession } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest) {
   try {
     // Verify user is authenticated and has admin privileges
-    const user = await verifyAdminSession(request);
-    if (!user) {
+    if (!(await verifyAdminSession(request))) {
       return NextResponse.json(
         { error: 'Unauthorized - Admin access required' },
         { status: 403 }
@@ -15,10 +14,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if API key is configured
-    if (!process.env.APPWRITE_API_KEY_READ_ONLY) {
-      console.error('APPWRITE_API_KEY_READ_ONLY is not configured');
+    const apiKey = getAdminApiKey();
+    if (!apiKey) {
+      console.error('APPWRITE_API_KEY_READ_ONLY or APPWRITE_API_KEY is not configured');
       return NextResponse.json(
-        { error: 'Server configuration error' },
+        { error: 'Server configuration error: missing APPWRITE_API_KEY_READ_ONLY with users.read/documents.read scopes' },
         { status: 500 }
       );
     }
@@ -121,6 +121,12 @@ export async function GET(request: NextRequest) {
 
   } catch (error: any) {
     console.error('Error fetching admin user data:', error);
+    if (error?.message?.toLowerCase?.().includes('missing scopes')) {
+      return NextResponse.json(
+        { error: 'Server API key is missing required scope (users.read/documents.read). Update APPWRITE_API_KEY_READ_ONLY or APPWRITE_API_KEY.' },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
       { error: 'Failed to fetch user data' },
       { status: 500 }

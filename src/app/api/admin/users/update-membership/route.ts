@@ -5,8 +5,7 @@ import { verifyAdminSession } from '@/lib/admin-auth';
 export async function POST(request: NextRequest) {
   try {
     // Verify user is authenticated and has admin privileges
-    const user = await verifyAdminSession(request);
-    if (!user) {
+    if (!(await verifyAdminSession(request))) {
       return NextResponse.json(
         { error: 'Unauthorized - Admin access required' },
         { status: 403 }
