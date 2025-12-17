@@ -34,7 +34,7 @@ export default function DashboardLayout({
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* Navigation Bar */}
       <nav className="sticky top-0 z-50 px-4 pt-4">
         <div className="max-w-7xl mx-auto bg-white/70 backdrop-blur-lg rounded-2xl shadow-md border border-white/20">
@@ -56,7 +56,7 @@ export default function DashboardLayout({
             <div className="flex items-center">
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
                     <circle cx="5" cy="5" r="1.5" />
@@ -64,7 +64,7 @@ export default function DashboardLayout({
                     <circle cx="10" cy="3" r="1.5" />
                   </svg>
                 </div>
-                <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                   {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}
                 </h1>
               </div>
@@ -75,7 +75,7 @@ export default function DashboardLayout({
                   href="/dashboard/pets"
                   className={`${
                     pathname?.startsWith('/dashboard/pets')
-                      ? 'bg-white text-indigo-600 shadow-sm'
+                      ? 'bg-white text-amber-600 shadow-sm'
                       : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
                   } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
                 >
@@ -91,7 +91,7 @@ export default function DashboardLayout({
                   href="/dashboard/profile"
                   className={`${
                     pathname === '/dashboard/profile'
-                      ? 'bg-white text-indigo-600 shadow-sm'
+                      ? 'bg-white text-amber-600 shadow-sm'
                       : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
                   } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
                 >
@@ -109,7 +109,7 @@ export default function DashboardLayout({
                       href="/admin/analytics"
                       className={`${
                         pathname === '/admin/analytics'
-                          ? 'bg-white text-indigo-600 shadow-sm'
+                          ? 'bg-white text-amber-600 shadow-sm'
                           : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
                       } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
                     >
@@ -122,7 +122,7 @@ export default function DashboardLayout({
                       href="/admin/missing"
                       className={`${
                         pathname === '/admin/missing'
-                          ? 'bg-white text-indigo-600 shadow-sm'
+                          ? 'bg-white text-amber-600 shadow-sm'
                           : 'text-gray-700 hover:bg-white/50 hover:text-gray-900'
                       } inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-full`}
                     >
@@ -140,7 +140,7 @@ export default function DashboardLayout({
             <div className="hidden md:flex items-center gap-3">
               {/* User Avatar with Tooltip - Link to Profile */}
               <Link href="/dashboard/profile" className="group relative">
-                <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer hover:shadow-md transition-shadow">
+                <div className="w-9 h-9 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold text-sm cursor-pointer hover:shadow-md transition-shadow">
                   {user.email?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 {/* Tooltip */}
@@ -155,7 +155,7 @@ export default function DashboardLayout({
               {/* Logout Button */}
               <button
                 onClick={handleLogout}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full text-gray-700 hover:bg-white/50 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full text-gray-700 hover:bg-white/50 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all duration-200"
                 title="Logout"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,7 +169,7 @@ export default function DashboardLayout({
             <div className="flex items-center md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors"
+                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500 transition-colors"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
@@ -194,7 +194,7 @@ export default function DashboardLayout({
             <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-md border border-white/20 px-4 py-3 space-y-1">
               {/* User Info */}
               <div className="flex items-center gap-3 px-3 py-3 bg-white/50 rounded-xl mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
                   {user.email?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -211,7 +211,7 @@ export default function DashboardLayout({
                 onClick={() => setMobileMenuOpen(false)}
                 className={`${
                   pathname?.startsWith('/dashboard/pets')
-                    ? 'bg-white text-indigo-600 shadow-sm'
+                    ? 'bg-white text-amber-600 shadow-sm'
                     : 'text-gray-700 hover:bg-white/50'
                 } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
               >
@@ -228,7 +228,7 @@ export default function DashboardLayout({
                 onClick={() => setMobileMenuOpen(false)}
                 className={`${
                   pathname === '/dashboard/profile'
-                    ? 'bg-white text-indigo-600 shadow-sm'
+                    ? 'bg-white text-amber-600 shadow-sm'
                     : 'text-gray-700 hover:bg-white/50'
                 } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
               >
@@ -247,7 +247,7 @@ export default function DashboardLayout({
                     onClick={() => setMobileMenuOpen(false)}
                     className={`${
                       pathname === '/admin/analytics'
-                        ? 'bg-white text-indigo-600 shadow-sm'
+                        ? 'bg-white text-amber-600 shadow-sm'
                         : 'text-gray-700 hover:bg-white/50'
                     } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
                   >
@@ -261,7 +261,7 @@ export default function DashboardLayout({
                     onClick={() => setMobileMenuOpen(false)}
                     className={`${
                       pathname === '/admin/missing'
-                        ? 'bg-white text-indigo-600 shadow-sm'
+                        ? 'bg-white text-amber-600 shadow-sm'
                         : 'text-gray-700 hover:bg-white/50'
                     } flex items-center gap-3 px-4 py-3 text-base font-semibold rounded-xl transition-all`}
                   >

@@ -38,7 +38,7 @@ export default function AdminTabs() {
               href={tab.href}
               className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
                 isActive
-                  ? 'bg-white text-indigo-600 shadow-sm'
+                  ? 'bg-white text-amber-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
               }`}
             >

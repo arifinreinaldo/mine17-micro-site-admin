@@ -20,7 +20,7 @@ export default function LandingPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
@@ -145,17 +145,17 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* ==================== NAVIGATION ==================== */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <div className="font-bold text-xl text-indigo-600">{appName}</div>
+            <div className="font-bold text-xl text-amber-600">{appName}</div>
             <div className="flex gap-3">
               {user ? (
                 <Link
                   href="/dashboard/pets"
-                  className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg hover:from-indigo-700 hover:to-indigo-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                  className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg hover:from-amber-600 hover:to-orange-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                 >
                   Go to Dashboard
                 </Link>
@@ -163,13 +163,13 @@ export default function LandingPage() {
                 <>
                   <Link
                     href="/login"
-                    className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-indigo-600 bg-white border-2 border-indigo-600 rounded-lg hover:bg-indigo-50 transition-all duration-200"
+                    className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-amber-600 bg-white border-2 border-amber-600 rounded-lg hover:bg-amber-50 transition-all duration-200"
                   >
                     Login
                   </Link>
                   <Link
                     href="/register"
-                    className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg hover:from-indigo-700 hover:to-indigo-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                    className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg hover:from-amber-600 hover:to-orange-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                   >
                     Sign Up
                   </Link>
@@ -194,7 +194,7 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href={primaryCTA}
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
               >
                 {primaryCTAText}
                 <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +203,7 @@ export default function LandingPage() {
               </Link>
               <a
                 href="#dashboard-tour"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-indigo-600 bg-white border-2 border-indigo-600 rounded-lg hover:bg-indigo-50 transition-all duration-200"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-amber-600 bg-white border-2 border-amber-600 rounded-lg hover:bg-amber-50 transition-all duration-200"
               >
                 See How It Works
               </a>
@@ -214,7 +214,7 @@ export default function LandingPage() {
           <div className="flex justify-center lg:justify-end">
             <div className="relative bg-white rounded-2xl p-6 shadow-2xl animate-float">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">
                   <span className="text-3xl">🐾</span>
                 </div>
                 <div>
@@ -223,7 +223,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="h-2 bg-gray-200 rounded-full">
-                <div className="h-2 bg-indigo-600 rounded-full w-3/4"></div>
+                <div className="h-2 bg-amber-500 rounded-full w-3/4"></div>
               </div>
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function LandingPage() {
               key={index}
               className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center mb-4">
                 <span className="text-2xl">{feature.icon}</span>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
@@ -271,7 +271,7 @@ export default function LandingPage() {
             {workflows.map((workflow, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-lg">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
                     {workflow.icon}
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">{workflow.title}</h3>
@@ -307,11 +307,11 @@ export default function LandingPage() {
             <div
               key={index}
               className={`relative bg-white rounded-2xl p-8 shadow-lg ${
-                tier.featured ? 'border-2 border-indigo-600 md:scale-105' : ''
+                tier.featured ? 'border-2 border-amber-500 md:scale-105' : ''
               }`}
             >
               {tier.badge && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
                   {tier.badge}
                 </div>
               )}
@@ -339,8 +339,8 @@ export default function LandingPage() {
                 href={tier.ctaLink}
                 className={`block w-full text-center py-3 rounded-lg font-semibold transition-shadow ${
                   tier.featured
-                    ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:shadow-lg'
-                    : 'bg-white text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-50'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:shadow-lg'
+                    : 'bg-white text-amber-600 border-2 border-amber-600 hover:bg-amber-50'
                 }`}
               >
                 {tier.cta}
