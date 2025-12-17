@@ -321,7 +321,7 @@ export default function AddPetPage() {
                       value={formData.petType}
                       onChange={handleInputChange}
                       disabled={isLoading}
-                      className="block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
+                      className="custom-select block w-full px-3 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
                     >
                       <option value="dog">Dog</option>
                       <option value="cat">Cat</option>

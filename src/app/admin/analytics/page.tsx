@@ -273,37 +273,27 @@ export default function AdminAnalyticsPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
               </div>
-              <div className="sm:w-40 relative">
+              <div className="sm:w-40">
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value as 'all' | 'admin' | 'user')}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white appearance-none cursor-pointer"
+                  className="custom-select w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Admin</option>
                   <option value="user">User</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
               </div>
-              <div className="sm:w-40 relative">
+              <div className="sm:w-40">
                 <select
                   value={membershipFilter}
                   onChange={(e) => setMembershipFilter(e.target.value as 'all' | 'free' | 'pro')}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white appearance-none cursor-pointer"
+                  className="custom-select w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
                 >
                   <option value="all">All Membership</option>
                   <option value="free">Free</option>
                   <option value="pro">Pro</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <svg className="h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
               </div>
             </div>
           </div>
