@@ -12,6 +12,7 @@
     "@fingerprintjs/fingerprintjs": "^5.0.1",
     "appwrite": "^16.0.2",
     "browser-image-compression": "^2.0.2",
+    "framer-motion": "^12.23.26",
     "next": "^15.1.4",
     "node-appwrite": "^21.0.0",
     "react": "^19.0.0",

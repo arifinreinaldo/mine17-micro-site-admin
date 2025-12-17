@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Query } from 'appwrite';
 import QRCode from 'react-qr-code';
 import PawIcon from '@/assets/paw.svg';
+import AnimatedModal from '@/components/AnimatedModal';
 
 export default function PetsPage() {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -198,7 +199,7 @@ export default function PetsPage() {
               <button
                 onClick={() => router.push('/dashboard/pets/add')}
                 disabled={!canAddMorePets}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.97]"
                 title={!canAddMorePets ? 'Maximum 1 pet allowed' : 'Add a new pet'}
               >
                 {!canAddMorePets ? (
@@ -240,7 +241,7 @@ export default function PetsPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-200 p-4 mb-6">
+              <div className="rounded-lg bg-red-50 border border-red-200 p-4 mb-6 animate-shake">
                 <div className="flex">
                   <svg className="h-5 w-5 text-red-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -267,7 +268,7 @@ export default function PetsPage() {
                 <button
                   onClick={() => router.push('/dashboard/pets/add')}
                   disabled={!canAddMorePets}
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md active:scale-[0.97]"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -340,7 +341,7 @@ export default function PetsPage() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <button
                           onClick={() => router.push(`/dashboard/pets/edit/${pet.$id}`)}
-                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-amber-300 text-amber-700 font-medium rounded-lg hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all"
+                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-amber-300 text-amber-700 font-medium rounded-lg hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all active:scale-[0.97]"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -349,7 +350,7 @@ export default function PetsPage() {
                         </button>
                         <button
                           onClick={() => handleShareLink(pet.$id!)}
-                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-green-300 text-green-700 font-medium rounded-lg hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all"
+                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-green-300 text-green-700 font-medium rounded-lg hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all active:scale-[0.97]"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -359,7 +360,7 @@ export default function PetsPage() {
                         <button
                           onClick={() => openDeleteModal(pet)}
                           disabled={deleteLoading === pet.$id}
-                          className="flex justify-center items-center gap-2 px-4 py-2.5 border border-transparent text-white font-medium rounded-lg bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                          className="flex justify-center items-center gap-2 px-4 py-2.5 border border-transparent text-white font-medium rounded-lg bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-[0.97]"
                         >
                           {deleteLoading === pet.$id ? (
                             <>
@@ -389,9 +390,9 @@ export default function PetsPage() {
       </div>
 
       {/* Delete Confirmation Modal */}
-      {showDeleteModal && petToDelete && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
-          <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-100 p-8 m-4 max-w-md w-full">
+      <AnimatedModal isOpen={showDeleteModal && !!petToDelete} onClose={closeDeleteModal}>
+        {petToDelete && (
+          <>
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -407,7 +408,7 @@ export default function PetsPage() {
               </p>
               <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                 <p className="text-xs text-red-800 font-medium">
-                  ⚠️ This action cannot be undone. All associated images will also be permanently deleted.
+                  This action cannot be undone. All associated images will also be permanently deleted.
                 </p>
               </div>
             </div>
@@ -416,7 +417,7 @@ export default function PetsPage() {
               <button
                 onClick={closeDeleteModal}
                 disabled={deleteLoading === petToDelete.$id}
-                className="flex justify-center items-center gap-2 py-3 px-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all disabled:opacity-50"
+                className="flex justify-center items-center gap-2 py-3 px-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 disabled:opacity-50 active:scale-[0.97]"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -426,7 +427,7 @@ export default function PetsPage() {
               <button
                 onClick={confirmDelete}
                 disabled={deleteLoading === petToDelete.$id}
-                className="flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-white font-semibold rounded-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                className="flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-white font-semibold rounded-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.97]"
               >
                 {deleteLoading === petToDelete.$id ? (
                   <>
@@ -446,14 +447,14 @@ export default function PetsPage() {
                 )}
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </AnimatedModal>
 
       {/* Copy Notification Toast */}
       {copyNotification && (
         <div className="fixed top-4 right-4 z-50 animate-slide-down">
-          <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+          <div className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-pulse-success">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -463,14 +464,14 @@ export default function PetsPage() {
       )}
 
       {/* QR Code Modal */}
-      {showQRModal && selectedPetId && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
-          <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-100 p-8 m-4 max-w-md w-full">
+      <AnimatedModal isOpen={showQRModal && !!selectedPetId} onClose={closeQRModal}>
+        {selectedPetId && (
+          <>
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-gray-900">Share Pet QR Code</h3>
               <button
                 onClick={closeQRModal}
-                className="text-gray-400 hover:text-gray-600 focus:outline-none transition-colors rounded-lg p-1 hover:bg-gray-100"
+                className="text-gray-400 hover:text-gray-600 focus:outline-none transition-colors rounded-lg p-1 hover:bg-gray-100 active:scale-[0.95]"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -483,7 +484,7 @@ export default function PetsPage() {
                 href={`${EXTERNAL_URL}${selectedPetId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-amber-500 transition-all cursor-pointer shadow-sm hover:shadow-md"
+                className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-amber-500 transition-all cursor-pointer shadow-sm hover:shadow-md animate-pulse-glow"
                 title="Click to open pet page"
               >
                 <QRCode
@@ -497,7 +498,7 @@ export default function PetsPage() {
                 <p className="text-sm font-semibold text-gray-700 mb-2">Share Link:</p>
                 <button
                   onClick={() => copyToClipboard(selectedPetId)}
-                  className="w-full text-left text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200 hover:border-amber-500 hover:bg-amber-50 transition-all cursor-pointer group relative"
+                  className="w-full text-left text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200 hover:border-amber-500 hover:bg-amber-50 transition-all cursor-pointer group relative active:scale-[0.99]"
                   title="Click to copy"
                 >
                   {`${EXTERNAL_URL}${selectedPetId}`}
@@ -512,7 +513,7 @@ export default function PetsPage() {
 
               <button
                 onClick={closeQRModal}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.97]"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -520,9 +521,9 @@ export default function PetsPage() {
                 Close
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </AnimatedModal>
     </div>
   );
 }

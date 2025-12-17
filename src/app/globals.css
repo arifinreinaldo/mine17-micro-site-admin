@@ -121,3 +121,101 @@ section[id] {
 .animate-slide-down {
   animation: slideDownNotification 0.3s ease-out;
 }
+
+/* Pet ID Card shimmer effect */
+@keyframes cardShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-card-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: cardShimmer 3s ease-in-out infinite;
+}
+
+/* Floating paw prints animation */
+@keyframes floatPaw {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-15px) rotate(10deg);
+    opacity: 1;
+  }
+}
+
+.animate-float-paw {
+  animation: floatPaw 3s ease-in-out infinite;
+}
+
+.animate-float-paw-delay {
+  animation: floatPaw 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Sparkle animation for decorative elements */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-twinkle-delay {
+  animation: twinkle 2s ease-in-out infinite;
+  animation-delay: 0.7s;
+}
+
+/* QR Code pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.8), 0 0 30px rgba(251, 191, 36, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-playful,
+  .animate-card-shimmer,
+  .animate-float-paw,
+  .animate-float-paw-delay,
+  .animate-twinkle,
+  .animate-twinkle-delay,
+  .animate-pulse-glow,
+  .animate-shake,
+  .animate-bounce-in {
+    animation: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

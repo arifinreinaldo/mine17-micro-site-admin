@@ -172,7 +172,7 @@ export default function LoginPage() {
             <form className="space-y-5" onSubmit={handleSubmit}>
               {/* Success Message */}
               {success && (
-                <div className="rounded-lg bg-green-50 border border-green-200 p-4">
+                <div className="rounded-lg bg-green-50 border border-green-200 p-4 animate-fade-in-up">
                   <div className="flex">
                     <svg className="h-5 w-5 text-green-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -186,7 +186,7 @@ export default function LoginPage() {
 
               {/* Error Message */}
               {error && (
-                <div className="rounded-lg bg-red-50 border border-red-200 p-4">
+                <div className="rounded-lg bg-red-50 border border-red-200 p-4 animate-shake">
                   <div className="flex">
                     <svg className="h-5 w-5 text-red-400 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -307,7 +307,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                  className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.97]"
                 >
                   {isLoading ? (
                     <>
@@ -386,7 +386,7 @@ export default function LoginPage() {
             </div>
             <Link
               href="/register"
-              className="inline-flex items-center gap-1.5 px-4 py-2 border-2 border-amber-600 text-sm font-semibold rounded-lg text-amber-600 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-4 py-2 border-2 border-amber-600 text-sm font-semibold rounded-lg text-amber-600 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 whitespace-nowrap active:scale-[0.97]"
             >
               Sign Up
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
