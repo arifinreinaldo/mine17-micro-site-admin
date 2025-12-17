@@ -8,17 +8,17 @@ export default function PrivacyPolicyPage() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <Link href="/" className="font-bold text-xl text-indigo-600">
+            <Link href="/" className="font-bold text-xl text-amber-600">
               {appName}
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-amber-600 hover:text-amber-700"
             >
               Back to Home
             </Link>
@@ -35,17 +35,17 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Table of Contents */}
-        <div className="bg-indigo-50 rounded-lg p-6 mb-12">
+        <div className="bg-amber-50 rounded-lg p-6 mb-12">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Table of Contents</h2>
           <ul className="space-y-2">
-            <li><a href="#introduction" className="text-indigo-600 hover:text-indigo-700">1. Introduction</a></li>
-            <li><a href="#information-we-collect" className="text-indigo-600 hover:text-indigo-700">2. Information We Collect</a></li>
-            <li><a href="#how-we-use" className="text-indigo-600 hover:text-indigo-700">3. How We Use Your Information</a></li>
-            <li><a href="#data-security" className="text-indigo-600 hover:text-indigo-700">4. Data Security</a></li>
-            <li><a href="#your-rights" className="text-indigo-600 hover:text-indigo-700">5. Your Rights</a></li>
-            <li><a href="#cookies" className="text-indigo-600 hover:text-indigo-700">6. Cookies</a></li>
-            <li><a href="#third-party" className="text-indigo-600 hover:text-indigo-700">7. Third-Party Services</a></li>
-            <li><a href="#contact" className="text-indigo-600 hover:text-indigo-700">8. Contact Us</a></li>
+            <li><a href="#introduction" className="text-amber-600 hover:text-amber-700">1. Introduction</a></li>
+            <li><a href="#information-we-collect" className="text-amber-600 hover:text-amber-700">2. Information We Collect</a></li>
+            <li><a href="#how-we-use" className="text-amber-600 hover:text-amber-700">3. How We Use Your Information</a></li>
+            <li><a href="#data-security" className="text-amber-600 hover:text-amber-700">4. Data Security</a></li>
+            <li><a href="#your-rights" className="text-amber-600 hover:text-amber-700">5. Your Rights</a></li>
+            <li><a href="#cookies" className="text-amber-600 hover:text-amber-700">6. Cookies</a></li>
+            <li><a href="#third-party" className="text-amber-600 hover:text-amber-700">7. Third-Party Services</a></li>
+            <li><a href="#contact" className="text-amber-600 hover:text-amber-700">8. Contact Us</a></li>
           </ul>
         </div>
 
@@ -156,7 +156,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Cookies and Tracking</h2>
             <div className="space-y-4">
               <p className="text-gray-700">
-                We use cookies and similar tracking technologies to enhance your experience. See our <Link href="/legal/cookie-policy" className="text-indigo-600 hover:text-indigo-700 underline">Cookie Policy</Link> for detailed information.
+                We use cookies and similar tracking technologies to enhance your experience. See our <Link href="/legal/cookie-policy" className="text-amber-600 hover:text-amber-700 underline">Cookie Policy</Link> for detailed information.
               </p>
               <ul className="list-disc list-inside text-gray-700 space-y-2 ml-4">
                 <li><strong>Essential Cookies:</strong> Required for platform functionality</li>
@@ -188,7 +188,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-gray-700 mb-4">
               If you have questions about this Privacy Policy or our privacy practices, please contact us:
             </p>
-            <div className="bg-indigo-50 p-6 rounded-lg">
+            <div className="bg-amber-50 p-6 rounded-lg">
               <p className="text-gray-700 mb-2"><strong>Mine17 Pets Privacy Team</strong></p>
               <p className="text-gray-700">Email: privacy@mine17.com</p>
               <p className="text-gray-700 mt-4">

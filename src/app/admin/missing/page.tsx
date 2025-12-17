@@ -139,7 +139,7 @@ export default function MissingPetPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading messages...</p>
         </div>
       </div>
@@ -164,14 +164,14 @@ export default function MissingPetPage() {
                 placeholder="Search by pet name, finder, or owner..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               />
             </div>
             <div className="sm:w-48 relative">
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent bg-white appearance-none cursor-pointer"
+                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white appearance-none cursor-pointer"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -187,7 +187,7 @@ export default function MissingPetPage() {
             </div>
             <button
               onClick={fetchMessages}
-              className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+              className="px-6 py-2 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors"
             >
               Refresh
             </button>
@@ -250,7 +250,7 @@ export default function MissingPetPage() {
                     <p className="text-sm text-gray-700 line-clamp-2 mb-2">{msg.message}</p>
                     <button
                       onClick={() => setSelectedMessage(msg)}
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                      className="text-sm text-amber-600 hover:text-amber-800 font-medium"
                     >
                       Read full message →
                     </button>
@@ -389,7 +389,7 @@ export default function MissingPetPage() {
 
             <button
               onClick={() => setSelectedMessage(null)}
-              className="w-full mt-6 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors"
+              className="w-full mt-6 px-6 py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-600 transition-colors"
             >
               Close
             </button>

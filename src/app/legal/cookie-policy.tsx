@@ -6,17 +6,17 @@ export default function CookiePolicyPage() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <Link href="/" className="font-bold text-xl text-indigo-600">
+            <Link href="/" className="font-bold text-xl text-amber-600">
               {appName}
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-amber-600 hover:text-amber-700"
             >
               Back to Home
             </Link>
@@ -33,17 +33,17 @@ export default function CookiePolicyPage() {
         </div>
 
         {/* Table of Contents */}
-        <div className="bg-indigo-50 rounded-lg p-6 mb-12">
+        <div className="bg-amber-50 rounded-lg p-6 mb-12">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Table of Contents</h2>
           <ul className="space-y-2">
-            <li><a href="#what-are-cookies" className="text-indigo-600 hover:text-indigo-700">1. What Are Cookies?</a></li>
-            <li><a href="#types-of-cookies" className="text-indigo-600 hover:text-indigo-700">2. Types of Cookies We Use</a></li>
-            <li><a href="#cookie-categories" className="text-indigo-600 hover:text-indigo-700">3. Cookie Categories</a></li>
-            <li><a href="#third-party-cookies" className="text-indigo-600 hover:text-indigo-700">4. Third-Party Cookies</a></li>
-            <li><a href="#device-fingerprinting" className="text-indigo-600 hover:text-indigo-700">5. Device Fingerprinting</a></li>
-            <li><a href="#tracking-technologies" className="text-indigo-600 hover:text-indigo-700">6. Other Tracking Technologies</a></li>
-            <li><a href="#your-choices" className="text-indigo-600 hover:text-indigo-700">7. Your Cookie Choices</a></li>
-            <li><a href="#contact" className="text-indigo-600 hover:text-indigo-700">8. Contact Us</a></li>
+            <li><a href="#what-are-cookies" className="text-amber-600 hover:text-amber-700">1. What Are Cookies?</a></li>
+            <li><a href="#types-of-cookies" className="text-amber-600 hover:text-amber-700">2. Types of Cookies We Use</a></li>
+            <li><a href="#cookie-categories" className="text-amber-600 hover:text-amber-700">3. Cookie Categories</a></li>
+            <li><a href="#third-party-cookies" className="text-amber-600 hover:text-amber-700">4. Third-Party Cookies</a></li>
+            <li><a href="#device-fingerprinting" className="text-amber-600 hover:text-amber-700">5. Device Fingerprinting</a></li>
+            <li><a href="#tracking-technologies" className="text-amber-600 hover:text-amber-700">6. Other Tracking Technologies</a></li>
+            <li><a href="#your-choices" className="text-amber-600 hover:text-amber-700">7. Your Cookie Choices</a></li>
+            <li><a href="#contact" className="text-amber-600 hover:text-amber-700">8. Contact Us</a></li>
           </ul>
         </div>
 
@@ -143,7 +143,7 @@ export default function CookiePolicyPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-gray-700 border-collapse">
                 <thead>
-                  <tr className="bg-indigo-100">
+                  <tr className="bg-amber-100">
                     <th className="border border-gray-300 p-3 text-left">Cookie Name</th>
                     <th className="border border-gray-300 p-3 text-left">Purpose</th>
                     <th className="border border-gray-300 p-3 text-left">Duration</th>
@@ -212,7 +212,7 @@ export default function CookiePolicyPage() {
             <p className="text-gray-700 mb-4">
               In addition to cookies, we use device fingerprinting technology for enhanced security:
             </p>
-            <div className="bg-indigo-50 p-4 rounded-lg">
+            <div className="bg-amber-50 p-4 rounded-lg">
               <ul className="list-disc list-inside text-gray-700 space-y-2 ml-2">
                 <li>Creates unique device identifier during account creation</li>
                 <li>Tracks authorized devices for account security</li>
@@ -274,7 +274,7 @@ export default function CookiePolicyPage() {
             <p className="text-gray-700 mb-4">
               Questions about our cookie practices? Contact us:
             </p>
-            <div className="bg-indigo-50 p-6 rounded-lg">
+            <div className="bg-amber-50 p-6 rounded-lg">
               <p className="text-gray-700 mb-2"><strong>Mine17 Pets Privacy Team</strong></p>
               <p className="text-gray-700">Email: privacy@mine17.com</p>
               <p className="text-gray-700 mt-4">

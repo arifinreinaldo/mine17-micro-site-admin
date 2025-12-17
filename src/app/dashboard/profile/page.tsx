@@ -118,10 +118,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-white to-orange-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-6">
         {/* Header with gradient background and PRO badge */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
           {/* Subtle PRO badge for premium members */}
           {user?.prefs?.membership === 'pro' && (
             <div className="absolute top-6 right-6">
@@ -144,7 +144,7 @@ export default function ProfilePage() {
               <h2 className="text-3xl font-bold">
                 {user.name || 'User Profile'}
               </h2>
-              <p className="mt-1 text-sm text-indigo-100">
+              <p className="mt-1 text-sm text-amber-100">
                 Manage your account information and settings
               </p>
             </div>
@@ -161,7 +161,7 @@ export default function ProfilePage() {
               {/* Email Display */}
               <div className="bg-gray-50 rounded-lg p-4 flex items-center gap-3">
                 <div className="flex-shrink-0">
-                  <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -175,7 +175,7 @@ export default function ProfilePage() {
               {user.prefs?.phone && (
                 <div className="bg-gray-50 rounded-lg p-4 flex items-center gap-3">
                   <div className="flex-shrink-0">
-                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
@@ -188,11 +188,11 @@ export default function ProfilePage() {
 
               {/* Contact Visibility Toggle - Only for PRO members */}
               {user?.prefs?.membership === 'pro' && (
-                <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+                <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="flex-shrink-0">
-                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -231,8 +231,8 @@ export default function ProfilePage() {
                       }}
                       disabled={isUpdatingContactVisibility}
                       className={`${
-                        showContact ? 'bg-indigo-600' : 'bg-gray-300'
-                      } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed`}
+                        showContact ? 'bg-amber-600' : 'bg-gray-300'
+                      } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
                       <span
                         className={`${
@@ -297,7 +297,7 @@ export default function ProfilePage() {
                       id="new-name"
                       name="new-name"
                       required
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
                       placeholder="Your full name"
                       value={newName}
                       onChange={(e) => setNewName(e.target.value)}
@@ -311,7 +311,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isNameLoading}
-                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     {isNameLoading ? (
                       <>
@@ -385,7 +385,7 @@ export default function ProfilePage() {
                       id="new-email"
                       name="new-email"
                       required
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50 disabled:text-gray-500"
                       placeholder="you@example.com"
                       value={newEmail}
                       onChange={(e) => setNewEmail(e.target.value)}
@@ -410,7 +410,7 @@ export default function ProfilePage() {
                       id="email-password"
                       name="email-password"
                       required
-                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
+                      className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all sm:text-sm disabled:bg-gray-50"
                       placeholder="Enter your password"
                       value={emailPassword}
                       onChange={(e) => setEmailPassword(e.target.value)}
@@ -424,7 +424,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isEmailLoading}
-                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     {isEmailLoading ? (
                       <>
@@ -506,7 +506,7 @@ export default function ProfilePage() {
                   <button
                     type="submit"
                     disabled={isPhoneLoading}
-                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     {isPhoneLoading ? (
                       <>

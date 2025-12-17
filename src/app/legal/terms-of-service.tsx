@@ -6,17 +6,17 @@ export default function TermsOfServicePage() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <Link href="/" className="font-bold text-xl text-indigo-600">
+            <Link href="/" className="font-bold text-xl text-amber-600">
               {appName}
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+              className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-amber-600 hover:text-amber-700"
             >
               Back to Home
             </Link>
@@ -33,20 +33,20 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Table of Contents */}
-        <div className="bg-indigo-50 rounded-lg p-6 mb-12">
+        <div className="bg-amber-50 rounded-lg p-6 mb-12">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Table of Contents</h2>
           <ul className="space-y-2">
-            <li><a href="#introduction" className="text-indigo-600 hover:text-indigo-700">1. Introduction</a></li>
-            <li><a href="#acceptance" className="text-indigo-600 hover:text-indigo-700">2. Acceptance of Terms</a></li>
-            <li><a href="#user-accounts" className="text-indigo-600 hover:text-indigo-700">3. User Accounts</a></li>
-            <li><a href="#user-conduct" className="text-indigo-600 hover:text-indigo-700">4. User Conduct</a></li>
-            <li><a href="#pet-limit" className="text-indigo-600 hover:text-indigo-700">5. Pet Profile Limit</a></li>
-            <li><a href="#intellectual-property" className="text-indigo-600 hover:text-indigo-700">6. Intellectual Property</a></li>
-            <li><a href="#disclaimers" className="text-indigo-600 hover:text-indigo-700">7. Disclaimers</a></li>
-            <li><a href="#limitation" className="text-indigo-600 hover:text-indigo-700">8. Limitation of Liability</a></li>
-            <li><a href="#changes" className="text-indigo-600 hover:text-indigo-700">9. Changes to Service</a></li>
-            <li><a href="#termination" className="text-indigo-600 hover:text-indigo-700">10. Termination</a></li>
-            <li><a href="#contact" className="text-indigo-600 hover:text-indigo-700">11. Contact Us</a></li>
+            <li><a href="#introduction" className="text-amber-600 hover:text-amber-700">1. Introduction</a></li>
+            <li><a href="#acceptance" className="text-amber-600 hover:text-amber-700">2. Acceptance of Terms</a></li>
+            <li><a href="#user-accounts" className="text-amber-600 hover:text-amber-700">3. User Accounts</a></li>
+            <li><a href="#user-conduct" className="text-amber-600 hover:text-amber-700">4. User Conduct</a></li>
+            <li><a href="#pet-limit" className="text-amber-600 hover:text-amber-700">5. Pet Profile Limit</a></li>
+            <li><a href="#intellectual-property" className="text-amber-600 hover:text-amber-700">6. Intellectual Property</a></li>
+            <li><a href="#disclaimers" className="text-amber-600 hover:text-amber-700">7. Disclaimers</a></li>
+            <li><a href="#limitation" className="text-amber-600 hover:text-amber-700">8. Limitation of Liability</a></li>
+            <li><a href="#changes" className="text-amber-600 hover:text-amber-700">9. Changes to Service</a></li>
+            <li><a href="#termination" className="text-amber-600 hover:text-amber-700">10. Termination</a></li>
+            <li><a href="#contact" className="text-amber-600 hover:text-amber-700">11. Contact Us</a></li>
           </ul>
         </div>
 
@@ -217,7 +217,7 @@ export default function TermsOfServicePage() {
             <p className="text-gray-700 mb-4">
               If you have questions about these Terms, please contact us:
             </p>
-            <div className="bg-indigo-50 p-6 rounded-lg">
+            <div className="bg-amber-50 p-6 rounded-lg">
               <p className="text-gray-700 mb-2"><strong>Mine17 Pets Legal Team</strong></p>
               <p className="text-gray-700">Email: legal@mine17.com</p>
             </div>

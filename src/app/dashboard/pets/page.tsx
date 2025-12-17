@@ -164,7 +164,7 @@ export default function PetsPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
       </div>
     );
   }
@@ -173,12 +173,12 @@ export default function PetsPage() {
   const canAddMorePets = pets.length < MAX_PETS;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-white to-orange-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full space-y-6">
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-amber-500 rounded-2xl flex items-center justify-center shadow-lg">
               <PawIcon className="w-10 h-10 text-white" />
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function PetsPage() {
               <button
                 onClick={() => router.push('/dashboard/pets/add')}
                 disabled={!canAddMorePets}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                 title={!canAddMorePets ? 'Maximum 1 pet allowed' : 'Add a new pet'}
               >
                 {!canAddMorePets ? (
@@ -256,8 +256,8 @@ export default function PetsPage() {
             {pets.length === 0 ? (
               <div className="text-center py-16">
                 <div className="flex justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
-                    <svg className="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">
+                    <svg className="w-10 h-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -267,7 +267,7 @@ export default function PetsPage() {
                 <button
                   onClick={() => router.push('/dashboard/pets/add')}
                   disabled={!canAddMorePets}
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -340,7 +340,7 @@ export default function PetsPage() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <button
                           onClick={() => router.push(`/dashboard/pets/edit/${pet.$id}`)}
-                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-indigo-300 text-indigo-700 font-medium rounded-lg hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+                          className="flex justify-center items-center gap-2 px-4 py-2.5 border-2 border-amber-300 text-amber-700 font-medium rounded-lg hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -483,7 +483,7 @@ export default function PetsPage() {
                 href={`${EXTERNAL_URL}${selectedPetId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-indigo-500 transition-all cursor-pointer shadow-sm hover:shadow-md"
+                className="bg-white p-6 rounded-xl border-2 border-gray-200 hover:border-amber-500 transition-all cursor-pointer shadow-sm hover:shadow-md"
                 title="Click to open pet page"
               >
                 <QRCode
@@ -497,11 +497,11 @@ export default function PetsPage() {
                 <p className="text-sm font-semibold text-gray-700 mb-2">Share Link:</p>
                 <button
                   onClick={() => copyToClipboard(selectedPetId)}
-                  className="w-full text-left text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 transition-all cursor-pointer group relative"
+                  className="w-full text-left text-xs text-gray-900 font-mono break-all bg-white p-3 rounded border border-gray-200 hover:border-amber-500 hover:bg-amber-50 transition-all cursor-pointer group relative"
                   title="Click to copy"
                 >
                   {`${EXTERNAL_URL}${selectedPetId}`}
-                  <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded text-indigo-600 font-semibold text-sm">
+                  <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 rounded text-amber-600 font-semibold text-sm">
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
@@ -512,7 +512,7 @@ export default function PetsPage() {
 
               <button
                 onClick={closeQRModal}
-                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -6,12 +6,12 @@ export default function PrivacyPolicy() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <Link href="/" className="font-bold text-xl text-indigo-600">{appName}</Link>
-            <Link href="/" className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+            <Link href="/" className="font-bold text-xl text-amber-600">{appName}</Link>
+            <Link href="/" className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-amber-600 hover:text-amber-700">
               Back to Home
             </Link>
           </div>

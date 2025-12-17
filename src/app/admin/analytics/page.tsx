@@ -130,7 +130,7 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading analytics...</p>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function AdminAnalyticsPage() {
           <div className="text-red-600 text-lg font-semibold mb-4">{error}</div>
           <button
             onClick={fetchAnalytics}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+            className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
           >
             Retry
           </button>
@@ -159,8 +159,8 @@ export default function AdminAnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </div>
@@ -209,8 +209,8 @@ export default function AdminAnalyticsPage() {
             <div className="space-y-3">
               {data?.countries.slice(0, 5).map((country, index) => (
                 <div key={country.country} className="flex items-center gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-                    <span className="text-sm font-bold text-indigo-600">#{index + 1}</span>
+                  <div className="flex-shrink-0 w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <span className="text-sm font-bold text-amber-600">#{index + 1}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-center mb-1">
@@ -219,7 +219,7 @@ export default function AdminAnalyticsPage() {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
-                        className="bg-indigo-600 h-2 rounded-full transition-all"
+                        className="bg-amber-500 h-2 rounded-full transition-all"
                         style={{ width: `${country.percentage}%` }}
                       />
                     </div>
@@ -242,7 +242,7 @@ export default function AdminAnalyticsPage() {
                       <p className="text-xs text-gray-600">{city.country}</p>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-indigo-600">{city.count}</span>
+                  <span className="text-sm font-semibold text-amber-600">{city.count}</span>
                 </div>
               ))}
             </div>
@@ -256,7 +256,7 @@ export default function AdminAnalyticsPage() {
               <h3 className="text-lg font-bold text-gray-900">All Users</h3>
               <button
                 onClick={fetchAnalytics}
-                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                className="px-6 py-2 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors"
               >
                 Refresh
               </button>
@@ -270,14 +270,14 @@ export default function AdminAnalyticsPage() {
                   placeholder="Search by name or email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
               </div>
               <div className="sm:w-40 relative">
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value as 'all' | 'admin' | 'user')}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white appearance-none cursor-pointer"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Admin</option>
@@ -293,7 +293,7 @@ export default function AdminAnalyticsPage() {
                 <select
                   value={membershipFilter}
                   onChange={(e) => setMembershipFilter(e.target.value as 'all' | 'free' | 'pro')}
-                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent bg-white appearance-none cursor-pointer"
+                  className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white appearance-none cursor-pointer"
                 >
                   <option value="all">All Membership</option>
                   <option value="free">Free</option>
@@ -335,7 +335,7 @@ export default function AdminAnalyticsPage() {
                     </td>
                     <td className="py-3 px-4">
                       {user.isAdmin && (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                           Admin
                         </span>
                       )}

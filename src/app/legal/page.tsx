@@ -7,12 +7,12 @@ export default function LegalPage() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || 'Mine17 Pets';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20">
-            <Link href="/" className="font-bold text-xl text-indigo-600">{appName}</Link>
-            <Link href="/" className="px-6 py-2.5 text-sm font-semibold text-indigo-600">Back to Home</Link>
+            <Link href="/" className="font-bold text-xl text-amber-600">{appName}</Link>
+            <Link href="/" className="px-6 py-2.5 text-sm font-semibold text-amber-600">Back to Home</Link>
           </div>
         </div>
       </nav>
@@ -22,17 +22,17 @@ export default function LegalPage() {
         
         <div className="grid gap-6">
           <Link href="https://docs.mine17.com/privacy" target="_blank" className="p-6 bg-white rounded-lg hover:shadow-lg transition-shadow">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-2">Privacy Policy</h2>
+            <h2 className="text-2xl font-bold text-amber-600 mb-2">Privacy Policy</h2>
             <p className="text-gray-600">Learn how {appName} collects and protects your data</p>
           </Link>
 
           <Link href="https://docs.mine17.com/terms" target="_blank" className="p-6 bg-white rounded-lg hover:shadow-lg transition-shadow">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-2">Terms of Service</h2>
+            <h2 className="text-2xl font-bold text-amber-600 mb-2">Terms of Service</h2>
             <p className="text-gray-600">Understand {appName} service terms and conditions</p>
           </Link>
 
           <Link href="https://docs.mine17.com/cookies" target="_blank" className="p-6 bg-white rounded-lg hover:shadow-lg transition-shadow">
-            <h2 className="text-2xl font-bold text-indigo-600 mb-2">Cookie Policy</h2>
+            <h2 className="text-2xl font-bold text-amber-600 mb-2">Cookie Policy</h2>
             <p className="text-gray-600">Learn about {appName} cookie usage and tracking</p>
           </Link>
         </div>
