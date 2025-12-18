@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 
 export default function LandingPage() {
@@ -210,20 +211,57 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Visual Element */}
+          {/* Animal Illustrations */}
           <div className="flex justify-center lg:justify-end">
-            <div className="relative bg-white rounded-2xl p-6 shadow-2xl animate-float">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">
-                  <span className="text-3xl">🐾</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Your Pet Profile</h4>
-                  <p className="text-sm text-gray-600">Managed with Care</p>
-                </div>
+            <div className="relative w-full h-72 sm:h-80 lg:h-96">
+              {/* Dog - main right */}
+              <div className="absolute right-0 bottom-0 w-36 h-36 sm:w-44 sm:h-44 lg:w-56 lg:h-56 animate-float">
+                <Image
+                  src="/dog.webp"
+                  alt="Happy dog"
+                  width={224}
+                  height={224}
+                  className="w-full h-full object-contain drop-shadow-xl"
+                  priority
+                />
               </div>
-              <div className="h-2 bg-gray-200 rounded-full">
-                <div className="h-2 bg-amber-500 rounded-full w-3/4"></div>
+
+              {/* Cat - left side */}
+              <div
+                className="absolute left-0 sm:left-4 bottom-8 sm:bottom-12 w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 animate-float"
+                style={{ animationDelay: '0.5s' }}
+              >
+                <Image
+                  src="/cat.webp"
+                  alt="Playful cat"
+                  width={192}
+                  height={192}
+                  className="w-full h-full object-contain drop-shadow-xl"
+                  priority
+                />
+              </div>
+
+              {/* Bird - top floating */}
+              <div
+                className="hidden sm:block absolute right-8 lg:right-12 top-0 w-24 h-24 lg:w-32 lg:h-32 animate-float"
+                style={{ animationDelay: '1s' }}
+              >
+                <Image
+                  src="/bird.webp"
+                  alt="Cute bird"
+                  width={128}
+                  height={128}
+                  className="w-full h-full object-contain drop-shadow-lg"
+                  priority
+                />
+              </div>
+
+              {/* Decorative paw prints */}
+              <div className="absolute left-1/2 bottom-2 text-amber-300/50 text-2xl sm:text-3xl animate-float-paw">
+                🐾
+              </div>
+              <div className="hidden sm:block absolute left-1/4 top-1/3 text-orange-200/40 text-xl sm:text-2xl animate-float-paw-delay">
+                🐾
               </div>
             </div>
           </div>
