@@ -55,7 +55,7 @@ export default function DashboardLayout({
             {/* Logo and Desktop Navigation */}
             <div className="flex items-center">
               {/* Logo */}
-              <div className="flex-shrink-0 flex items-center">
+              <Link href="/" className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity">
                 <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
@@ -67,7 +67,7 @@ export default function DashboardLayout({
                 <h1 className="ml-3 text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                   {process.env.NEXT_PUBLIC_APP_NAME || 'Pet Manager'}
                 </h1>
-              </div>
+              </Link>
 
               {/* Desktop Navigation Links */}
               <div className="hidden md:ml-10 md:flex md:items-center md:gap-2">
