@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
     const enrichedMessages: MessageWithOwner[] = messagesResponse.documents.map((msg: any) => {
       const pet = petMap.get(msg.petId);
       const owner = pet ? userMap.get(pet.userId) : null;
-      
+
       return {
         $id: msg.$id,
         petId: msg.petId,
@@ -144,9 +144,18 @@ export async function GET(request: NextRequest) {
       };
     });
 
+    // 8. Filter out closed messages not updated in 30 days
+    const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    const filteredMessages = enrichedMessages.filter((msg) => {
+      if (msg.status !== 'closed') return true;
+      const updatedAt = new Date(msg.$updatedAt || msg.reportedAt).getTime();
+      return now - updatedAt < THIRTY_DAYS_MS;
+    });
+
     return NextResponse.json({
-      messages: enrichedMessages,
-      total: messagesResponse.total
+      messages: filteredMessages,
+      total: filteredMessages.length
     });
   } catch (error: any) {
     console.error('Error fetching messages:', error);
